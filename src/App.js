@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import Header from './components/header/header';
+import Content from './components/content/content';
+import Navbar from './components/navbar/navbar';
 
 function App() {
+  const [recipeObj, setRecipeObj] = useState([]);
+  const navChangeHandler = el => {
+    // el('btn2');
+    // console.log(el);
+    // console.log('Change OK');
+  };
+  const onMenuButtonHandler = () => {
+    console.log('APP-JS');
+  };
+  const onAppHandler = () => {
+    // console.log('OK App');
+  };
+  const navIconHandler = el => {
+    console.log('app-js', el);
+  };
+  const onAddRecipeHandler = () => {
+    //push
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" onClick={onAppHandler}>
+      <Header onMenuButton={onMenuButtonHandler} />
+      <Content onAddRecipe={onAddRecipeHandler}></Content>
+      <Navbar navIcon={navIconHandler} navChange={navChangeHandler}></Navbar>
     </div>
   );
 }

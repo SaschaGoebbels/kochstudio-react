@@ -1,0 +1,53 @@
+.header {
+  position: relative;
+  margin-top: 0;
+  width: 100%;
+  min-height: 80px;
+  height: 10%;
+  z-index: 99;
+  background-color: var(--clr-accent_background);
+  font-weight: 500;
+  font-size: 1.5rem;
+  font-family: var(--ff_accent);
+  display: flex;
+  justify-content: center;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1.2rem;
+  bottom: -0.6rem;
+  background-color: var(--clr-navbar_background);
+}
+.headline_div_h1 {
+  position: relative;
+  top: 0.25em;
+  width: 70%;
+  height: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2em;
+}
+.menu_btn {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.6rem;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu_btn:hover,
+.menu_btn:active {
+  filter: invert(0.2);
+  transition: all 300ms;
+}
+.burger_menu {
+  display: inline-block;
+  scale: 2;
+}
