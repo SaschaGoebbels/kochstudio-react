@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './navbar.css';
+import classes from './navbar.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
@@ -19,38 +19,62 @@ const Navbar = props => {
   };
   props.navChange(navChangeFunction);
   return (
-    <div className="navbar">
-      <div className="nav_ico_underline" onClick={navbarHandler} id="btn1">
+    <div className={classes.navbar}>
+      <div
+        className={classes.nav_ico_underline}
+        onClick={navbarHandler}
+        id="btn1"
+      >
         <FontAwesomeIcon
           id="btn_recipe"
-          className={`navbar__icon ${btnNav === 'btn1' && current_icon}`}
+          className={`${classes.navbar__icon} ${
+            btnNav === 'btn1' && classes.current_icon
+          }`}
           icon={faHouse}
         ></FontAwesomeIcon>
-        <p className="underline">Gerichte</p>
+        <p className={classes.underline}>Gerichte</p>
       </div>
-      <div className="nav_ico_underline" onClick={navbarHandler} id="btn2">
+      <div
+        className={classes.nav_ico_underline}
+        onClick={navbarHandler}
+        id="btn2"
+      >
         <FontAwesomeIcon
           id="btn_weekly_plan"
-          className={`navbar__icon ${btnNav === 'btn2' && current_icon}`}
+          className={`${classes.navbar__icon} ${
+            btnNav === 'btn2' && classes.current_icon
+          }`}
           icon={faObjectGroup}
         ></FontAwesomeIcon>
-        <p className="underline">Wochenplan</p>
+        <p className={classes.underline}>Wochenplan</p>
       </div>
-      <div className="nav_ico_underline" onClick={navbarHandler} id="btn3">
+      <div
+        className={classes.nav_ico_underline}
+        onClick={navbarHandler}
+        id="btn3"
+      >
         <FontAwesomeIcon
           id="btn_fav"
-          className={`navbar__icon ${btnNav === 'btn3' && current_icon}`}
+          className={`${classes.navbar__icon} ${
+            btnNav === 'btn3' && classes.current_icon
+          }`}
           icon={faHeart}
         ></FontAwesomeIcon>
-        <p className="underline">Favoriten</p>
+        <p className={classes.underline}>Favoriten</p>
       </div>
-      <div className="nav_ico_underline" onClick={navbarHandler} id="btn4">
+      <div
+        className={classes.nav_ico_underline}
+        onClick={navbarHandler}
+        id="btn4"
+      >
         <FontAwesomeIcon
           id="btn_shoppinglist"
-          className={`navbar__icon ${btnNav === 'btn4' && current_icon}`}
+          className={`${classes.navbar__icon} ${
+            btnNav === 'btn4' && classes.current_icon
+          }`}
           icon={faListUl}
         ></FontAwesomeIcon>
-        <p className="underline">Einkaufsliste</p>
+        <p className={classes.underline}>Einkaufsliste</p>
       </div>
     </div>
   );

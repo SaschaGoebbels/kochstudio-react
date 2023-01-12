@@ -17,20 +17,20 @@
   position: absolute;
   width: 100%;
   height: 1.2rem;
-  bottom: -0.6rem;
+  bottom: -1.2rem;
   background-color: var(--clr-navbar_background);
 }
-.headline_div_h1 {
+.header__textBox {
   position: relative;
   top: 0.25em;
   width: 70%;
   height: 95%;
+  padding: 0.2em;
+}
+.header__menu_btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.2em;
-}
-.menu_btn {
   position: absolute;
   width: 5rem;
   height: 5rem;
@@ -38,16 +38,12 @@
   transform: translateY(-50%);
   right: 0.6rem;
   font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-.menu_btn:hover,
-.menu_btn:active {
-  filter: invert(0.2);
-  transition: all 300ms;
-}
-.burger_menu {
+.header__burger_menu {
   display: inline-block;
   scale: 2;
+}
+.header__burger_menu:hover {
+  transform: scale(1.2);
+  transition: all 300ms;
 }
