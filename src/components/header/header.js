@@ -16,15 +16,18 @@ const Header = props => {
   };
   return (
     <div className={classes.header}>
-      <div className={(classes.header__textBox, indexClasses.center)}>
-        <h1 className={classes.header__text}>{`${props.headerText}`}</h1>
+      <div className={classes.header__box}>
+        <div className={(classes.header__textBox, indexClasses.center)}>
+          <h1 className={classes.header__text}>{`${props.headerText}`}</h1>
+        </div>
+        <div className={classes.header__menu_btn} onClick={onMenuBtnHandler}>
+          <FontAwesomeIcon
+            icon={faBars}
+            className={classes.header__burger_menu}
+          ></FontAwesomeIcon>
+        </div>
       </div>
-      <div className={classes.header__menu_btn} onClick={onMenuBtnHandler}>
-        <FontAwesomeIcon
-          icon={faBars}
-          className={classes.header__burger_menu}
-        ></FontAwesomeIcon>
-      </div>
+      <div className={classes.header__contentSpacer}></div>
     </div>
   );
 };

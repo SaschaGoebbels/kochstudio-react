@@ -5,7 +5,9 @@
   width: 100%;
   min-width: 340px;
   max-width: 750px;
-  height: 15%;
+  height: 15vh;
+  margin-top: 0px;
+  align-self: flex-start;
 }
 
 .nav_ico_underline {
