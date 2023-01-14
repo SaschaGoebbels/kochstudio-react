@@ -1,0 +1,26 @@
+:root {
+  --clr_main_background: rgb(48, 47, 47);
+  /* main color */
+  /* --clr-accent_background: rgb(60, 182, 172); */
+  --clr-accent_background: #20c997;
+  --clr_btn_list: #38d9a9;
+  --clr-navbar_background: rgb(34, 34, 34);
+
+  --clr_main_ff: rgb(182, 189, 202);
+  --clr_accent_ff: rgb(26, 25, 25);
+
+  --clr_frame: rgb(61, 190, 180);
+
+  --clr_btn_input_background: rgb(173, 80, 80);
+  --clr_btn_selected: rgb(224, 177, 21);
+  --clr_btn_border_selected: rgb(0, 153, 255);
+  --clr_btn_input: rgb(71, 71, 71);
+  --clr_box_shadow: rgb(128, 126, 126);
+  --clr_ingredientsbox: rgb(57, 57, 57);
+
+  --ff_main: 'Roboto', sans-serif;
+  --ff_accent: 'Handlee', sans-serif;
+
+  --ff_main_size: 1em;
+  --ff_btn_size: 0.8em;
+}

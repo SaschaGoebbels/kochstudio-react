@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classes from './buttonRound.module.css';
-import indexClasses from '../../index.module.css';
+// import indexClasses from '../../index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -47,13 +47,14 @@ const ButtonRound = props => {
       break;
   }
   let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
-  let buttonColor = props.color || '#3CB6AC';
+  let buttonColor = props.color || '#20c997';
   const btnClickHandler = id => {
     console.log('OK BTN', id.currentTarget.id);
   };
   return (
     <div
       id={props.btnId}
+      // var(--clr-navbar_background)
       style={{ backgroundColor: buttonColor }}
       className={`${classes.buttonRound}  ${buttonSize}  ${buttonClassName}`}
       onClick={btnClickHandler}

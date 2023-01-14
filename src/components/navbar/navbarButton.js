@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
-import classes from './buttonRound.module.css';
+import classes from './navbarButton.module.css';
 import indexClasses from '../../index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHatWizard } from '@fortawesome/free-solid-svg-icons';
 
-const ButtonRound = props => {
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faListUl } from '@fortawesome/free-solid-svg-icons';
+
+const NavbarButton = props => {
   let buttonIconColor = props.iconColor;
-  let isFav = props.isFav || false;
   const [btnFav, setBtnFav] = useState(false);
   let buttonClassName = props.className;
-  let buttonName = faCheckCircle;
+  let buttonName = faHouse;
   switch (props.buttonName) {
-    case 'add':
-      buttonName = faPlus;
+    case 'home':
+      buttonName = faHouse;
       break;
-    case 'check':
-      buttonName = faCheckCircle;
+    case 'plan':
+      buttonName = faObjectGroup;
       break;
-    case 'coin':
-      buttonName = faHatWizard;
-      break;
-    case 'heart':
+    case 'fav':
       buttonName = faHeart;
+      break;
+    case 'shop':
+      buttonName = faListUl;
       break;
   }
   let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
-  let buttonColor = props.color || '#3CB6AC';
+  let buttonColor = props.color || '';
   const btnClickHandler = id => {
     console.log('OK BTN', id.currentTarget.id);
   };
@@ -36,7 +36,7 @@ const ButtonRound = props => {
     <div
       id={props.btnId}
       style={{ backgroundColor: buttonColor }}
-      className={`${classes.buttonRound}  ${buttonSize}  ${buttonClassName}`}
+      className={`${classes.navbarButton}  ${buttonSize}  ${buttonClassName}`}
       onClick={btnClickHandler}
     >
       <FontAwesomeIcon
@@ -45,9 +45,9 @@ const ButtonRound = props => {
         className={classes.buttonRound__icon}
         color={buttonIconColor}
       />
-      <p className={classes.underline}>Gerichte</p>
+      <p className={classes.underline}>{props.name}</p>
     </div>
   );
 };
 
-export default ButtonRound;
+export default NavbarButton;

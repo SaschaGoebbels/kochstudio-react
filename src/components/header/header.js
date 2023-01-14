@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import appClasses from '../../App.module.css';
 import indexClasses from '../../index.module.css';
 import classes from './header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

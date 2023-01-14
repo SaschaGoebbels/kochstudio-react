@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/buttonRound';
 import classes from './recipe_list.module.css';
+// import indexClasses from '../../../index.module.css';
 
 const Recipe_list = props => {
   const test_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];

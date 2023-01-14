@@ -2,6 +2,7 @@ import React from 'react';
 import ButtonRound from '../ui/buttonRound';
 import Recipe_list from './recipe_list/recipe_list';
 import classes from './content.module.css';
+// import indexClasses from '../../index.module.css';
 
 const Content = props => {
   //

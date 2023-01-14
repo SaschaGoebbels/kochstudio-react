@@ -1,0 +1,12 @@
+.navbar {
+  background-color: var(--clr-navbar_background);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.8rem 1.5rem 2rem 1.5rem;
+  width: 100%;
+  min-width: 340px;
+  max-width: 750px;
+  height: 15vh;
+  margin-top: 0px;
+}

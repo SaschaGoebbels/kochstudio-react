@@ -1,9 +1,11 @@
 import classes from './App.module.css';
+// import indexClasses from './index.module.css';
+import './variables.css';
 import React, { useState } from 'react';
 
 import Header from './components/header/header';
 import Content from './components/content/content';
-import Navbar from './components/navbar/navbar';
+import Footer from './components/ui/footer';
 const recipe_obj = {
   recipe_list: [
     {
@@ -353,7 +355,7 @@ function App() {
         recipe_obj={recipe_obj}
         onAddRecipe={onAddRecipeHandler}
       ></Content>
-      <Navbar navIcon={navIconHandler} navChange={navChangeHandler}></Navbar>
+      <Footer navIcon={navIconHandler} navChange={navChangeHandler}></Footer>
     </div>
   );
 }
