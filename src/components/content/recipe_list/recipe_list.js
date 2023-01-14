@@ -6,28 +6,21 @@ import classes from './recipe_list.module.css';
 const Recipe_list = props => {
   const test_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [updateList, setUpdateList] = useState(test_arr);
-  const listClickHandler = id => {
-    console.log(id.target.id);
-    console.log(props.recipe_obj.recipe_list);
-    console.log(uuid());
+  const listClickHandler = item => {
+    console.log(item);
   };
   return (
     <div className={classes.contentListBox}>
-      {/* <!--content__menulist--> */}
       <ul className={classes.contentListBox__ul}>
-        {test_arr.map(item => (
+        {props.recipe_obj.recipe_list.map(item => (
           <li
+            key={item.id}
             className={classes.contentListBox__item}
-            onClick={listClickHandler}
-            id={item}
+            onClick={() => listClickHandler([item.name, item.id])}
           >
-            Test {item}
+            {item.name}
           </li>
         ))}
-
-        {/* {props.recipe_obj.recipe_list.map(item => {
-          <li className={classes.contentListBox__item} id={item.itemId}></li>;
-        })} */}
       </ul>
       <ButtonRound
         btnId="add"
