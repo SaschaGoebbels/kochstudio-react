@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import classes from './button_box.module.css';
+import classes from './buttonBox.module.css';
 import ButtonRound from './buttonRound';
 
-const ButtonBox = () => {
+const ButtonBox = props => {
   const onClickHandler = item => {
-    console.log('ButtonBox', item);
+    props.onClickHandler(item);
+    // console.log('ButtonBox', item);
   };
   return (
     <div className={classes.buttonBox}>
