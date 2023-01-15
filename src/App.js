@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import Header from './components/header/header';
 import Content from './components/content/content';
 import Footer from './components/ui/footer';
+import NavbarButton from './components/navbar/navbarButton';
 const recipe_obj = {
   recipe_list: [
     {

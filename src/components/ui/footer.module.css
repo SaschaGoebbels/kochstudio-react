@@ -1,9 +1,8 @@
-.navbar {
+.footer {
   background-color: var(--clr-navbar_background);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0.8rem 1.5rem 2rem 1.5rem;
+  /* display: flex;
+  /* justify-content: center;
+  align-items: center; */
   width: 100%;
   min-width: 340px;
   max-width: 750px;

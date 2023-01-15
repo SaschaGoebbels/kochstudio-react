@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './navbarButton.module.css';
 import indexClasses from '../../index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,8 +10,10 @@ import { faListUl } from '@fortawesome/free-solid-svg-icons';
 
 const NavbarButton = props => {
   let buttonIconColor = props.iconColor;
-  const [btnFav, setBtnFav] = useState(false);
+  let buttonColor = props.color || '';
   let buttonClassName = props.className;
+  let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
+  const currentIcon = props.currentIcon === true ? classes.current_icon : '';
   let buttonName = faHouse;
   switch (props.buttonName) {
     case 'home':
@@ -27,22 +29,22 @@ const NavbarButton = props => {
       buttonName = faListUl;
       break;
   }
-  let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
-  let buttonColor = props.color || '';
-  const btnClickHandler = id => {
-    console.log('OK BTN', id.currentTarget.id);
+  const btnClickHandler = item => {
+    props.onClickHandler(item.currentTarget.id);
+    console.log(props.iconColor);
+    console.log(props.currentIcon);
   };
   return (
     <div
       id={props.btnId}
       style={{ backgroundColor: buttonColor }}
-      className={`${classes.navbarButton}  ${buttonSize}  ${buttonClassName}`}
+      className={`${classes.navbarButton}  ${buttonSize}  ${buttonClassName} `}
       onClick={btnClickHandler}
     >
       <FontAwesomeIcon
         icon={buttonName}
         id={props.id}
-        className={classes.buttonRound__icon}
+        className={`${classes.buttonRound__icon} ${currentIcon}`}
         color={buttonIconColor}
       />
       <p className={classes.underline}>{props.name}</p>
