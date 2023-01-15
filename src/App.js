@@ -1,5 +1,4 @@
 import classes from './App.module.css';
-// import indexClasses from './index.module.css';
 import './variables.css';
 import React, { useState } from 'react';
 
@@ -341,21 +340,42 @@ function App() {
   };
   let changeHeaderText = 'Gerichte';
   // content
-  const [recipeObj, setRecipeObj] = useState([]);
+  const [recipeObj, setRecipeObj] = useState(recipe_obj);
+  const addNewRecipe = newRecipe => {
+    console.log(recipeObj);
+    setRecipeObj(prev => {
+      const newArr = prev.recipe_list.push(newRecipe);
+      return newArr;
+    });
+    console.log(recipeObj);
+  };
+  const [inputHide, setInputHide] = useState(true);
+  const recipeListButtonHandler = item => {
+    if (item === 'add') {
+      setInputHide(false);
+    }
+    console.log(item);
+  };
 
-  const onAddRecipeHandler = () => {
-    console.log('OK');
-  };
+  // input button
   const onButtonInputHandler = btnId => {
-    console.log('APP', btnId);
+    setInputHide(true);
   };
-  const inputHandler = input => {
-    console.log('APP', input);
-  };
+  // // input data
+  // const inputHandler = input => {
+  //   console.log('APP', input);
+  // };
   return (
     <div className={classes.App}>
-      <Input onClickInput={onButtonInputHandler} input={inputHandler}></Input>
-      {/* <Header
+      <Input
+        className={`${classes.app__input} ${
+          inputHide && classes.app__input_hide
+        }`}
+        onClickInput={onButtonInputHandler}
+        onAddNewRecipe={addNewRecipe}
+        // input={inputHandler}
+      ></Input>
+      <Header
         headerText={changeHeaderText}
         onMenuButton={onMenuButtonHandler}
       />
@@ -363,12 +383,12 @@ function App() {
         content={
           <Content_swipe
             recipe_obj={recipe_obj}
-            onAddRecipe={onAddRecipeHandler}
+            recipeListButton={recipeListButtonHandler}
           ></Content_swipe>
         }
       ></Content>
 
-      <Footer footerContent={<Navbar iconColor={'#20c997'}></Navbar>}></Footer> */}
+      <Footer footerContent={<Navbar iconColor={'#20c997'}></Navbar>}></Footer>
     </div>
   );
 }

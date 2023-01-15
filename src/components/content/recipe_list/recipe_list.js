@@ -4,13 +4,12 @@ import ButtonRound from '../../ui/buttonRound';
 import classes from './recipe_list.module.css';
 
 const Recipe_list = props => {
-  const test_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const [updateList, setUpdateList] = useState(test_arr);
   const listClickHandler = item => {
-    console.log(item);
+    props.recipeListButton(item);
   };
   const onClickHandler = item => {
-    console.log('RecipeList', item);
+    // console.log('RecipeList', item);
+    props.recipeListButton(item);
   };
   return (
     <div className={classes.contentListBox}>

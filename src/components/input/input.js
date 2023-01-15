@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import classes from './input.module.css';
+import uuid from 'react-uuid';
 import Header from '../header/header';
 import Content from '../ui/content';
-import InputForm from './inputForm';
 import Footer from '../ui/footer';
 import ButtonBox from '../ui/buttonBox';
 
+class newRecipe {
+  constructor(name, ingredients, preparation, id) {
+    this.name = name;
+    this.ingredients = [ingredients];
+    this.preparation = preparation;
+    this.id = id;
+    this.fav = false;
+  }
+}
+const ing = [
+  { ingName: 'Zwiebel', quantity: 3, unit: 'Stk.' },
+  { ingName: 'Kartoffel', quantity: 1, unit: 'kg' },
+  { ingName: 'Nudel', quantity: 500, unit: 'g' },
+];
 const Input = props => {
   const changeHeaderText = 'Neuer Eintrag';
   let btnState = '';
@@ -13,20 +27,85 @@ const Input = props => {
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
       console.log('trash');
-      btnState = item;
+      setRecipeName('');
+      setRecipePrep('');
+    }
+    if (item === 'x') {
+      console.log('x');
+      setRecipeName('');
+      setRecipePrep('');
+    }
+    if (item === 'check') {
+      if (recipeName.trim().length === 0) {
+        console.log('No Name');
+        alert('No Name input');
+        return;
+      }
+      console.log('check');
+      console.log(new newRecipe(recipeName, ing, 'Preparation Text', uuid()));
+      // create new Object
+      props.onAddNewRecipe(
+        new newRecipe(recipeName, ing, 'Preparation Text', uuid())
+      ); //send {newRecipe} to recipeObj
+      setRecipeName('');
+      setRecipePrep('');
     }
     props.onClickInput(item); // pass btn state upwards
   };
-
+  // ==================================================================
+  const [recipeName, setRecipeName] = useState('');
+  const recipeNameChangeHandler = el => {
+    setRecipeName(el.target.value);
+    console.log(el.target.value);
+  };
+  const [recipePrep, setRecipePrep] = useState('');
+  const recipePrepChangeHandler = el => {
+    setRecipePrep(el.target.value);
+    console.log(el.target.value);
+  };
+  // ==================================================================
+  const onSubmitHandler = event => {
+    event.preventDefault();
+  };
   return (
-    <div className={classes.input}>
+    <div className={`${classes.input} ${props.className}`}>
       <Header
         headerText={changeHeaderText}
         // onMenuButton={onMenuButtonHandler}
       />
       <Content
         // className={classes.input__content}
-        content={<InputForm btnState={btnState} />}
+        content={
+          <form onSubmit={onSubmitHandler} className={classes.inputForm}>
+            <div className={classes.inputForm__flexBox}>
+              <label className={classes.inputForm__label} htmlFor="">
+                Gericht:
+              </label>
+              <input
+                type="text"
+                className={classes.inputForm__inputField}
+                id="recipeName"
+                autoComplete="on"
+                onChange={recipeNameChangeHandler}
+                value={recipeName}
+              />
+            </div>
+            <div className={classes.inputForm__flexBox}>
+              <label className={classes.inputForm__label} htmlFor="">
+                Zubereitung:
+              </label>
+              <textarea
+                name="prep"
+                rows="30"
+                cols="30"
+                id="preperation"
+                className={classes.inputForm__inputField}
+                onChange={recipePrepChangeHandler}
+                value={recipePrep}
+              ></textarea>
+            </div>
+          </form>
+        }
       ></Content>
       <Footer
         footerContent={<ButtonBox onClickHandler={onButtonBoxHandler} />}
