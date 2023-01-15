@@ -49,7 +49,8 @@ const ButtonRound = props => {
   let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
   let buttonColor = props.color || '#20c997';
   const btnClickHandler = id => {
-    console.log('OK BTN', id.currentTarget.id);
+    console.log('ButtonRound', id.currentTarget.id);
+    props.onClickHandler(id.currentTarget.id);
   };
   return (
     <div

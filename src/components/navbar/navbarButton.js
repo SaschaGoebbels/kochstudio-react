@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './navbarButton.module.css';
 import indexClasses from '../../index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +13,8 @@ const NavbarButton = props => {
   let buttonColor = props.color || '';
   let buttonClassName = props.className;
   let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
-  const currentIcon = props.currentIcon === true ? classes.current_icon : '';
+  // const currentIcon = props.currentIcon === true ? classes.current_icon : '';
+  const currentIcon = props.currentIcon;
   let buttonName = faHouse;
   switch (props.buttonName) {
     case 'home':
@@ -29,9 +30,9 @@ const NavbarButton = props => {
       buttonName = faListUl;
       break;
   }
+
   const btnClickHandler = item => {
     props.onClickHandler(item.currentTarget.id);
-    console.log(props.iconColor);
     console.log(props.currentIcon);
   };
   return (

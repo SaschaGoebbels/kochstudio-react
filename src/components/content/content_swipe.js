@@ -1,14 +1,14 @@
 import React from 'react';
 import ButtonRound from '../ui/buttonRound';
 import Recipe_list from './recipe_list/recipe_list';
-import classes from './content.module.css';
+import classes from './content_swipe.module.css';
 // import indexClasses from '../../index.module.css';
 
-const Content = props => {
+const Content_swipe = props => {
   //
   return (
     <div
-      className={`${classes.content} ${classes.content_page_1}`}
+      className={`${classes.content_swipe} ${classes.content_page_1}`}
       id="content_page"
     >
       <Recipe_list recipe_obj={props.recipe_obj} />
@@ -16,4 +16,4 @@ const Content = props => {
   );
 };
 
-export default Content;
+export default Content_swipe;

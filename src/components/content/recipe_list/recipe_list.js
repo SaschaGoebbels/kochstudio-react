@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/buttonRound';
 import classes from './recipe_list.module.css';
-// import indexClasses from '../../../index.module.css';
 
 const Recipe_list = props => {
   const test_arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [updateList, setUpdateList] = useState(test_arr);
   const listClickHandler = item => {
     console.log(item);
+  };
+  const onClickHandler = item => {
+    console.log('RecipeList', item);
   };
   return (
     <div className={classes.contentListBox}>
@@ -30,6 +32,7 @@ const Recipe_list = props => {
         color={''}
         iconColor={''}
         isFav={''}
+        onClickHandler={onClickHandler}
       />
       <ButtonRound
         btnId="coin"
@@ -38,6 +41,7 @@ const Recipe_list = props => {
         color={''}
         iconColor={''}
         isFav={''}
+        onClickHandler={onClickHandler}
       />
       {/* example buttons */}
       {/* <ButtonRound buttonName={'check'} color={''} iconColor={''} /> */}

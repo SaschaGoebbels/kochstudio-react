@@ -14,7 +14,6 @@ const Navbar = props => {
   const navChangeFunction = btnId => {
     console.log(btnId);
     setBtnNav(btnId);
-    // setBtnNav((prevState)=>{btnId}
   };
   return (
     <div className={classes.navbar}>
@@ -25,7 +24,8 @@ const Navbar = props => {
         buttonName={'home'}
         color={''}
         iconColor={`${btnNav === 'btn1' ? currentIcon : iconColor}`}
-        currentIcon={`${btnNav === 'btn1' ? true : false}`}
+        // currentIcon={`${btnNav === 'btn1' ? true : false}`}
+        currentIcon={`${btnNav === 'btn1' ? 'classes.current_icon' : ''}`}
         name="Gerichte"
       />
       <NavbarButton
@@ -35,7 +35,7 @@ const Navbar = props => {
         buttonName={'plan'}
         color={''}
         iconColor={`${btnNav === 'btn2' ? currentIcon : iconColor}`}
-        currentIcon={`${btnNav === 'btn2' ? true : false}`}
+        currentIcon={'classes.current_icon'}
         name="Wochenplan"
       />
       <NavbarButton
@@ -45,7 +45,7 @@ const Navbar = props => {
         buttonName={'fav'}
         color={''}
         iconColor={`${btnNav === 'btn3' ? currentIcon : iconColor}`}
-        currentIcon={`${btnNav === 'btn2' ? true : false}`}
+        // currentIcon={`${btnNav === 'btn2' ? true : false}`}
         name="Favoriten"
       />
       <NavbarButton
@@ -55,7 +55,7 @@ const Navbar = props => {
         buttonName={'shop'}
         color={''}
         iconColor={`${btnNav === 'btn4' ? currentIcon : iconColor}`}
-        currentIcon={`${btnNav === 'btn2' ? true : false}`}
+        // currentIcon={`${btnNav === 'btn2' ? true : false}`}
         name="Einkaufsliste"
       />
     </div>

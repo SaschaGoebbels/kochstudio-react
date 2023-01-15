@@ -4,9 +4,12 @@ import './variables.css';
 import React, { useState } from 'react';
 
 import Header from './components/header/header';
-import Content from './components/content/content';
+import Content from './components/ui/content';
+import Content_swipe from './components/content/content_swipe';
 import Footer from './components/ui/footer';
+import Navbar from './components/navbar/navbar';
 import NavbarButton from './components/navbar/navbarButton';
+import Input from './components/input/input';
 const recipe_obj = {
   recipe_list: [
     {
@@ -332,31 +335,40 @@ const recipe_obj = {
 };
 
 function App() {
-  const [recipeObj, setRecipeObj] = useState([]);
-  const navChangeHandler = el => {
-    // console.log(el);
-  };
+  // header
   const onMenuButtonHandler = () => {
-    // console.log('APP-Menu-Button');
-  };
-  const navIconHandler = el => {
-    // console.log('app-js', el);
-  };
-  const onAddRecipeHandler = () => {
-    //push
+    console.log('APP-Menu-Button');
   };
   let changeHeaderText = 'Gerichte';
+  // content
+  const [recipeObj, setRecipeObj] = useState([]);
+
+  const onAddRecipeHandler = () => {
+    console.log('OK');
+  };
+  const onButtonInputHandler = btnId => {
+    console.log('APP', btnId);
+  };
+  const inputHandler = input => {
+    console.log('APP', input);
+  };
   return (
     <div className={classes.App}>
-      <Header
+      <Input onClickInput={onButtonInputHandler} input={inputHandler}></Input>
+      {/* <Header
         headerText={changeHeaderText}
         onMenuButton={onMenuButtonHandler}
       />
       <Content
-        recipe_obj={recipe_obj}
-        onAddRecipe={onAddRecipeHandler}
+        content={
+          <Content_swipe
+            recipe_obj={recipe_obj}
+            onAddRecipe={onAddRecipeHandler}
+          ></Content_swipe>
+        }
       ></Content>
-      <Footer navIcon={navIconHandler} navChange={navChangeHandler}></Footer>
+
+      <Footer footerContent={<Navbar iconColor={'#20c997'}></Navbar>}></Footer> */}
     </div>
   );
 }
