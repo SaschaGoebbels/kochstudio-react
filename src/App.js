@@ -2,6 +2,7 @@ import classes from './App.module.css';
 import './variables.css';
 import React, { useState } from 'react';
 
+import InfoBox from './components/ui/infoBox';
 import Header from './components/header/header';
 import Content from './components/ui/content';
 import Content_swipe from './components/content/content_swipe';
@@ -9,6 +10,7 @@ import Footer from './components/ui/footer';
 import Navbar from './components/navbar/navbar';
 import NavbarButton from './components/navbar/navbarButton';
 import Input from './components/input/input';
+
 const recipe_obj = {
   recipe_list: [
     {
@@ -361,6 +363,13 @@ function App() {
   const onButtonInputHandler = btnId => {
     setInputHide(true);
   };
+  //infoBox
+  let showXBtn = true;
+  const [infoBoxHide, setInfoBoxHide] = useState(false);
+  const onClickInfoBox = el => {
+    console.log(el);
+    setInfoBoxHide(true);
+  };
   // // input data
   // const inputHandler = input => {
   //   console.log('APP', input);
@@ -375,6 +384,13 @@ function App() {
         onAddNewRecipe={addNewRecipe}
         // input={inputHandler}
       ></Input>
+      <InfoBox
+        title={'Title'}
+        message={'Message'}
+        hide={infoBoxHide}
+        showXBtn={showXBtn}
+        clickInfoBox={onClickInfoBox}
+      />
       <Header
         headerText={changeHeaderText}
         onMenuButton={onMenuButtonHandler}
