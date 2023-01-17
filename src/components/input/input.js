@@ -23,9 +23,15 @@ const ing = [
 const Input = props => {
   const changeHeaderText = 'Neuer Eintrag';
   let btnState = '';
-
+  // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
+      props.setMessage({
+        title: 'Achtung',
+        message: 'Dieser Eintrag wird gelöscht !',
+        recipeName: props.recipeName,
+        xBtn: true,
+      });
       console.log('trash');
       setRecipeName('');
       setRecipePrep('');
@@ -38,7 +44,12 @@ const Input = props => {
     if (item === 'check') {
       if (recipeName.trim().length === 0) {
         console.log('No Name');
-        alert('No Name input');
+        props.setMessage({
+          title: 'Fehler',
+          message: 'Bitte Name eingeben !',
+          xBtn: false,
+        });
+        // alert('No Name input');
         return;
       }
       console.log('check');

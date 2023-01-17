@@ -356,19 +356,49 @@ function App() {
     if (item === 'add') {
       setInputHide(false);
     }
-    console.log(item);
   };
 
   // input button
+
   const onButtonInputHandler = btnId => {
-    setInputHide(true);
+    if (btnId === 'check') {
+      setInputHide(true);
+    }
+    if (btnId === 'x') {
+      setInputHide(true);
+      console.log(btnId);
+    }
   };
   //infoBox
-  let showXBtn = true;
-  const [infoBoxHide, setInfoBoxHide] = useState(false);
-  const onClickInfoBox = el => {
-    console.log(el);
-    setInfoBoxHide(true);
+
+  // let showXBtn = true;
+  const [showXBtn, setShowXBtn] = useState(true);
+  const [infoBoxHide, setInfoBoxHide] = useState(true);
+  const [infoBoxMessage, setInfoBoxMessage] = useState({
+    title: 'Title',
+    message: 'Message',
+  });
+  const onSetMessage = message => {
+    setShowXBtn(message.xBtn);
+    setInfoBoxMessage(message);
+    setInfoBoxHide(false);
+    // console.log(message.recipeName);
+  };
+  const onClickInfoBox = btnId => {
+    if (btnId === 'check') {
+      console.log('Check');
+      setInfoBoxHide(true);
+    }
+    if (btnId === 'x') {
+      setInfoBoxHide(true);
+      console.log('x');
+    }
+    setInfoBoxMessage({
+      title: 'Title',
+      message: 'Message',
+      recipeName: '',
+      xBtn: true,
+    });
   };
   // // input data
   // const inputHandler = input => {
@@ -382,15 +412,20 @@ function App() {
         }`}
         onClickInput={onButtonInputHandler}
         onAddNewRecipe={addNewRecipe}
+        setMessage={onSetMessage}
+        recipeName={'TestName'}
         // input={inputHandler}
       ></Input>
       <InfoBox
-        title={'Title'}
-        message={'Message'}
+        title={infoBoxMessage.title}
+        message={infoBoxMessage.message}
         hide={infoBoxHide}
         showXBtn={showXBtn}
         clickInfoBox={onClickInfoBox}
       />
+      {/* {infoBoxMessage && (
+        
+      )} */}
       <Header
         headerText={changeHeaderText}
         onMenuButton={onMenuButtonHandler}
