@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import uuid from 'react-uuid';
-import ButtonRound from '../../ui/buttonRound';
-import classes from './recipe_list.module.css';
+import ButtonRound from '../../ui/ButtonRound';
+import classes from './RecipeList.module.css';
 
-const Recipe_list = props => {
+const RecipeList = props => {
   const listClickHandler = item => {
+    // console.log('RecipeList', item);
     props.recipeListButton(item);
   };
-  const onClickHandler = item => {
-    // console.log('RecipeList', item);
+  const onRoundButtonHandler = item => {
     props.recipeListButton(item);
   };
   return (
@@ -31,7 +31,7 @@ const Recipe_list = props => {
         color={''}
         iconColor={''}
         isFav={''}
-        onClickHandler={onClickHandler}
+        onClickHandler={onRoundButtonHandler}
       />
       <ButtonRound
         btnId="coin"
@@ -40,7 +40,7 @@ const Recipe_list = props => {
         color={''}
         iconColor={''}
         isFav={''}
-        onClickHandler={onClickHandler}
+        onClickHandler={onRoundButtonHandler}
       />
       {/* example buttons */}
       {/* <ButtonRound buttonName={'check'} color={''} iconColor={''} /> */}
@@ -51,4 +51,4 @@ const Recipe_list = props => {
     </div>
   );
 };
-export default Recipe_list;
+export default RecipeList;

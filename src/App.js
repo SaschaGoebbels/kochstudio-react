@@ -2,14 +2,14 @@ import classes from './App.module.css';
 import './variables.css';
 import React, { useState } from 'react';
 
-import InfoBox from './components/ui/infoBox';
-import Header from './components/header/header';
-import Content from './components/ui/content';
-import Content_swipe from './components/content/content_swipe';
-import Footer from './components/ui/footer';
-import Navbar from './components/navbar/navbar';
-import NavbarButton from './components/navbar/navbarButton';
-import Input from './components/input/input';
+import InfoBox from './components/ui/InfoBox';
+import Header from './components/header/Header';
+import Content from './components/ui/Content';
+import ContentSwipe from './components/content/ContentSwipe';
+import Footer from './components/ui/Footer';
+import Navbar from './components/navbar/Navbar';
+import NavbarButton from './components/navbar/NavbarButton';
+import Input from './components/input/Input';
 
 const recipe_obj = {
   recipe_list: [
@@ -406,6 +406,13 @@ function App() {
   // };
   return (
     <div className={classes.App}>
+      <InfoBox
+        title={infoBoxMessage.title}
+        message={infoBoxMessage.message}
+        hide={infoBoxHide}
+        showXBtn={showXBtn}
+        clickInfoBox={onClickInfoBox}
+      />
       <Input
         className={`${classes.app__input} ${
           inputHide && classes.app__input_hide
@@ -416,26 +423,16 @@ function App() {
         recipeName={'TestName'}
         // input={inputHandler}
       ></Input>
-      <InfoBox
-        title={infoBoxMessage.title}
-        message={infoBoxMessage.message}
-        hide={infoBoxHide}
-        showXBtn={showXBtn}
-        clickInfoBox={onClickInfoBox}
-      />
-      {/* {infoBoxMessage && (
-        
-      )} */}
       <Header
         headerText={changeHeaderText}
         onMenuButton={onMenuButtonHandler}
       />
       <Content
         content={
-          <Content_swipe
+          <ContentSwipe
             recipe_obj={recipe_obj}
             recipeListButton={recipeListButtonHandler}
-          ></Content_swipe>
+          ></ContentSwipe>
         }
       ></Content>
 

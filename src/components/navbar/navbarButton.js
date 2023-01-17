@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from './navbarButton.module.css';
+import classes from './NavbarButton.module.css';
 import indexClasses from '../../index.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

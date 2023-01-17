@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import classes from './infoBox.module.css';
-import ButtonRound from './buttonRound';
+import classes from './InfoBox.module.css';
+import ButtonRound from './ButtonRound';
 
 const InfoBox = props => {
   const onClickHandler = el => {

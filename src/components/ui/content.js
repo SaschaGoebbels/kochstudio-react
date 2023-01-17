@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from './content.module.css';
+import classes from './Content.module.css';
 
 const Content = props => {
   const content = props.content;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import indexClasses from '../../index.module.css';
-import classes from './header.module.css';
+import classes from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 

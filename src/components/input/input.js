@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import classes from './input.module.css';
+import classes from './Input.module.css';
 import uuid from 'react-uuid';
-import Header from '../header/header';
-import Content from '../ui/content';
-import Footer from '../ui/footer';
-import ButtonBox from '../ui/buttonBox';
+import Header from '../header/Header';
+import Content from '../ui/Content';
+import Footer from '../ui/Footer';
+import ButtonBox from '../ui/ButtonBox';
 
 class newRecipe {
   constructor(name, ingredients, preparation, id) {

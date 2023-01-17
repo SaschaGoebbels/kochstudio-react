@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import classes from './navbar.module.css';
-import NavbarButton from './navbarButton';
+import classes from './Navbar.module.css';
+import NavbarButton from './NavbarButton';
 
 const Navbar = props => {
   let iconColor = props.iconColor;

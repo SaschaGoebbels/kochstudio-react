@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import classes from './footer.module.css';
-
-import Navbar from '../navbar/navbar';
+import classes from './Footer.module.css';
+import Navbar from '../navbar/Navbar';
 
 const Footer = props => {
   const footerContent = props.footerContent;
