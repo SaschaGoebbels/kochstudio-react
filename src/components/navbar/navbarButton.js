@@ -33,7 +33,6 @@ const NavbarButton = props => {
 
   const btnClickHandler = item => {
     props.onClickHandler(item.currentTarget.id);
-    console.log(props.currentIcon);
   };
   return (
     <div

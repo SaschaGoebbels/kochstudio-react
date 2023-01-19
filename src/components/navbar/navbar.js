@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classes from './Navbar.module.css';
 import NavbarButton from './NavbarButton';
+import NavbarContext from '../store/navbar-context';
 
 const Navbar = props => {
+  const navbarCtx = useContext(NavbarContext);
   let iconColor = props.iconColor;
   const currentIcon = '#fa8719';
-  // const current_icon = 'current_icon';
   const [btnNav, setBtnNav] = useState('btn1');
-  // const navbarHandler = item => {
-  //   // console.log(item.currentTarget.id);
-  //   navChangeFunction(item.currentTarget.id);
-  // };
+
   const navChangeFunction = btnId => {
-    console.log(btnId);
+    navbarCtx.navbar = btnId;
+    // console.log(navbarCtx);
     setBtnNav(btnId);
   };
   return (

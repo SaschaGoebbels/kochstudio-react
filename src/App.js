@@ -1,6 +1,6 @@
 import classes from './App.module.css';
 import './variables.css';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import InfoBox from './components/ui/InfoBox';
 import Header from './components/header/Header';
@@ -10,6 +10,8 @@ import Footer from './components/ui/Footer';
 import Navbar from './components/navbar/Navbar';
 import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
+import MainContext from './components/store/main-context';
+import NavbarContext from './components/store/navbar-context';
 
 const recipe_obj = {
   recipe_list: [
@@ -336,7 +338,10 @@ const recipe_obj = {
 };
 
 function App() {
+  // const mainCtx = useContext(MainContext);
+  const navbarCtx = useContext(NavbarContext);
   // header
+  let testData = 'testName';
   const onMenuButtonHandler = () => {
     console.log('APP-Menu-Button');
   };
@@ -353,6 +358,7 @@ function App() {
   };
   const [inputHide, setInputHide] = useState(true);
   const recipeListButtonHandler = item => {
+    console.log(navbarCtx);
     if (item === 'add') {
       setInputHide(false);
     }
@@ -405,39 +411,47 @@ function App() {
   //   console.log('APP', input);
   // };
   return (
-    <div className={classes.App}>
-      <InfoBox
-        title={infoBoxMessage.title}
-        message={infoBoxMessage.message}
-        hide={infoBoxHide}
-        showXBtn={showXBtn}
-        clickInfoBox={onClickInfoBox}
-      />
-      <Input
-        className={`${classes.app__input} ${
-          inputHide && classes.app__input_hide
-        }`}
-        onClickInput={onButtonInputHandler}
-        onAddNewRecipe={addNewRecipe}
-        setMessage={onSetMessage}
-        recipeName={'TestName'}
-        // input={inputHandler}
-      ></Input>
-      <Header
-        headerText={changeHeaderText}
-        onMenuButton={onMenuButtonHandler}
-      />
-      <Content
-        content={
-          <ContentSwipe
-            recipe_obj={recipe_obj}
-            recipeListButton={recipeListButtonHandler}
-          ></ContentSwipe>
-        }
-      ></Content>
+    <MainContext.Provider
+      value={{
+        messageObj: { title: 'title', message: 'Message' },
+      }}
+    >
+      <div className={classes.App}>
+        <InfoBox
+          title={infoBoxMessage.title}
+          message={infoBoxMessage.message}
+          hide={infoBoxHide}
+          showXBtn={showXBtn}
+          clickInfoBox={onClickInfoBox}
+        />
+        <Input
+          className={`${classes.app__input} ${
+            inputHide && classes.app__input_hide
+          }`}
+          onClickInput={onButtonInputHandler}
+          onAddNewRecipe={addNewRecipe}
+          setMessage={onSetMessage}
+          recipeName={'TestName'}
+          // input={inputHandler}
+        ></Input>
+        <Header
+          headerText={changeHeaderText}
+          onMenuButton={onMenuButtonHandler}
+        />
+        <Content
+          content={
+            <ContentSwipe
+              recipe_obj={recipe_obj}
+              recipeListButton={recipeListButtonHandler}
+            ></ContentSwipe>
+          }
+        ></Content>
 
-      <Footer footerContent={<Navbar iconColor={'#20c997'}></Navbar>}></Footer>
-    </div>
+        <Footer
+          footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
+        ></Footer>
+      </div>
+    </MainContext.Provider>
   );
 }
 
