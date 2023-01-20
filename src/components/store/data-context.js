@@ -1,44 +1,9 @@
-import classes from './App.module.css';
-import './variables.css';
-import React, { useState, useContext, useReducer } from 'react';
+import React from 'react';
 
-import InfoBox from './components/ui/InfoBox';
-import Header from './components/header/Header';
-import Content from './components/ui/Content';
-import ContentSwipe from './components/content/ContentSwipe';
-import Footer from './components/ui/Footer';
-import Navbar from './components/navbar/Navbar';
-import NavbarButton from './components/navbar/NavbarButton';
-import Input from './components/input/Input';
-import DataProvider from './components/store/DataProvider';
-import NavbarContext from './components/store/navbar-context';
-
-const messageInitialState = {
-  title: '',
-  message: '',
-  showBtnX: true,
-  hideInfoBox: true,
-  recipeName: '',
-  recipeId: '',
-  delete: false,
-};
-const messageReducer = (state, action) => {
-  if (action.type === 'SHOWINFOBOX') {
-    return {
-      title: action.message.title,
-      message: action.message.message,
-      showBtnX: action.message.showBtnX,
-      recipeName: action.message.recipeName,
-      recipeId: action.message.recipeId,
-      delete: action.message.delete,
-    };
-  }
-  if (action.type === 'HIDEINFOBOX') {
-    return messageInitialState;
-  }
-};
-const recipe_obj = {
-  recipe_list: [
+const DataContext = React.createContext({
+  addItem: recipe => {},
+  removeItem: recipe => {},
+  recipeList: [
     {
       name: 'Arme Ritter',
       fav: false,
@@ -357,114 +322,8 @@ const recipe_obj = {
       id: '7fcd7c46-20ef-b983-265c-8f7f3748153e',
     },
   ],
-  shopping_list: {},
-  weekly_plan: {},
-};
+  shoppingList: {},
+  weeklyPlan: {},
+});
 
-function App() {
-  // const mainCtx = useContext(MainContext);
-  const navbarCtx = useContext(NavbarContext);
-  // header
-  let testData = 'testName';
-  const onMenuButtonHandler = () => {
-    console.log('APP-Menu-Button');
-  };
-  let changeHeaderText = 'Gerichte';
-  //==================================================================
-  // content
-  const [recipeObj, setRecipeObj] = useState(recipe_obj);
-  const addNewRecipe = newRecipe => {
-    console.log(recipeObj);
-    setRecipeObj(prev => {
-      const newArr = prev.recipe_list.push(newRecipe);
-      return newArr;
-    });
-    console.log(recipeObj);
-  };
-  const [inputHide, setInputHide] = useState(true);
-  const recipeListButtonHandler = item => {
-    // console.log(navbarCtx);
-    if (item === 'add') {
-      setInputHide(false);
-    }
-  };
-  //==================================================================
-  // input button
-  const onButtonInputHandler = btnId => {
-    if (btnId === 'check') {
-      setInputHide(true);
-    }
-    if (btnId === 'x') {
-      setInputHide(true);
-    }
-  };
-
-  //infoBox
-  const [messageState, dispatchMessage] = useReducer(
-    messageReducer,
-    messageInitialState
-  );
-  //==================================================================
-  const onSetMessage = message => {
-    dispatchMessage({ type: 'SHOWINFOBOX', message });
-  };
-  const onClickInfoBox = btnId => {
-    console.log(messageState);
-    if (messageState.delete) {
-      console.log(messageState.recipeName);
-    }
-    if (btnId === 'check') {
-      console.log('Check');
-    }
-    if (btnId === 'x') {
-      console.log('x');
-    }
-    dispatchMessage({ type: 'HIDEINFOBOX', btnId });
-  };
-  //==================================================================
-  // // input data
-  // const inputHandler = input => {
-  //   console.log('APP', input);
-  // };
-  return (
-    <DataProvider>
-      <div className={classes.App}>
-        <InfoBox
-          title={messageState.title}
-          message={messageState.message}
-          hide={messageState.hideInfoBox}
-          showXBtn={messageState.showBtnX}
-          clickInfoBox={onClickInfoBox}
-        />
-        <Input
-          className={`${classes.app__input} ${
-            inputHide && classes.app__input_hide
-          }`}
-          onClickInput={onButtonInputHandler}
-          onAddNewRecipe={addNewRecipe}
-          setMessage={onSetMessage}
-          recipeName={'TestName_APP'}
-          // input={inputHandler}
-        ></Input>
-        <Header
-          headerText={changeHeaderText}
-          onMenuButton={onMenuButtonHandler}
-        />
-        <Content
-          content={
-            <ContentSwipe
-              recipe_obj={recipe_obj}
-              recipeListButton={recipeListButtonHandler}
-            ></ContentSwipe>
-          }
-        ></Content>
-
-        <Footer
-          footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
-        ></Footer>
-      </div>
-    </DataProvider>
-  );
-}
-
-export default App;
+export default DataContext;

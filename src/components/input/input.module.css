@@ -34,7 +34,21 @@
   flex-direction: column;
   align-items: center;
   padding: 1.5rem 1rem;
+  margin-bottom: 1rem;
+  border-top: rgb(185, 185, 185) solid 2px;
+}
+.inputForm__border {
   border-radius: 1rem;
   border: rgb(185, 185, 185) solid 2px;
+}
+.ingredient__Box {
+  display: flex;
+  justify-content: space-between;
+  /* border: rgb(0, 255, 8) solid 2px; */
   margin-bottom: 1rem;
+}
+.ingredient__ButtonBox {
+  display: flex;
+  gap: 3rem;
+  /* border: rgb(0, 255, 8) solid 2px; */
 }

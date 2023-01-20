@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import DataContext from '../store/data-context';
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
 import Header from '../header/Header';
+import InputField from './InputField';
+import Ingredient from './Ingredient';
 import Content from '../ui/Content';
 import Footer from '../ui/Footer';
 import ButtonBox from '../ui/ButtonBox';
@@ -21,6 +24,8 @@ const ing = [
   { ingName: 'Nudel', quantity: 500, unit: 'g' },
 ];
 const Input = props => {
+  const DataCtx = useContext(DataContext);
+
   const changeHeaderText = 'Neuer Eintrag';
   let btnState = '';
   // let recipeName = props.recipeName;
@@ -89,31 +94,46 @@ const Input = props => {
         content={
           <form onSubmit={onSubmitHandler} className={classes.inputForm}>
             <div className={classes.inputForm__flexBox}>
-              <label className={classes.inputForm__label} htmlFor="">
-                Gericht:
-              </label>
-              <input
-                type="text"
-                className={classes.inputForm__inputField}
-                id="recipeName"
-                autoComplete="on"
-                onChange={recipeNameChangeHandler}
-                value={recipeName}
-              />
+              <InputField
+                label={true}
+                labelText={'Gericht:'}
+                properties={{ htmlFor: '' }}
+              ></InputField>
+              <InputField
+                input={true}
+                properties={{
+                  type: 'text',
+                  id: 'recipeName',
+                  autoComplete: 'on',
+                  onChange: recipeNameChangeHandler,
+                  // value: { recipeName },
+                }}
+              ></InputField>
             </div>
             <div className={classes.inputForm__flexBox}>
-              <label className={classes.inputForm__label} htmlFor="">
-                Zubereitung:
-              </label>
-              <textarea
-                name="prep"
-                rows="30"
-                cols="30"
-                id="preperation"
-                className={classes.inputForm__inputField}
-                onChange={recipePrepChangeHandler}
-                value={recipePrep}
-              ></textarea>
+              <InputField
+                label={true}
+                labelText={'Zutaten:'}
+                properties={{ htmlFor: '' }}
+              ></InputField>
+              <Ingredient />
+            </div>
+            <div className={classes.inputForm__flexBox}>
+              <InputField
+                label={true}
+                labelText={'Zubereitung:'}
+                properties={{ htmlFor: '' }}
+              ></InputField>
+              <InputField
+                textarea={true}
+                properties={{
+                  name: 'prep',
+                  rows: '30',
+                  cols: '30',
+                  id: 'preperation',
+                  onChange: recipePrepChangeHandler,
+                }}
+              ></InputField>
             </div>
           </form>
         }
