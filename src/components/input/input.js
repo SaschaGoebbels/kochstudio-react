@@ -30,29 +30,29 @@ const Input = props => {
         title: 'Achtung',
         message: 'Dieser Eintrag wird gelöscht !',
         recipeName: props.recipeName,
-        xBtn: true,
+        showBtnX: true,
+        delete: true,
       });
-      console.log('trash');
+      // console.log('trash');
       setRecipeName('');
       setRecipePrep('');
     }
     if (item === 'x') {
-      console.log('x');
+      // console.log('x');
       setRecipeName('');
       setRecipePrep('');
     }
     if (item === 'check') {
       if (recipeName.trim().length === 0) {
-        console.log('No Name');
+        // console.log('No Name');
         props.setMessage({
           title: 'Fehler',
           message: 'Bitte Name eingeben !',
-          xBtn: false,
+          showBtnX: false,
         });
-        // alert('No Name input');
         return;
       }
-      console.log('check');
+      // console.log('check');
       console.log(new newRecipe(recipeName, ing, 'Preparation Text', uuid()));
       // create new Object
       props.onAddNewRecipe(

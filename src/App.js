@@ -1,6 +1,6 @@
 import classes from './App.module.css';
 import './variables.css';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useReducer } from 'react';
 
 import InfoBox from './components/ui/InfoBox';
 import Header from './components/header/Header';
@@ -13,6 +13,30 @@ import Input from './components/input/Input';
 import MainContext from './components/store/main-context';
 import NavbarContext from './components/store/navbar-context';
 
+const messageInitialState = {
+  title: '',
+  message: '',
+  showBtnX: true,
+  hideInfoBox: true,
+  recipeName: '',
+  recipeId: '',
+  delete: false,
+};
+const messageReducer = (state, action) => {
+  if (action.type === 'SHOWINFOBOX') {
+    return {
+      title: action.message.title,
+      message: action.message.message,
+      showBtnX: action.message.showBtnX,
+      recipeName: action.message.recipeName,
+      recipeId: action.message.recipeId,
+      delete: action.message.delete,
+    };
+  }
+  if (action.type === 'HIDEINFOBOX') {
+    return messageInitialState;
+  }
+};
 const recipe_obj = {
   recipe_list: [
     {
@@ -346,6 +370,7 @@ function App() {
     console.log('APP-Menu-Button');
   };
   let changeHeaderText = 'Gerichte';
+  //==================================================================
   // content
   const [recipeObj, setRecipeObj] = useState(recipe_obj);
   const addNewRecipe = newRecipe => {
@@ -358,54 +383,45 @@ function App() {
   };
   const [inputHide, setInputHide] = useState(true);
   const recipeListButtonHandler = item => {
-    console.log(navbarCtx);
+    // console.log(navbarCtx);
     if (item === 'add') {
       setInputHide(false);
     }
   };
-
+  //==================================================================
   // input button
-
   const onButtonInputHandler = btnId => {
     if (btnId === 'check') {
       setInputHide(true);
     }
     if (btnId === 'x') {
       setInputHide(true);
-      console.log(btnId);
     }
   };
-  //infoBox
 
-  // let showXBtn = true;
-  const [showXBtn, setShowXBtn] = useState(true);
-  const [infoBoxHide, setInfoBoxHide] = useState(true);
-  const [infoBoxMessage, setInfoBoxMessage] = useState({
-    title: 'Title',
-    message: 'Message',
-  });
+  //infoBox
+  const [messageState, dispatchMessage] = useReducer(
+    messageReducer,
+    messageInitialState
+  );
+  //==================================================================
   const onSetMessage = message => {
-    setShowXBtn(message.xBtn);
-    setInfoBoxMessage(message);
-    setInfoBoxHide(false);
-    // console.log(message.recipeName);
+    dispatchMessage({ type: 'SHOWINFOBOX', message });
   };
   const onClickInfoBox = btnId => {
+    console.log(messageState);
+    if (messageState.delete) {
+      console.log(messageState.recipeName);
+    }
     if (btnId === 'check') {
       console.log('Check');
-      setInfoBoxHide(true);
     }
     if (btnId === 'x') {
-      setInfoBoxHide(true);
       console.log('x');
     }
-    setInfoBoxMessage({
-      title: 'Title',
-      message: 'Message',
-      recipeName: '',
-      xBtn: true,
-    });
+    dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
+  //==================================================================
   // // input data
   // const inputHandler = input => {
   //   console.log('APP', input);
@@ -416,41 +432,43 @@ function App() {
         messageObj: { title: 'title', message: 'Message' },
       }}
     >
-      <div className={classes.App}>
-        <InfoBox
-          title={infoBoxMessage.title}
-          message={infoBoxMessage.message}
-          hide={infoBoxHide}
-          showXBtn={showXBtn}
-          clickInfoBox={onClickInfoBox}
-        />
-        <Input
-          className={`${classes.app__input} ${
-            inputHide && classes.app__input_hide
-          }`}
-          onClickInput={onButtonInputHandler}
-          onAddNewRecipe={addNewRecipe}
-          setMessage={onSetMessage}
-          recipeName={'TestName'}
-          // input={inputHandler}
-        ></Input>
-        <Header
-          headerText={changeHeaderText}
-          onMenuButton={onMenuButtonHandler}
-        />
-        <Content
-          content={
-            <ContentSwipe
-              recipe_obj={recipe_obj}
-              recipeListButton={recipeListButtonHandler}
-            ></ContentSwipe>
-          }
-        ></Content>
+      <React.StrictMode>
+        <div className={classes.App}>
+          <InfoBox
+            title={messageState.title}
+            message={messageState.message}
+            hide={messageState.hideInfoBox}
+            showXBtn={messageState.showBtnX}
+            clickInfoBox={onClickInfoBox}
+          />
+          <Input
+            className={`${classes.app__input} ${
+              inputHide && classes.app__input_hide
+            }`}
+            onClickInput={onButtonInputHandler}
+            onAddNewRecipe={addNewRecipe}
+            setMessage={onSetMessage}
+            recipeName={'TestName_APP'}
+            // input={inputHandler}
+          ></Input>
+          <Header
+            headerText={changeHeaderText}
+            onMenuButton={onMenuButtonHandler}
+          />
+          <Content
+            content={
+              <ContentSwipe
+                recipe_obj={recipe_obj}
+                recipeListButton={recipeListButtonHandler}
+              ></ContentSwipe>
+            }
+          ></Content>
 
-        <Footer
-          footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
-        ></Footer>
-      </div>
+          <Footer
+            footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
+          ></Footer>
+        </div>
+      </React.StrictMode>
     </MainContext.Provider>
   );
 }
