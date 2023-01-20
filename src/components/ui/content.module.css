@@ -1,9 +1,0 @@
-.content {
-  position: relative;
-  display: flex;
-  left: 0;
-  width: 100%;
-  height: 73.5vh;
-  transition: all 300ms ease-in-out;
-  border: rgba(237, 255, 76, 0.486) solid 2px;
-}
