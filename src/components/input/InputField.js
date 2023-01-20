@@ -14,7 +14,7 @@ const InputField = props => {
   let propsStyle = props.propsStyle || { width: '100%' };
   const [valueState, setValueState] = useState();
   const changeValue = val => {
-    setValueState(val);
+    setValueState(val); // BUG
   };
   const label = (
     <label className={classes.label} htmlFor="">
@@ -26,7 +26,7 @@ const InputField = props => {
       style={propsStyle}
       className={`${classes.input}`}
       {...props.properties}
-      value={changeValue}
+      value={valueState}
     />
   );
   const select = (

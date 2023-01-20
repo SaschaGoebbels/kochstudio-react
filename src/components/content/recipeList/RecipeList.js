@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import DataContext from '../../store/data-context';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/ButtonRound';
 import classes from './RecipeList.module.css';
 
 const RecipeList = props => {
+  const dataCtx = useContext(DataContext);
   const listClickHandler = item => {
-    // console.log('RecipeList', item);
+    console.log('RecipeList', item, dataCtx);
     props.recipeListButton(item);
   };
   const onRoundButtonHandler = item => {

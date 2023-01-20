@@ -1,6 +1,8 @@
 import classes from './App.module.css';
 import './variables.css';
 import React, { useState, useContext, useReducer } from 'react';
+// import DataContext from './components/store/data-context';
+import DataProvider from './components/store/DataProvider';
 
 import InfoBox from './components/ui/InfoBox';
 import Header from './components/header/Header';
@@ -10,7 +12,6 @@ import Footer from './components/ui/Footer';
 import Navbar from './components/navbar/Navbar';
 import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
-import DataProvider from './components/store/DataProvider';
 import NavbarContext from './components/store/navbar-context';
 
 const messageInitialState = {
@@ -362,7 +363,7 @@ const recipe_obj = {
 };
 
 function App() {
-  // const mainCtx = useContext(MainContext);
+  // const dataCtx = useContext(DataContext);
   const navbarCtx = useContext(NavbarContext);
   // header
   let testData = 'testName';
@@ -440,6 +441,7 @@ function App() {
           className={`${classes.app__input} ${
             inputHide && classes.app__input_hide
           }`}
+          headerText={'data.recipeName' || 'Neuer Eintrag'}
           onClickInput={onButtonInputHandler}
           onAddNewRecipe={addNewRecipe}
           setMessage={onSetMessage}

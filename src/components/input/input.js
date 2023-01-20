@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useReducer, useContext } from 'react';
 import DataContext from '../store/data-context';
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
@@ -23,10 +23,25 @@ const ing = [
   { ingName: 'Kartoffel', quantity: 1, unit: 'kg' },
   { ingName: 'Nudel', quantity: 500, unit: 'g' },
 ];
+let recipeName, ingredients, preparation;
+const defaultInputState = {
+  recipeName: '',
+  ingredients: [],
+  preparation: '',
+};
+
+const dataReducer = (state, action) => {
+  console.log(state);
+  if (action.type === 'CLEAR') {
+    console.log('Clear');
+    return (action.inputCurrentValue = defaultInputState);
+  }
+};
 const Input = props => {
+  const [dataState, dispatchData] = useReducer(dataReducer, defaultInputState);
   const DataCtx = useContext(DataContext);
 
-  const changeHeaderText = 'Neuer Eintrag';
+  const changeHeaderText = props.headerText;
   let btnState = '';
   // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
@@ -43,6 +58,7 @@ const Input = props => {
       setRecipePrep('');
     }
     if (item === 'x') {
+      dispatchData({ type: 'CLEAR' });
       // console.log('x');
       setRecipeName('');
       setRecipePrep('');
@@ -130,7 +146,7 @@ const Input = props => {
                   name: 'prep',
                   rows: '30',
                   cols: '30',
-                  id: 'preperation',
+                  id: 'preparation',
                   onChange: recipePrepChangeHandler,
                 }}
               ></InputField>

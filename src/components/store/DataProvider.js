@@ -4,11 +4,11 @@ import DataContext from './data-context';
 const DataProvider = props => {
   const addRecipe = recipe => {};
   const removeRecipe = recipe => {};
-
   const dataContext = {
+    inputCurrentValue: {},
     addItem: addRecipe,
     removeItem: removeRecipe,
-    recipeList: '',
+    recipeList: props.recipeList,
     shoppingList: '',
     weeklyPlan: '',
   };

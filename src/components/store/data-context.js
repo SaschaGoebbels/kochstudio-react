@@ -3,6 +3,7 @@ import React from 'react';
 const DataContext = React.createContext({
   addItem: recipe => {},
   removeItem: recipe => {},
+  inputCurrentValue: {},
   recipeList: [
     {
       name: 'Arme Ritter',
