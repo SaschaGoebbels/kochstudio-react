@@ -1,0 +1,11 @@
+.footer {
+  background-color: var(--clr-navbar_background);
+  /* display: flex;
+  /* justify-content: center;
+  align-items: center; */
+  width: 100%;
+  min-width: 340px;
+  max-width: 750px;
+  height: 15vh;
+  margin-top: 0px;
+}
