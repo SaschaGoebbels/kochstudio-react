@@ -1,18 +1,25 @@
 import React, { useReducer } from 'react';
 import DataContext from './data-context';
 
+const dataReducer = (state, action) => {
+  console.log(state);
+  if (action.type === 'CLEAR') {
+    console.log('Clear');
+    return (action.inputCurrentValue = defaultInputState);
+  }
+};
+// const addRecipe = recipe => {};
+// const removeRecipe = recipe => {};
+const defaultInputState = {
+  recipeName: '',
+  ingredients: [],
+  preparation: '',
+};
+
 const DataProvider = props => {
-  const addRecipe = recipe => {};
-  const removeRecipe = recipe => {};
-  const dataContext = {
-    inputCurrentValue: {},
-    addItem: addRecipe,
-    removeItem: removeRecipe,
-    recipeList: props.recipeList,
-    shoppingList: '',
-    weeklyPlan: '',
-  };
-  // const ingredients ={}
+  const DataCtx = useContext(DataContext);
+  const [dataState, dispatchData] = useReducer(dataReducer, defaultInputState);
+
   return (
     <DataContext.Provider value={dataContext}>
       {props.children}

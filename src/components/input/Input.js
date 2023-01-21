@@ -24,23 +24,8 @@ const ing = [
   { ingName: 'Nudel', quantity: 500, unit: 'g' },
 ];
 let recipeName, ingredients, preparation;
-const defaultInputState = {
-  recipeName: '',
-  ingredients: [],
-  preparation: '',
-};
 
-const dataReducer = (state, action) => {
-  console.log(state);
-  if (action.type === 'CLEAR') {
-    console.log('Clear');
-    return (action.inputCurrentValue = defaultInputState);
-  }
-};
 const Input = props => {
-  const [dataState, dispatchData] = useReducer(dataReducer, defaultInputState);
-  const DataCtx = useContext(DataContext);
-
   const changeHeaderText = props.headerText;
   let btnState = '';
   // let recipeName = props.recipeName;
@@ -58,7 +43,7 @@ const Input = props => {
       setRecipePrep('');
     }
     if (item === 'x') {
-      dispatchData({ type: 'CLEAR' });
+      // dispatchData({ type: 'CLEAR' });
       // console.log('x');
       setRecipeName('');
       setRecipePrep('');

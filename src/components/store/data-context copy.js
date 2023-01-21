@@ -1,5 +1,22 @@
 import React, { useReducer } from 'react';
 
+const dataReducer = (state, action) => {
+  console.log(state);
+  if (action.type === 'CLEAR') {
+    console.log('Clear');
+    return (action.inputCurrentValue = defaultInputState);
+  }
+};
+const DataCtx = useContext(DataContext);
+const [dataState, dispatchData] = useReducer(dataReducer, defaultInputState);
+const defaultInputState = {
+  recipeName: '',
+  ingredients: [],
+  preparation: '',
+};
+// const addRecipe = recipe => {};
+// const removeRecipe = recipe => {};
+
 const DataContext = React.createContext({
   addItem: recipe => {},
   removeItem: recipe => {},
