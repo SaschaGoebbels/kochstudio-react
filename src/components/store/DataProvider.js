@@ -1,9 +1,13 @@
 import React, { useState, useReducer, useContext } from 'react';
-import DataContext from './data-context';
+import { useEffect } from 'react';
 
-const DataUpdate = React.createContext(); //export ?
+export const DataContext = React.createContext(null);
+const DataUpdate = React.createContext();
+export function useDataUpdate() {
+  return useContext(DataUpdate);
+}
 
-const contextInitialState = {
+const dataInit = {
   addItem: recipe => {},
   removeItem: recipe => {},
   inputCurrentValue: {
@@ -31,23 +35,32 @@ const defaultInputState = {
   ingredients: [],
   preparation: '',
 };
-const inputInitialState = { recipeName: '', preparation: '' };
+//==================================================================
+const dataReducer = (state, action) => {
+  if (action.type === 'INPUT') {
+    // console.log(state.recipeList);
+    state.recipeList.push(action.recipeInput);
+    return state;
+  }
+  return state;
+};
+//==================================================================
 
 const DataProvider = props => {
-  // const [inputState, setInputState] = useState(inputInitialState);
-  const [dataState, setDataState] = useState(contextInitialState);
+  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   //==================================================================
-  const data = useContext(DataContext);
-
-  //==================================================================
+  // useEffect(() => {
   const dataUpdateFunction = dataUpdate => {
+    if (dataUpdate.type === 'INPUT') {
+      dispatchData(dataUpdate);
+    }
     console.log('dataUpdate', dataUpdate);
   };
-  const inputChangeHandler = input => {
-    console.log(input);
-  };
+  // }, []);
+  //==================================================================
+  //==================================================================
   return (
-    <DataContext.Provider value={{ dataState, setDataState }}>
+    <DataContext.Provider value={dataState}>
       <DataUpdate.Provider value={dataUpdateFunction}>
         {props.children}
       </DataUpdate.Provider>

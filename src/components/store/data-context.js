@@ -1,8 +1,8 @@
-import React from 'react';
+// import React from 'react';
 
-const DataContext = React.createContext(null);
+// const DataContext = React.createContext(null);
 
-export default DataContext;
+// export default DataContext;
 
 // // const DataContext = React.createContext({
 // //   addItem: recipe => {},
