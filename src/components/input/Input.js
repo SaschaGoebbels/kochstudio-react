@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useContext } from 'react';
 import DataContext from '../store/data-context';
+
 import DataUpdate from '../store/DataProvider';
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
@@ -28,14 +29,14 @@ let recipeName, ingredients, preparation;
 
 const Input = props => {
   const data = useContext(DataContext);
-  const dataUpdate = useContext(DataUpdate);
+  // const dataUpdate = useContext(DataUpdate);
   const changeHeaderText = props.headerText;
   let btnState = '';
   // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
-      dataUpdate(item);
-      console.log(data.inputCurrentValue);
+      // dataUpdate(item);
+      // console.log(data.inputCurrentValue);
       props.setMessage({
         title: 'Achtung',
         message: 'Dieser Eintrag wird gelöscht !',
@@ -50,7 +51,7 @@ const Input = props => {
     if (item === 'x') {
       // dispatchData({ type: 'CLEAR' });
       console.log('x');
-      data.inputCurrentValue.recipeName = '';
+      // data.inputCurrentValue.recipeName = '';
       console.log(data.inputCurrentValue);
       // setRecipeName('');
       // setRecipePrep('');
@@ -81,9 +82,8 @@ const Input = props => {
   //   data.inputCurrentValue.recipeName
   // );
   const recipeNameChangeHandler = el => {
-    data.inputCurrentValue.recipeName = el.target.value;
-    // setRecipeName(el.target.value);
-    console.log(data.inputCurrentValue.recipeName);
+    console.log(data.inputState);
+    // data.setInputState((recipeName: el));
   };
   const [recipePrep, setRecipePrep] = useState('');
   const recipePrepChangeHandler = el => {
@@ -117,7 +117,7 @@ const Input = props => {
                   id: 'recipeName',
                   autoComplete: 'on',
                   onChange: recipeNameChangeHandler,
-                  value: data.inputCurrentValue.recipeName,
+                  value: data.data.inputCurrentValue.recipeName,
                 }}
               ></InputField>
             </div>
@@ -143,7 +143,7 @@ const Input = props => {
                   cols: '30',
                   id: 'preparation',
                   onChange: recipePrepChangeHandler,
-                  value: data.inputCurrentValue.preparation,
+                  value: data.data.inputCurrentValue.preparation,
                 }}
               ></InputField>
             </div>
