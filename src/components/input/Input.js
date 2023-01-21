@@ -1,5 +1,6 @@
 import React, { useState, useReducer, useContext } from 'react';
 import DataContext from '../store/data-context';
+import DataUpdate from '../store/DataProvider';
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
 import Header from '../header/Header';
@@ -26,11 +27,15 @@ const ing = [
 let recipeName, ingredients, preparation;
 
 const Input = props => {
+  const data = useContext(DataContext);
+  const dataUpdate = useContext(DataUpdate);
   const changeHeaderText = props.headerText;
   let btnState = '';
   // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
+      dataUpdate(item);
+      console.log(data.inputCurrentValue);
       props.setMessage({
         title: 'Achtung',
         message: 'Dieser Eintrag wird gelöscht !',
@@ -39,14 +44,16 @@ const Input = props => {
         delete: true,
       });
       // console.log('trash');
-      setRecipeName('');
-      setRecipePrep('');
+      // setRecipeName('');
+      // setRecipePrep('');
     }
     if (item === 'x') {
       // dispatchData({ type: 'CLEAR' });
-      // console.log('x');
-      setRecipeName('');
-      setRecipePrep('');
+      console.log('x');
+      data.inputCurrentValue.recipeName = '';
+      console.log(data.inputCurrentValue);
+      // setRecipeName('');
+      // setRecipePrep('');
     }
     if (item === 'check') {
       if (recipeName.trim().length === 0) {
@@ -64,16 +71,19 @@ const Input = props => {
       props.onAddNewRecipe(
         new newRecipe(recipeName, ing, 'Preparation Text', uuid())
       ); //send {newRecipe} to recipeObj
-      setRecipeName('');
-      setRecipePrep('');
+      // setRecipeName('');
+      // setRecipePrep('');
     }
     props.onClickInput(item); // pass btn state upwards
   };
   // ==================================================================
-  const [recipeName, setRecipeName] = useState('');
+  // const [recipeName, setRecipeName] = useState(
+  //   data.inputCurrentValue.recipeName
+  // );
   const recipeNameChangeHandler = el => {
-    setRecipeName(el.target.value);
-    console.log(el.target.value);
+    data.inputCurrentValue.recipeName = el.target.value;
+    // setRecipeName(el.target.value);
+    console.log(data.inputCurrentValue.recipeName);
   };
   const [recipePrep, setRecipePrep] = useState('');
   const recipePrepChangeHandler = el => {
@@ -107,7 +117,7 @@ const Input = props => {
                   id: 'recipeName',
                   autoComplete: 'on',
                   onChange: recipeNameChangeHandler,
-                  // value: { recipeName },
+                  value: data.inputCurrentValue.recipeName,
                 }}
               ></InputField>
             </div>
@@ -133,6 +143,7 @@ const Input = props => {
                   cols: '30',
                   id: 'preparation',
                   onChange: recipePrepChangeHandler,
+                  value: data.inputCurrentValue.preparation,
                 }}
               ></InputField>
             </div>

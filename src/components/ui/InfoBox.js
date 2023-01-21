@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+// import DataUpdate from '../store/DataProvider';
 import classes from './InfoBox.module.css';
 import ButtonRound from './ButtonRound';
 
 const InfoBox = props => {
+  // const dataUpdate = useContext(DataUpdate);
   const onClickHandler = el => {
+    // console.log(data.inputCurrentValue.recipeName);
     props.clickInfoBox(el);
   };
   return (

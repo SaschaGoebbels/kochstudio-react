@@ -12,10 +12,6 @@ import classes from './InputField.module.css';
 
 const InputField = props => {
   let propsStyle = props.propsStyle || { width: '100%' };
-  const [valueState, setValueState] = useState();
-  const changeValue = val => {
-    setValueState(val); // BUG
-  };
   const label = (
     <label className={classes.label} htmlFor="">
       {props.labelText}
@@ -26,7 +22,6 @@ const InputField = props => {
       style={propsStyle}
       className={`${classes.input}`}
       {...props.properties}
-      value={valueState}
     />
   );
   const select = (

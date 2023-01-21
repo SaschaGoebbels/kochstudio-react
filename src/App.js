@@ -428,7 +428,7 @@ function App() {
   //   console.log('APP', input);
   // };
   return (
-    <DataProvider.Provider>
+    <DataProvider>
       <div className={classes.App}>
         <InfoBox
           title={messageState.title}
@@ -465,7 +465,7 @@ function App() {
           footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
         ></Footer>
       </div>
-    </DataProvider.Provider>
+    </DataProvider>
   );
 }
 
