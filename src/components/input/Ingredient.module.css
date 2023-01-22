@@ -1,0 +1,23 @@
+.ingredient__box {
+  display: flex;
+  justify-content: space-between;
+  /* border: rgb(0, 255, 8) solid 2px; */
+  margin-bottom: 1rem;
+}
+.ingredient__ButtonBox {
+  display: flex;
+  gap: 3rem;
+  /* border: rgb(0, 255, 8) solid 2px; */
+}
+.ingredient__box__grid {
+  display: grid;
+  /* text-align: center; */
+  width: 100%;
+  padding: 0.5rem 0;
+  grid-template-columns: 1fr minmax(min-content, 30%) minmax(min-content, 10%);
+}
+.ingredient__box__grid_text {
+  font-size: 1.4rem;
+  padding: 0 0 0 1rem;
+  color: var(--clr_main_ff);
+}

@@ -54,7 +54,7 @@ const DataProvider = props => {
     if (dataUpdate.type === 'INPUT') {
       dispatchData(dataUpdate);
     }
-    console.log('dataUpdate', dataUpdate);
+    console.log('dataUpdate', dataUpdate.recipeInput);
   };
   // }, []);
   //==================================================================
@@ -68,4 +68,4 @@ const DataProvider = props => {
   );
 };
 
-// export default DataProvider;
+export default DataProvider;

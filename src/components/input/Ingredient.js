@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 // import classes from './Ingredient.module.css';
-import classes from './Input.module.css';
+import classes from './Ingredient.module.css';
 import uuid from 'react-uuid';
 import InputField from './InputField';
 import ButtonRound from '../ui/ButtonRound';
@@ -14,55 +14,50 @@ class newIngredient {
   }
 }
 // const ingredientInitialState = {
-//   ingredientName: 'Zutat',
-//   quantity: 'Menge',
-//   unit: 'Einheit',
-//   id: '',
-// };
-// const ingredientReducer = (state, action) => {
-//   console.log(action);
-//   if (state.type === 'INPUTNEW') {
-//     console.log('Reducer', state, action);
-//     return {
-//       ingredientName: action.ingredientName,
-//       quantity: action.quantity,
-//       unit: action.unit,
-//     };
-//   }
-//   if (action.type === 'INIT') {
-//     return ingredientInitialState;
-//   }
+//   ingredientName: '',
+//   quantity: '',
+//   unit: '',
+//   id: 'empty',
 // };
 
 const Ingredient = props => {
-  // const [ingredientState, dispatchIngredient] = useReducer(
-  //   ingredientReducer,
-  //   ingredientInitialState
-  // );
+  const [ingredientNameState, setIngredientNameState] = useState(
+    props.ingredientName || ''
+  );
+  const [ingredientQuantityState, setIngredientQuantityState] = useState(
+    props.ingredientQuantity || ''
+  );
+  const [ingredientUnitState, setIngredientUnitState] = useState(
+    props.ingredientUnit || ''
+  );
+
   const nameChangeHandler = inputName => {
-    console.log(inputName.target.value);
-    // dispatchIngredient({ type: 'INPUTNEW', ingredientName: inputName });
+    setIngredientNameState(inputName.target.value);
   };
   const quantityChangeHandler = quantity => {
-    console.log(quantity.target.value);
-    // ingredientInitialState.quantity = quantity;
-    // console.log(ingredientInitialState.quantity);
+    setIngredientQuantityState(quantity.target.value);
   };
-  let nameValue = '';
   const unitChangeHandler = unit => {
-    nameValue = 'test123';
-    console.log(nameValue);
-    console.log(unit.target.value);
-    // ingredientInitialState.unit = unit;
-    // console.log(ingredientInitialState.quantity);
+    setIngredientUnitState(unit.target.value);
   };
 
-  const onClickHandler = () => {
-    console.log('OK');
+  const onClickHandler = btnId => {
+    console.log(btnId);
   };
   return (
     <React.Fragment>
-      <div className={classes.ingredient__Box}>
+      <div className={`${classes.ingredient__box__grid}`}>
+        <p className={classes.ingredient__box__grid_text}>
+          {ingredientNameState}
+        </p>
+        <p className={classes.ingredient__box__grid_text}>
+          {ingredientQuantityState}
+        </p>
+        <p className={classes.ingredient__box__grid_text}>
+          {ingredientUnitState}
+        </p>
+      </div>
+      <div className={classes.ingredient__box}>
         <InputField
           input={true}
           propsStyle={{ width: '50%' }}

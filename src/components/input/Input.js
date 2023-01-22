@@ -11,6 +11,7 @@ import Ingredient from './Ingredient';
 import Content from '../ui/Content';
 import Footer from '../ui/Footer';
 import ButtonBox from '../ui/ButtonBox';
+
 //==================================================================
 class recipe {
   constructor(name, ingredients, preparation) {
@@ -21,16 +22,20 @@ class recipe {
     this.fav = false;
   }
 }
-const ing = [
-  { ingName: 'Zwiebel', quantity: 3, unit: 'Stk.' },
-  { ingName: 'Kartoffel', quantity: 1, unit: 'kg' },
-  { ingName: 'Nudel', quantity: 500, unit: 'g' },
+const testIngredients = [
+  { ingredientName: 'Zwiebel', quantity: 3, unit: 'Stk.', id: 1 },
+  { ingredientName: 'Kartoffel', quantity: 1, unit: 'kg', id: 2 },
+  { ingredientName: 'Nudel', quantity: 500, unit: 'g', id: 3 },
 ];
-//==================================================================
-let recipeName, ingredients, preparation; //DELETE
+
 //==================================================================
 
 const Input = props => {
+  const ingredientsListItems = testIngredients.map(item => (
+    <li key={item.id}>
+      <Ingredient />
+    </li>
+  ));
   const dataCtx = useContext(DataContext);
   const updateInputData = useDataUpdate();
   const [inputState, setInputState] = useState(); //data.inputCurrentValue
@@ -123,7 +128,7 @@ const Input = props => {
                 labelText={'Zutaten:'}
                 properties={{ htmlFor: '' }}
               ></InputField>
-              <Ingredient />
+              <ul>{ingredientsListItems}</ul>
             </div>
             <div className={classes.inputForm__flexBox}>
               <InputField
