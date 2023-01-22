@@ -23,25 +23,38 @@ class recipe {
   }
 }
 const testIngredients = [
-  { ingredientName: 'Zwiebel', quantity: 3, unit: 'Stk.', id: 1 },
-  { ingredientName: 'Kartoffel', quantity: 1, unit: 'kg', id: 2 },
-  { ingredientName: 'Nudel', quantity: 500, unit: 'g', id: 3 },
+  {
+    ingredientName: 'Zwiebel',
+    quantity: 3,
+    unit: 'Stk.',
+    id: 111111,
+    active: false,
+  },
+  {
+    ingredientName: 'Kartoffel',
+    quantity: 1,
+    unit: 'kg',
+    id: 222222,
+    active: false,
+  },
+  {
+    ingredientName: 'Nudel',
+    quantity: 500,
+    unit: 'g',
+    id: 3333333,
+    active: false,
+  },
 ];
 
 //==================================================================
 
 const Input = props => {
-  const ingredientsListItems = testIngredients.map(item => (
-    <li key={item.id}>
-      <Ingredient />
-    </li>
-  ));
   const dataCtx = useContext(DataContext);
   const updateInputData = useDataUpdate();
-  const [inputState, setInputState] = useState(); //data.inputCurrentValue
-  // const dataUpdate = useContext(DataUpdate);
+  // const [inputState, setInputState] = useState(dataCtx.inputCurrentValue); //data.inputCurrentValue
+
   const changeHeaderText = props.headerText;
-  let btnState = '';
+
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
       props.setMessage({
@@ -83,7 +96,8 @@ const Input = props => {
     dataCtx.inputCurrentValue.recipeName || ''
   );
   const [ingredientsState, setIngredientsState] = useState(
-    dataCtx.inputCurrentValue.ingredients
+    testIngredients
+    // dataCtx.inputCurrentValue.ingredients CHECK
   );
   const [preparationState, setPreparationState] = useState(
     dataCtx.inputCurrentValue.preparation
@@ -91,11 +105,44 @@ const Input = props => {
   const recipeNameChangeHandler = el => {
     setRecipeNameState(el.target.value);
   };
-  ///////////////// BOOKMARK ///////////////// B add ingredients arr
-  const recipePrepChangeHandler = el => {
+  ////////////////// CHECK //////////////////
+  const recipeIngredientsHandler = (el, btnId) => {
+    if (btnId === 'check') {
+      setIngredientsState(prev => {
+        prev.ingredients.push(el);
+        console.log(prev);
+        return prev;
+      });
+    }
+    if (btnId === 'trash') {
+      //slice
+    }
+    if (btnId === 'up') {
+      //splice
+    }
+    if (btnId === 'down') {
+      //splice
+    }
+    console.log(el, btnId);
+    // setIngredientsState();
+  };
+  const recipePrepHandler = el => {
     setPreparationState(el.target.value);
   };
-  // ==================================================================
+  //==================================================================
+  const ingredientsListItems = ingredientsState.map(item => (
+    <li className={classes.input__listItem} id={item.id} key={item.id}>
+      <Ingredient
+        name={item.ingredientName}
+        quantity={item.quantity}
+        unit={item.unit}
+        id={item.id}
+        listItem={true}
+        onRecipeIngredientsHandler={recipeIngredientsHandler}
+      />
+    </li>
+  ));
+  //==================================================================
   const onSubmitHandler = event => {
     event.preventDefault();
   };
@@ -128,7 +175,22 @@ const Input = props => {
                 labelText={'Zutaten:'}
                 properties={{ htmlFor: '' }}
               ></InputField>
-              <ul>{ingredientsListItems}</ul>
+              <ul>
+                {ingredientsListItems}
+                <li
+                  key={'newItem'}
+                  id={'newItem'}
+                  className={classes.input__listItem}
+                >
+                  <Ingredient
+                    editActive={true}
+                    name=""
+                    quantity=""
+                    unit=""
+                    onRecipeIngredientsHandler={recipeIngredientsHandler}
+                  />
+                </li>
+              </ul>
             </div>
             <div className={classes.inputForm__flexBox}>
               <InputField
@@ -143,7 +205,7 @@ const Input = props => {
                   rows: '30',
                   cols: '30',
                   id: 'preparation',
-                  onChange: recipePrepChangeHandler,
+                  onChange: recipePrepHandler,
                   value: preparationState || '',
                 }}
               ></InputField>

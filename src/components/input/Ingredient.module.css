@@ -2,16 +2,26 @@
   display: flex;
   justify-content: space-between;
   /* border: rgb(0, 255, 8) solid 2px; */
-  margin-bottom: 1rem;
+}
+.ingredient__inputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 1.4rem;
+  border: var(--clr_border) dotted 2px;
+  margin-bottom: 0.6rem;
 }
 .ingredient__ButtonBox {
   display: flex;
+  justify-content: flex-end;
   gap: 3rem;
+  margin-right: 1.2rem;
+  /* padding: 0.5rem; */
   /* border: rgb(0, 255, 8) solid 2px; */
 }
 .ingredient__box__grid {
   display: grid;
-  /* text-align: center; */
   width: 100%;
   padding: 0.5rem 0;
   grid-template-columns: 1fr minmax(min-content, 30%) minmax(min-content, 10%);

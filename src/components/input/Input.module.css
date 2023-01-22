@@ -19,9 +19,15 @@
   align-items: center;
   padding: 1.5rem 1rem;
   margin-bottom: 1rem;
-  border-top: rgb(185, 185, 185) solid 2px;
+  /* border-color: var(--clr_border);
+  border-style: solid;
+  border-width: 2px; */
+  border-top: var(--clr_border) solid 2px;
 }
 .inputForm__border {
   border-radius: 1rem;
-  border: rgb(185, 185, 185) solid 2px;
+  border: var(--clr_border) solid 2px;
+}
+.input__listItem {
+  list-style: none;
 }

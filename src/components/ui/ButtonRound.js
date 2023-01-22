@@ -10,6 +10,8 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 import { faXmarkCircle } from '@fortawesome/free-regular-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
+import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons';
 
 const ButtonRound = props => {
   let buttonIconColor = props.iconColor;
@@ -45,8 +47,19 @@ const ButtonRound = props => {
     case 'trash':
       buttonName = faTrashCan;
       break;
+    case 'up':
+      buttonName = faArrowAltCircleUp;
+      break;
+    case 'down':
+      buttonName = faArrowAltCircleDown;
+      break;
   }
-  let buttonSize = props.buttonSize || classes.buttonRound_medium; //small medium large
+  let buttonSize =
+    props.buttonSize === 'small'
+      ? classes.buttonRound_small
+      : props.buttonSize === 'large'
+      ? classes.buttonRound_large
+      : classes.buttonRound_medium; //small medium large
   let buttonColor = props.color || '#20c997';
   const btnClickHandler = id => {
     // console.log('ButtonRound', id.currentTarget.id);
@@ -57,7 +70,13 @@ const ButtonRound = props => {
       id={props.btnId}
       // var(--clr-navbar_background)
       style={{ backgroundColor: buttonColor }}
-      className={`${classes.buttonRound}  ${buttonSize}  ${buttonClassName}`}
+      className={`${classes.buttonRound} ${buttonSize} ${buttonClassName}`}
+      //  ${
+      //   buttonSize === 'small' && classes.buttonRound_small
+      // }  ${
+      //   buttonSize === 'large' && classes.buttonRound_large
+      //   }
+
       onClick={btnClickHandler}
     >
       <FontAwesomeIcon
