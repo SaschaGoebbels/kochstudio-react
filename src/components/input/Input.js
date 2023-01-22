@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useContext } from 'react';
 import DataContext from '../store/data-context';
-import DataUpdate from '../store/DataProvider';
+// import { DataUpdate } from '../store/DataProvider';
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
 import Header from '../header/Header';
@@ -28,13 +28,13 @@ let recipeName, ingredients, preparation;
 
 const Input = props => {
   const data = useContext(DataContext);
-  const dataUpdate = useContext(DataUpdate);
+  // const dataUpdate = useContext(DataUpdate);
   const changeHeaderText = props.headerText;
   let btnState = '';
   // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
-      dataUpdate(item);
+      // dataUpdate(item);
       console.log(data.inputCurrentValue);
       props.setMessage({
         title: 'Achtung',

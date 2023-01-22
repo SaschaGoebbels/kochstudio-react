@@ -21,7 +21,7 @@ const defaultInputState = {
   preparation: '',
 };
 
-const DataProvider = props => {
+export function DataProvider(props) {
   //==================================================================
   const data = useContext(DataContext);
   const defaultReducerState = data;
@@ -39,11 +39,11 @@ const DataProvider = props => {
   };
   return (
     <DataContext.Provider value={data}>
-      <DataUpdate.Provider value={dataUpdateFunction}>
-        {props.children}
-      </DataUpdate.Provider>
+      {/* <DataUpdate.Provider value={dataUpdateFunction}> */}
+      {props.children}
+      {/* </DataUpdate.Provider> */}
     </DataContext.Provider>
   );
-};
+}
 
-export default DataProvider;
+// export default DataProvider;
