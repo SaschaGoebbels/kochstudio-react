@@ -11,6 +11,7 @@ class ingredient {
     this.quantity = quantity;
     this.unit = unit;
     this.id = uuid();
+    this.editMode = false;
   }
 }
 
@@ -25,9 +26,22 @@ const Ingredient = props => {
   const [ingredientUnitState, setIngredientUnitState] = useState(
     props.unit || ''
   );
-  const [editActive, setEditActive] = useState(props.editActive);
-  const toggleActive = () => {
-    setEditActive(prev => !prev);
+  const [editModeActive, setEditModeActive] = useState(props.editMode);
+
+  const toggleEditMode = () => {
+    setEditModeActive(prev => {
+      if (prev) {
+        // if editMode is active just deactivate this one
+        return !prev;
+      }
+      // to activate render list again and close all other editModes !
+      //BUG
+      props.onRecipeIngredientsHandler(
+        { recipeName: ingredientNameState, id: props.id },
+        'editMode'
+      );
+      return !prev;
+    });
   };
   //==================================================================
   const nameChangeHandler = inputName => {
@@ -42,6 +56,10 @@ const Ingredient = props => {
   //==================================================================
   const onClickHandler = btnId => {
     if (btnId === 'check') {
+      if (props.id) {
+        setEditModeActive(prev => !prev);
+        return;
+      }
       if (ingredientNameState.trim().length === 0) return;
       const newIngredient = new ingredient(
         ingredientNameState,
@@ -62,15 +80,15 @@ const Ingredient = props => {
     if (btnId === 'up' || btnId === 'down') {
       return;
     }
-    setEditActive(prev => !prev);
+    setEditModeActive(prev => !prev);
   };
   //==================================================================
   return (
     <React.Fragment>
-      {editActive || (
+      {editModeActive || (
         <div
           className={`${classes.ingredient__box__grid}`}
-          onClick={toggleActive}
+          onClick={toggleEditMode}
         >
           <p className={classes.ingredient__box__grid_text}>
             {ingredientNameState}
@@ -83,7 +101,7 @@ const Ingredient = props => {
           </p>
         </div>
       )}
-      {editActive && (
+      {editModeActive && (
         <div className={classes.ingredient__inputBox}>
           <div className={classes.ingredient__box}>
             <InputField

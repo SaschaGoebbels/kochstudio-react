@@ -28,21 +28,21 @@ const testIngredients = [
     quantity: 3,
     unit: 'Stk.',
     id: 111111,
-    active: false,
+    editMode: false,
   },
   {
     ingredientName: 'Kartoffel',
     quantity: 1,
     unit: 'kg',
     id: 222222,
-    active: false,
+    editMode: false,
   },
   {
     ingredientName: 'Nudel',
     quantity: 500,
     unit: 'g',
     id: 3333333,
-    active: false,
+    editMode: false,
   },
 ];
 
@@ -51,8 +51,6 @@ const testIngredients = [
 const Input = props => {
   const dataCtx = useContext(DataContext);
   const updateInputData = useDataUpdate();
-  // const [inputState, setInputState] = useState(dataCtx.inputCurrentValue); //data.inputCurrentValue
-
   const changeHeaderText = props.headerText;
 
   const onButtonBoxHandler = item => {
@@ -107,6 +105,19 @@ const Input = props => {
   };
   ////////////////// CHECK //////////////////
   const recipeIngredientsHandler = (el, btnId) => {
+    if (btnId === 'editMode') {
+      //BUG
+      setIngredientsState(prev => {
+        prev.map(element => {
+          console.log(element);
+          element.editMode = false;
+          if (element.id === el.id) element.editMode = true;
+        });
+        return prev.slice();
+      });
+      console.log('call Edit');
+      return;
+    }
     if (btnId === 'check') {
       setIngredientsState(prev => {
         return [...prev, el];
@@ -117,41 +128,31 @@ const Input = props => {
         return prev.filter(obj => obj.id !== el.id);
       });
     }
-    if (btnId === 'up') {
-      //splice
+    if (btnId === 'up' || btnId === 'down') {
+      setIngredientsState(prev => {
+        const currentIndex = prev.findIndex(
+          ingredient => ingredient.id === el.id
+        );
+        const targetIndex =
+          btnId === 'up' ? currentIndex - 1 : currentIndex + 1;
+        const prevElement = prev[currentIndex];
+        prev.splice(currentIndex, 1);
+        prev.splice(targetIndex, 0, prevElement);
+        return prev.slice();
+      });
     }
-    if (btnId === 'down') {
-      //splice
-    }
-    console.log(el, btnId);
-    // setIngredientsState();
   };
   const recipePrepHandler = el => {
     setPreparationState(el.target.value);
   };
   //==================================================================
-  ////////////////// FIXME //////////////////
-  // let ingredientsListItems;
-  // useEffect(() => {
-  //   ingredientsListItems = ingredientsState.map(item => (
-  //     <li className={classes.input__listItem} id={item.id} key={item.id}>
-  //       <Ingredient
-  //         name={item.ingredientName}
-  //         quantity={item.quantity}
-  //         unit={item.unit}
-  //         id={item.id}
-  //         listItem={true}
-  //         onRecipeIngredientsHandler={recipeIngredientsHandler}
-  //       />
-  //     </li>
-  //   ));
-  // }, []);
-  ////////////////// FIXME //////////////////
+
   const ingredientsListItems = ingredientsState.map(item => (
     <li className={classes.input__listItem} id={item.id} key={item.id}>
       <Ingredient
         name={item.ingredientName}
         quantity={item.quantity}
+        editMode={item.editMode}
         unit={item.unit}
         id={item.id}
         listItem={true}
@@ -200,7 +201,7 @@ const Input = props => {
                   className={classes.input__listItem}
                 >
                   <Ingredient
-                    editActive={true}
+                    editMode={true}
                     name=""
                     quantity=""
                     unit=""
