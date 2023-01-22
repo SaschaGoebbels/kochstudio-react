@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useContext } from 'react';
+import React, { useState, useReducer, useContext, useEffect } from 'react';
 
 import { useDataUpdate } from '../store/DataProvider';
 import DataProvider, { DataContext } from '../store/DataProvider';
@@ -109,13 +109,13 @@ const Input = props => {
   const recipeIngredientsHandler = (el, btnId) => {
     if (btnId === 'check') {
       setIngredientsState(prev => {
-        prev.ingredients.push(el);
-        console.log(prev);
-        return prev;
+        return [...prev, el];
       });
     }
     if (btnId === 'trash') {
-      //slice
+      setIngredientsState(prev => {
+        return prev.filter(obj => obj.id !== el.id);
+      });
     }
     if (btnId === 'up') {
       //splice
@@ -130,6 +130,23 @@ const Input = props => {
     setPreparationState(el.target.value);
   };
   //==================================================================
+  ////////////////// FIXME //////////////////
+  // let ingredientsListItems;
+  // useEffect(() => {
+  //   ingredientsListItems = ingredientsState.map(item => (
+  //     <li className={classes.input__listItem} id={item.id} key={item.id}>
+  //       <Ingredient
+  //         name={item.ingredientName}
+  //         quantity={item.quantity}
+  //         unit={item.unit}
+  //         id={item.id}
+  //         listItem={true}
+  //         onRecipeIngredientsHandler={recipeIngredientsHandler}
+  //       />
+  //     </li>
+  //   ));
+  // }, []);
+  ////////////////// FIXME //////////////////
   const ingredientsListItems = ingredientsState.map(item => (
     <li className={classes.input__listItem} id={item.id} key={item.id}>
       <Ingredient
