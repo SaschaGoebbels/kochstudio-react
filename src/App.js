@@ -1,8 +1,7 @@
 import classes from './App.module.css';
 import './variables.css';
 import React, { useState, useContext, useReducer } from 'react';
-import { DataProvider } from './components/store/DataProvider';
-// import DataContext from './components/store/data-context';
+import DataProvider from './components/store/DataProvider';
 
 import InfoBox from './components/ui/InfoBox';
 import Header from './components/header/Header';

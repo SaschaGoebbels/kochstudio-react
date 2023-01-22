@@ -1,49 +1,71 @@
-import React, { useReducer, useContext } from 'react';
-import DataContext from './data-context';
+import React, { useState, useReducer, useContext } from 'react';
+import { useEffect } from 'react';
 
-const DataUpdate = React.createContext(); //export ?
+export const DataContext = React.createContext(null);
+const DataUpdate = React.createContext();
+export function useDataUpdate() {
+  return useContext(DataUpdate);
+}
 
-const dataReducer = (state, action) => {
-  console.log(state);
-  if (action.type === 'INPUT') {
-    console.log('Reducer INPUT');
-  }
-  if (action.type === 'CLEAR') {
-    console.log('Clear');
-    return (action.inputCurrentValue = defaultInputState);
-  }
+const dataInit = {
+  addItem: recipe => {},
+  removeItem: recipe => {},
+  inputCurrentValue: {
+    recipeName: '',
+    ingredients: [],
+    preparation: '',
+  },
+  recipeList: [
+    {
+      name: 'Arme Ritter',
+      fav: false,
+      ingredients: [
+        ['Mehl', '300', 'g'],
+        ['Eier', '5', 'Stk.'],
+        ['Milch', '300', 'ml'],
+        ['Toastbrot ', '0.5', 'Stk.'],
+        ['Salz', '1', 'TL-gestr.'],
+      ],
+    },
+  ],
 };
-const addRecipe = recipe => {};
-const removeRecipe = recipe => {};
+
 const defaultInputState = {
   recipeName: '',
   ingredients: [],
   preparation: '',
 };
+//==================================================================
+const dataReducer = (state, action) => {
+  if (action.type === 'INPUT') {
+    // console.log(state.recipeList);
+    state.recipeList.push(action.recipeInput);
+    return state;
+  }
+  return state;
+};
+//==================================================================
 
-export function DataProvider(props) {
+const DataProvider = props => {
+  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   //==================================================================
-  const data = useContext(DataContext);
-  const defaultReducerState = data;
-  const [dataState, dispatchDataAction] = useReducer(
-    dataReducer,
-    defaultReducerState
-  );
-  //==================================================================
+  // useEffect(() => {
   const dataUpdateFunction = dataUpdate => {
+    if (dataUpdate.type === 'INPUT') {
+      dispatchData(dataUpdate);
+    }
     console.log('dataUpdate', dataUpdate);
   };
-  const inputChangeHandler = input => {
-    console.log(input);
-    dispatchDataAction({ type: 'INPUT', input: input });
-  };
+  // }, []);
+  //==================================================================
+  //==================================================================
   return (
-    <DataContext.Provider value={data}>
-      {/* <DataUpdate.Provider value={dataUpdateFunction}> */}
-      {props.children}
-      {/* </DataUpdate.Provider> */}
+    <DataContext.Provider value={dataState}>
+      <DataUpdate.Provider value={dataUpdateFunction}>
+        {props.children}
+      </DataUpdate.Provider>
     </DataContext.Provider>
   );
-}
+};
 
 // export default DataProvider;

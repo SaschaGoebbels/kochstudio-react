@@ -1,6 +1,8 @@
 import React, { useState, useReducer, useContext } from 'react';
-import DataContext from '../store/data-context';
-// import { DataUpdate } from '../store/DataProvider';
+
+import { useDataUpdate } from '../store/DataProvider';
+import DataProvider, { DataContext } from '../store/DataProvider';
+
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
 import Header from '../header/Header';
@@ -9,13 +11,13 @@ import Ingredient from './Ingredient';
 import Content from '../ui/Content';
 import Footer from '../ui/Footer';
 import ButtonBox from '../ui/ButtonBox';
-
-class newRecipe {
-  constructor(name, ingredients, preparation, id) {
-    this.name = name;
+//==================================================================
+class recipe {
+  constructor(name, ingredients, preparation) {
+    this.recipeName = name;
     this.ingredients = [ingredients];
     this.preparation = preparation;
-    this.id = id;
+    this.id = uuid();
     this.fav = false;
   }
 }
@@ -24,18 +26,19 @@ const ing = [
   { ingName: 'Kartoffel', quantity: 1, unit: 'kg' },
   { ingName: 'Nudel', quantity: 500, unit: 'g' },
 ];
-let recipeName, ingredients, preparation;
+//==================================================================
+let recipeName, ingredients, preparation; //DELETE
+//==================================================================
 
 const Input = props => {
-  const data = useContext(DataContext);
+  const dataCtx = useContext(DataContext);
+  const updateInputData = useDataUpdate();
+  const [inputState, setInputState] = useState(); //data.inputCurrentValue
   // const dataUpdate = useContext(DataUpdate);
   const changeHeaderText = props.headerText;
   let btnState = '';
-  // let recipeName = props.recipeName;
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
-      // dataUpdate(item);
-      console.log(data.inputCurrentValue);
       props.setMessage({
         title: 'Achtung',
         message: 'Dieser Eintrag wird gelöscht !',
@@ -43,21 +46,14 @@ const Input = props => {
         showBtnX: true,
         delete: true,
       });
-      // console.log('trash');
-      // setRecipeName('');
-      // setRecipePrep('');
     }
     if (item === 'x') {
-      // dispatchData({ type: 'CLEAR' });
+      console.log(dataCtx.recipeList);
+      // // //close handle outside the function
       console.log('x');
-      data.inputCurrentValue.recipeName = '';
-      console.log(data.inputCurrentValue);
-      // setRecipeName('');
-      // setRecipePrep('');
     }
     if (item === 'check') {
-      if (recipeName.trim().length === 0) {
-        // console.log('No Name');
+      if (recipeNameState.trim().length === 0) {
         props.setMessage({
           title: 'Fehler',
           message: 'Bitte Name eingeben !',
@@ -65,30 +61,34 @@ const Input = props => {
         });
         return;
       }
-      // console.log('check');
-      console.log(new newRecipe(recipeName, ing, 'Preparation Text', uuid()));
-      // create new Object
-      props.onAddNewRecipe(
-        new newRecipe(recipeName, ing, 'Preparation Text', uuid())
-      ); //send {newRecipe} to recipeObj
-      // setRecipeName('');
-      // setRecipePrep('');
+      const recipeInput = new recipe(
+        recipeNameState,
+        ingredientsState,
+        preparationState
+      );
+      updateInputData({ type: 'INPUT', recipeInput: recipeInput });
+      setRecipeNameState('');
+      setIngredientsState([]);
+      setPreparationState('');
     }
     props.onClickInput(item); // pass btn state upwards
   };
   // ==================================================================
-  // const [recipeName, setRecipeName] = useState(
-  //   data.inputCurrentValue.recipeName
-  // );
+  const [recipeNameState, setRecipeNameState] = useState(
+    dataCtx.inputCurrentValue.recipeName || ''
+  );
+  const [ingredientsState, setIngredientsState] = useState(
+    dataCtx.inputCurrentValue.ingredients
+  );
+  const [preparationState, setPreparationState] = useState(
+    dataCtx.inputCurrentValue.preparation
+  );
   const recipeNameChangeHandler = el => {
-    data.inputCurrentValue.recipeName = el.target.value;
-    // setRecipeName(el.target.value);
-    console.log(data.inputCurrentValue.recipeName);
+    setRecipeNameState(el.target.value);
   };
-  const [recipePrep, setRecipePrep] = useState('');
+  ///////////////// BOOKMARK ///////////////// B add ingredients arr
   const recipePrepChangeHandler = el => {
-    setRecipePrep(el.target.value);
-    console.log(el.target.value);
+    setPreparationState(el.target.value);
   };
   // ==================================================================
   const onSubmitHandler = event => {
@@ -96,12 +96,8 @@ const Input = props => {
   };
   return (
     <div className={`${classes.input} ${props.className}`}>
-      <Header
-        headerText={changeHeaderText}
-        // onMenuButton={onMenuButtonHandler}
-      />
+      <Header headerText={changeHeaderText} />
       <Content
-        // className={classes.input__content}
         content={
           <form onSubmit={onSubmitHandler} className={classes.inputForm}>
             <div className={classes.inputForm__flexBox}>
@@ -117,7 +113,7 @@ const Input = props => {
                   id: 'recipeName',
                   autoComplete: 'on',
                   onChange: recipeNameChangeHandler,
-                  value: data.inputCurrentValue.recipeName,
+                  value: recipeNameState || '',
                 }}
               ></InputField>
             </div>
@@ -143,7 +139,7 @@ const Input = props => {
                   cols: '30',
                   id: 'preparation',
                   onChange: recipePrepChangeHandler,
-                  value: data.inputCurrentValue.preparation,
+                  value: preparationState || '',
                 }}
               ></InputField>
             </div>
