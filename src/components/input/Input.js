@@ -22,29 +22,30 @@ class recipe {
     this.fav = false;
   }
 }
-const testIngredients = [
-  {
-    ingredientName: 'Zwiebel',
-    quantity: 3,
-    unit: 'Stk.',
-    id: 111111,
-    editMode: false,
-  },
-  {
-    ingredientName: 'Kartoffel',
-    quantity: 1,
-    unit: 'kg',
-    id: 222222,
-    editMode: false,
-  },
-  {
-    ingredientName: 'Nudel',
-    quantity: 500,
-    unit: 'g',
-    id: 3333333,
-    editMode: false,
-  },
-];
+// DELETE
+// // // const testIngredients = [
+// // //   {
+// // //     ingredientName: 'Zwiebel',
+// // //     quantity: 3,
+// // //     unit: 'Stk.',
+// // //     id: 111111,
+// // //     editMode: false,
+// // //   },
+// // //   {
+// // //     ingredientName: 'Kartoffel',
+// // //     quantity: 1,
+// // //     unit: 'kg',
+// // //     id: 222222,
+// // //     editMode: false,
+// // //   },
+// // //   {
+// // //     ingredientName: 'Nudel',
+// // //     quantity: 500,
+// // //     unit: 'g',
+// // //     id: 3333333,
+// // //     editMode: false,
+// // //   },
+// // // ];
 
 //==================================================================
 
@@ -89,13 +90,13 @@ const Input = props => {
     }
     props.onClickInput(item); // pass btn state upwards
   };
-  // ==================================================================
+  //==================================================================
   const [recipeNameState, setRecipeNameState] = useState(
     dataCtx.inputCurrentValue.recipeName || ''
   );
   const [ingredientsState, setIngredientsState] = useState(
-    testIngredients
-    // dataCtx.inputCurrentValue.ingredients CHECK
+    // testIngredients DELETE
+    dataCtx.inputCurrentValue.ingredients
   );
   const [preparationState, setPreparationState] = useState(
     dataCtx.inputCurrentValue.preparation
@@ -103,32 +104,43 @@ const Input = props => {
   const recipeNameChangeHandler = el => {
     setRecipeNameState(el.target.value);
   };
-  ////////////////// CHECK //////////////////
-  const recipeIngredientsHandler = (el, btnId) => {
-    if (btnId === 'editMode') {
-      //BUG
-      setIngredientsState(prev => {
-        prev.map(element => {
-          console.log(element);
-          element.editMode = false;
-          if (element.id === el.id) element.editMode = true;
-        });
-        return prev.slice();
+  //==================================================================
+  const updateExistingIngredient = (el, btnId) => {
+    setIngredientsState(prev => {
+      return prev.map(obj => {
+        if (obj.id === el.id) {
+          if (btnId === 'up' || btnId === 'down') {
+            el.editMode = true;
+          }
+          return el;
+        }
+        return obj;
       });
-      console.log('call Edit');
-      return;
-    }
+    });
+  };
+  // set new item // delete item // shift
+  const recipeIngredientsHandler = (el, btnId, update) => {
+    // on save update
     if (btnId === 'check') {
+      if (update === 'update') {
+        updateExistingIngredient(el);
+        return;
+      }
+      // if not exist append list
       setIngredientsState(prev => {
         return [...prev, el];
       });
+      return;
     }
+    // delete item
     if (btnId === 'trash') {
       setIngredientsState(prev => {
         return prev.filter(obj => obj.id !== el.id);
       });
     }
+    // switch order
     if (btnId === 'up' || btnId === 'down') {
+      updateExistingIngredient(el, btnId);
       setIngredientsState(prev => {
         const currentIndex = prev.findIndex(
           ingredient => ingredient.id === el.id
@@ -145,14 +157,34 @@ const Input = props => {
   const recipePrepHandler = el => {
     setPreparationState(el.target.value);
   };
-  //==================================================================
 
+  //==================================================================
+  // show and hide edit buttons
+  const toggleEditMode = (action, itemId) => {
+    let show;
+    if (action === 'open') {
+      show = true;
+    }
+    if (action === 'close') {
+      show = false;
+    }
+    setIngredientsState(prev => {
+      return prev.map(obj => {
+        obj.editMode = false;
+        if (obj.id == itemId) {
+          obj.editMode = show;
+        }
+        return obj;
+      });
+    });
+  };
   const ingredientsListItems = ingredientsState.map(item => (
     <li className={classes.input__listItem} id={item.id} key={item.id}>
       <Ingredient
         name={item.ingredientName}
         quantity={item.quantity}
         editMode={item.editMode}
+        onToggleEditMode={toggleEditMode}
         unit={item.unit}
         id={item.id}
         listItem={true}

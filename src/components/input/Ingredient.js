@@ -26,23 +26,7 @@ const Ingredient = props => {
   const [ingredientUnitState, setIngredientUnitState] = useState(
     props.unit || ''
   );
-  const [editModeActive, setEditModeActive] = useState(props.editMode);
 
-  const toggleEditMode = () => {
-    setEditModeActive(prev => {
-      if (prev) {
-        // if editMode is active just deactivate this one
-        return !prev;
-      }
-      // to activate render list again and close all other editModes !
-      //BUG
-      props.onRecipeIngredientsHandler(
-        { recipeName: ingredientNameState, id: props.id },
-        'editMode'
-      );
-      return !prev;
-    });
-  };
   //==================================================================
   const nameChangeHandler = inputName => {
     setIngredientNameState(inputName.target.value);
@@ -56,16 +40,30 @@ const Ingredient = props => {
   //==================================================================
   const onClickHandler = btnId => {
     if (btnId === 'check') {
+      // if id is true send updated ingredient upwards
       if (props.id) {
-        setEditModeActive(prev => !prev);
+        props.onRecipeIngredientsHandler(
+          {
+            ingredientName: ingredientNameState,
+            quantity: ingredientQuantityState,
+            unit: ingredientUnitState,
+            id: props.id,
+            editMode: false,
+          },
+          btnId,
+          'update'
+        );
         return;
       }
+      // if valid input create new object
       if (ingredientNameState.trim().length === 0) return;
+      // create new
       const newIngredient = new ingredient(
         ingredientNameState,
         ingredientQuantityState,
         ingredientUnitState
       );
+      // send upwards to array
       props.onRecipeIngredientsHandler(newIngredient, btnId);
       setIngredientNameState('');
       setIngredientQuantityState('');
@@ -80,15 +78,16 @@ const Ingredient = props => {
     if (btnId === 'up' || btnId === 'down') {
       return;
     }
-    setEditModeActive(prev => !prev);
+    // setEditModeActive(prev => !prev);
   };
   //==================================================================
   return (
     <React.Fragment>
-      {editModeActive || (
+      {props.editMode || (
         <div
           className={`${classes.ingredient__box__grid}`}
-          onClick={toggleEditMode}
+          onClick={() => props.onToggleEditMode('open', props.id)}
+          // onClick={toggleEditMode}
         >
           <p className={classes.ingredient__box__grid_text}>
             {ingredientNameState}
@@ -101,7 +100,7 @@ const Ingredient = props => {
           </p>
         </div>
       )}
-      {editModeActive && (
+      {props.editMode && (
         <div className={classes.ingredient__inputBox}>
           <div className={classes.ingredient__box}>
             <InputField
