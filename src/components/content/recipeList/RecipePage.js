@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classes from './RecipePage.module.css';
 
 import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
 import Footer from '../../ui/Footer';
+import NavbarContext from '../../store/navbar-context';
 
 // put recipe page into content/recipeList
 
 const RecipePage = props => {
+  const navbarCtx = useContext(NavbarContext);
   const onRoundButtonHandler = btnId => {
     console.log(btnId);
     console.log(props.showRecipe);
-    // const recipeTextContent =
   };
   return (
     <div

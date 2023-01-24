@@ -51,7 +51,7 @@ class recipe {
 
 const Input = props => {
   const dataCtx = useContext(DataContext);
-  const updateInputData = useDataUpdate();
+  // const updateInputData = useDataUpdate();DELETE
   const changeHeaderText = props.headerText;
 
   const onButtonBoxHandler = item => {
@@ -65,6 +65,7 @@ const Input = props => {
       });
     }
     if (item === 'x') {
+      console.log(dataCtx);
       console.log(dataCtx.recipeList);
       // // //close handle outside the function
       console.log('x');
@@ -83,7 +84,7 @@ const Input = props => {
         ingredientsState,
         preparationState
       );
-      updateInputData({ type: 'INPUT', recipeInput: recipeInput });
+      // updateInputData({ type: 'INPUT', recipeInput: recipeInput });DELETE
       setRecipeNameState('');
       setIngredientsState([]);
       setPreparationState('');

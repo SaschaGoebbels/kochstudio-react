@@ -11,7 +11,6 @@ const Navbar = props => {
 
   const navChangeFunction = btnId => {
     navbarCtx.navbar = btnId;
-    // console.log(navbarCtx);
     setBtnNav(btnId);
   };
   return (

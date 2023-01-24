@@ -1,19 +1,22 @@
 import React, { useState, useContext } from 'react';
-import DataContext from '../../store/data-context';
+import DataProvider, { DataContext } from '../../store/DataProvider';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/ButtonRound';
 import classes from './RecipeList.module.css';
 import RecipePage from './RecipePage';
+import NavbarContext from '../../store/navbar-context';
 
 const RecipeList = props => {
+  const navbarCtx = useContext(NavbarContext);
   const dataCtx = useContext(DataContext);
   const listClickHandler = item => {
-    console.log('RecipeList', item, dataCtx);
+    console.log('RecipeList', item, dataCtx.recipeList);
     setRecipePageHide(false);
-    props.recipeListButton(item);
+    // props.recipeListButton(item);
   };
   //==================================================================
   const [recipePageHide, setRecipePageHide] = useState(true);
+  //==================================================================
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
   };
@@ -22,7 +25,7 @@ const RecipeList = props => {
     <div className={`${classes.contentListBox} `}>
       <RecipePage showRecipe={recipePageHide} isFav={true}></RecipePage>
       <ul className={classes.contentListBox__ul}>
-        {props.recipe_obj.recipe_list.map(item => (
+        {dataCtx.recipeList.map(item => (
           <li
             key={item.id}
             className={classes.contentListBox__item}
