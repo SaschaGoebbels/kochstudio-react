@@ -4,9 +4,62 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 999;
   transform: scale(1);
+  background-color: var(--clr-input_background);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  z-index: 10;
+  transition: all 300ms;
 }
 .recipePage--hide {
-  transform: scale(0.5);
+  transform: scale(0.8);
+}
+.recipePage__box {
+  position: absolute;
+  overflow: scroll;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+}
+.recipePage__box__favBox {
+  display: flex;
+  justify-content: space-between;
+}
+.recipePage__prepBox {
+  margin-top: 2rem;
+  margin-bottom: 6rem;
+}
+.recipePage__box__h2 {
+  margin-top: 1rem;
+}
+.recipePage__box__ul {
+  list-style: none;
+}
+.recipePage__box__ul__li {
+  padding: 0.1rem 0.3rem;
+  display: grid;
+  grid-template-columns: 1fr minmax(min-content, 30%) minmax(min-content, 10%);
+  border-bottom: rgb(116, 115, 96) solid 1px;
+  align-items: center;
+}
+.buttonAddEdit {
+  /* position: absolute; */
+  position: fixed;
+  right: 1.5rem;
+  bottom: 2rem;
+}
+.buttonCoincidence {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 2rem;
+}
+@media (min-width: 600px) {
+  .buttonAddEdit {
+    right: 5rem;
+  }
+  .buttonCoincidence {
+    left: 5rem;
+  }
 }

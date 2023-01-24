@@ -1,32 +1,89 @@
 import React from 'react';
 import classes from './RecipePage.module.css';
 
-import Header from '../../header/Header';
 import Content from '../../ui/Content';
+import ButtonRound from '../../ui/ButtonRound';
 import Footer from '../../ui/Footer';
-import Navbar from '../../navbar/Navbar';
-import NavbarButton from '../../navbar/NavbarButton';
-import NavbarContext from '../../store/navbar-context';
 
 // put recipe page into content/recipeList
 
 const RecipePage = props => {
-  const onMenuButtonHandler = () => {
-    console.log('menu');
+  const onRoundButtonHandler = btnId => {
+    console.log(btnId);
+    console.log(props.showRecipe);
+    // const recipeTextContent =
   };
   return (
     <div
       className={`${classes.recipePage} ${
-        props.hideRecipePage && classes['recipePage--hide']
+        props.showRecipe && classes['recipePage--hide']
       }`}
     >
-      <Header
-        headerText={props.headerText}
-        onMenuButton={onMenuButtonHandler}
-      />
-      <Content content={'test'}></Content>
-
-      <Footer footerContent={<Navbar iconColor={'#20c997'}></Navbar>}></Footer>
+      <div className={classes.recipePage__box}>
+        <div className={classes.recipePage__box__favBox}>
+          <h2>Zutaten:</h2>
+          <ButtonRound
+            btnId="heart"
+            className={classes.buttonFav}
+            buttonName={'heart'}
+            color={''}
+            iconColor={props.isFav && '#e56d6d'}
+            isFav={''}
+            onClickHandler={onRoundButtonHandler}
+          />
+        </div>
+        <ul className={classes.recipePage__box__ul}>
+          <li className={classes.recipePage__box__ul__li}>
+            <p>name</p>
+            <p>100</p>
+            <p>g</p>
+          </li>
+          <li className={classes.recipePage__box__ul__li}>
+            <p>name ninijn ni ijunn i m,oimiom </p>
+            <p>100</p>
+            <p>g</p>
+          </li>
+          <li className={classes.recipePage__box__ul__li}>
+            <p>name</p>
+            <p>100</p>
+            <p>g</p>
+          </li>
+        </ul>
+        <div className={classes.recipePage__prepBox}>
+          <h2>Zubereitung:</h2>
+          <p>
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
+          </p>
+        </div>
+      </div>
+      <div>
+        <ButtonRound
+          btnId="pen"
+          className={classes.buttonAddEdit}
+          buttonName={'pen'}
+          color={''}
+          iconColor={''}
+          isFav={''}
+          onClickHandler={onRoundButtonHandler}
+        />
+        <ButtonRound
+          btnId="coin"
+          className={classes.buttonCoincidence}
+          buttonName={'coin'}
+          color={''}
+          iconColor={''}
+          isFav={''}
+          onClickHandler={onRoundButtonHandler}
+        />
+      </div>
     </div>
   );
 };

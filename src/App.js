@@ -12,7 +12,6 @@ import Navbar from './components/navbar/Navbar';
 import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
 import NavbarContext from './components/store/navbar-context';
-import RecipePage from './components/content/recipeList/RecipePage';
 
 const messageInitialState = {
   title: '',
@@ -448,7 +447,6 @@ function App() {
           recipeName={'TestName_APP'}
           // input={inputHandler}
         ></Input>
-        <RecipePage headerText={'Change ME'}></RecipePage>
         <Header
           headerText={changeHeaderText}
           onMenuButton={onMenuButtonHandler}

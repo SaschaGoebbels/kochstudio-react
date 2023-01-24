@@ -3,18 +3,24 @@ import DataContext from '../../store/data-context';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/ButtonRound';
 import classes from './RecipeList.module.css';
+import RecipePage from './RecipePage';
 
 const RecipeList = props => {
   const dataCtx = useContext(DataContext);
   const listClickHandler = item => {
     console.log('RecipeList', item, dataCtx);
+    setRecipePageHide(false);
     props.recipeListButton(item);
   };
+  //==================================================================
+  const [recipePageHide, setRecipePageHide] = useState(true);
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
   };
+  //==================================================================
   return (
-    <div className={classes.contentListBox}>
+    <div className={`${classes.contentListBox} `}>
+      <RecipePage showRecipe={recipePageHide} isFav={true}></RecipePage>
       <ul className={classes.contentListBox__ul}>
         {props.recipe_obj.recipe_list.map(item => (
           <li
@@ -44,12 +50,6 @@ const RecipeList = props => {
         isFav={''}
         onClickHandler={onRoundButtonHandler}
       />
-      {/* example buttons */}
-      {/* <ButtonRound buttonName={'check'} color={''} iconColor={''} /> */}
-      {/* <ButtonRound buttonName={'star'} color={''} iconColor={''} /> */}
-      {/* <ButtonRound buttonName={'x'} color={''} iconColor={''} /> */}
-      {/* <ButtonRound buttonName={'pen'} color={''} iconColor={''} /> */}
-      {/* <ButtonRound buttonName={'trash'} color={''} iconColor={''} /> */}
     </div>
   );
 };
