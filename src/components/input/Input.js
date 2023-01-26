@@ -22,8 +22,8 @@ class recipe {
     this.fav = false;
   }
 }
-// DELETE
-// // // const testIngredients = [
+
+// // // const testIngredients = [ // DELETE
 // // //   {
 // // //     ingredientName: 'Zwiebel',
 // // //     quantity: 3,
@@ -51,7 +51,7 @@ class recipe {
 
 const Input = props => {
   const dataCtx = useContext(DataContext);
-  // const updateInputData = useDataUpdate();DELETE
+  const updateInputData = useDataUpdate();
   const changeHeaderText = props.headerText;
 
   const onButtonBoxHandler = item => {
@@ -84,7 +84,8 @@ const Input = props => {
         ingredientsState,
         preparationState
       );
-      // updateInputData({ type: 'INPUT', recipeInput: recipeInput });DELETE
+      updateInputData('INPUT', { recipeInput });
+      // updateInputData({ type: 'INPUT', recipeInput: recipeInput });
       setRecipeNameState('');
       setIngredientsState([]);
       setPreparationState('');

@@ -6,6 +6,7 @@ import classes from './RecipeList.module.css';
 import RecipePage from './RecipePage';
 import NavbarContext from '../../store/navbar-context';
 
+//==================================================================
 const RecipeList = props => {
   const navbarCtx = useContext(NavbarContext);
   const dataCtx = useContext(DataContext);

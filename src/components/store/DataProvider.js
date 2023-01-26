@@ -6,9 +6,26 @@ const DataUpdate = React.createContext();
 export function useDataUpdate() {
   return useContext(DataUpdate);
 }
+//==================================================================
+//==================================================================
+async function sendData(sendData) {
+  const response = await fetch(
+    'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
+    {
+      method: 'POST',
+      body: JSON.stringify(sendData),
+      // header: { 'Content-Type': 'application/json' },
+    }
+  );
+  const dataResponse = await response.json();
+  console.log(dataResponse);
+}
 
+//==================================================================
 const dataInit = {
-  addItem: recipe => {},
+  addItem: recipe => {
+    sendData(recipe);
+  },
   removeItem: recipe => {},
   inputCurrentValue: {
     recipeName: '',
@@ -356,11 +373,13 @@ const DataProvider = props => {
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   //==================================================================
   // useEffect(() => {
-  const dataUpdateFunction = dataUpdate => {
-    if (dataUpdate.type === 'INPUT') {
+  const dataUpdateFunction = (type, dataUpdate) => {
+    if (type === 'INPUT') {
       dispatchData(dataUpdate);
     }
-    console.log('dataUpdate', dataUpdate.recipeInput);
+    if (type === 'sendFetch') {
+      sendData(dataUpdate);
+    }
   };
   // }, []);
   //==================================================================
