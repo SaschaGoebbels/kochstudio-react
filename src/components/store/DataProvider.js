@@ -10,20 +10,7 @@ export function useDataUpdate() {
 }
 //==================================================================
 //==================================================================
-// // // async function sendData(sendData) {
-// // //   const response = await fetch(
-// // //     'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
-// // //     {
-// // //       method: 'POST',
-// // //       body: JSON.stringify(sendData),
-// // //       // header: { 'Content-Type': 'application/json' },
-// // //     }
-// // //   );
-// // //   const dataResponse = await response.json();
-// // //   console.log(dataResponse);
-// // // }
-//==================================================================
-//==================================================================
+
 const dataInit = {
   addItem: recipe => {},
   removeItem: recipe => {},
