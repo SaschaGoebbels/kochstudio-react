@@ -65,10 +65,9 @@ const Input = props => {
       });
     }
     if (item === 'x') {
-      console.log(dataCtx);
-      console.log(dataCtx.recipeList);
-      // // //close handle outside the function
-      console.log('x');
+      // console.log(dataCtx);
+      // console.log('x');
+      updateInputData('getFetch');
     }
     if (item === 'check') {
       if (recipeNameState.trim().length === 0) {

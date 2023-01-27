@@ -1,5 +1,7 @@
 import React, { useState, useReducer, useContext } from 'react';
+import { useCallback } from 'react';
 import { useEffect } from 'react';
+import useFetch from '../../hooks/useFetch';
 
 export const DataContext = React.createContext(null);
 const DataUpdate = React.createContext();
@@ -8,24 +10,22 @@ export function useDataUpdate() {
 }
 //==================================================================
 //==================================================================
-async function sendData(sendData) {
-  const response = await fetch(
-    'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
-    {
-      method: 'POST',
-      body: JSON.stringify(sendData),
-      // header: { 'Content-Type': 'application/json' },
-    }
-  );
-  const dataResponse = await response.json();
-  console.log(dataResponse);
-}
-
+// // // async function sendData(sendData) {
+// // //   const response = await fetch(
+// // //     'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
+// // //     {
+// // //       method: 'POST',
+// // //       body: JSON.stringify(sendData),
+// // //       // header: { 'Content-Type': 'application/json' },
+// // //     }
+// // //   );
+// // //   const dataResponse = await response.json();
+// // //   console.log(dataResponse);
+// // // }
+//==================================================================
 //==================================================================
 const dataInit = {
-  addItem: recipe => {
-    sendData(recipe);
-  },
+  addItem: recipe => {},
   removeItem: recipe => {},
   inputCurrentValue: {
     recipeName: '',
@@ -369,16 +369,58 @@ const dataReducer = (state, action) => {
 };
 //==================================================================
 
+//==================================================================
+//==================================================================
 const DataProvider = props => {
-  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
+  const { isLoading, error, sendRequest } = useFetch(
+    {
+      url: 'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
+    },
+    data => console.log('fetch', data)
+  );
+  // useFetch(
+  //   {
+  //     url: 'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
+  //   },
+  //   data => console.log('fetch', data)
+  // );
   //==================================================================
+  // // // const [isLoading, setIsLoading] = useState(false);
+  // // // const [error, setError] = useState(false);
+  // // // const getDataHandler = useCallback(async () => {
+  // // //   setIsLoading(true);
+  // // //   setError(null);
+  // // //   try {
+  // // //     const response = await fetch(
+  // // //       'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json'
+  // // //     );
+  // // //     const data = await response.json();
+  // // //     if (!response.ok) {
+  // // //       throw new Error('Der Server ist nicht erreichbar !');
+  // // //     }
+  // // //   } catch (error) {
+  // // //     console.log('Error');
+  // // //     setError(error.message);
+  // // //   }
+  // // //   setIsLoading(false);
+  // // // }, []);
+  // // // useEffect(() => {
+  // // //   getDataHandler();
+  // // // }, [getDataHandler]);
+  //==================================================================
+  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   // useEffect(() => {
   const dataUpdateFunction = (type, dataUpdate) => {
     if (type === 'INPUT') {
       dispatchData(dataUpdate);
     }
-    if (type === 'sendFetch') {
-      sendData(dataUpdate);
+    if (type === 'postFetch') {
+      // sendData(dataUpdate);
+    }
+    if (type === 'getFetch') {
+      sendRequest();
+      // getDataHandler();
+      console.log('provider');
     }
   };
   // }, []);
