@@ -4,6 +4,7 @@ import React, { useState, useContext, useReducer } from 'react';
 import DataProvider from './components/store/DataProvider';
 
 import InfoBox from './components/ui/InfoBox';
+import Login from './components/ui/Login';
 import Header from './components/header/Header';
 import Content from './components/ui/Content';
 import ContentSwipe from './components/content/ContentSwipe';
@@ -97,13 +98,21 @@ function App() {
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
-  // // input data
-  // const inputHandler = input => {
-  //   console.log('APP', input);
-  // };
+  const onClickLogin = () => {
+    console.log('Login');
+  };
+  //==================================================================
   return (
     <DataProvider>
       <div className={classes.App}>
+        <Login
+          title={'Login'}
+          message={messageState.message}
+          hide={false}
+          // hide={messageState.hideInfoBox}
+          showXBtn={messageState.showBtnX}
+          clickLogin={onClickLogin}
+        />
         <InfoBox
           title={messageState.title}
           message={messageState.message}

@@ -1,0 +1,103 @@
+.login {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 1;
+  opacity: 1;
+  transition: all 200ms;
+}
+.login__hide {
+  position: absolute;
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 200ms;
+}
+.login__card {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  background-color: var(--clr-infoBox_background);
+  border-radius: 2rem;
+}
+.login__header {
+  background-color: var(--clr-accent_background);
+  padding: 1.6rem;
+  width: 100%;
+  text-align: center;
+  border-radius: 2rem 2rem 0 0;
+}
+.login__header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+.login__messageBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+.login__messageBox__inputBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.login__inputBox__input {
+  padding: 0.2rem 1rem;
+}
+.login__messageBox p {
+  font-size: 1.5rem;
+}
+.login__footer {
+  display: flex;
+  gap: 1.8rem;
+  /* gap: clamp(0.5rem, 2rem, 5rem); */
+  padding: 2rem;
+}
+.login__footer__loginBtn {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 1.6rem;
+  box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.5);
+  transition: all 300ms;
+  border: #087f5b solid 3px;
+  background-color: #20c997;
+}
+.login__footer__loginBtn:hover {
+  scale: 1.1;
+}
+.login__footer__loginBtn:active {
+  scale: 1;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+.login__secondFooterBox {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  width: 100%;
+}
+.login__secondFooterBox__textBtn {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+.login__secondFooterBox__textBtn:hover {
+  text-decoration: underline;
+}
