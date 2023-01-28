@@ -2,20 +2,88 @@ import React, { useState, useContext } from 'react';
 // import DataUpdate from '../store/DataProvider';
 import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
+import useInput from '../../hooks/useLogin';
 
 const Login = props => {
+  //==================================================================
+  const {
+    value: nameValue,
+    isValid: nameIsValid,
+    hasError: nameInputHasError,
+    valueChangeHandler: nameChangeHandler,
+    inputBlurHandler: nameBlurHandler,
+    reset: nameReset,
+  } = useInput(value => value.trim() !== '');
+  //==================================================================
+  const {
+    value: emailValue,
+    isValid: emailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: emailReset,
+  } = useInput(email => {
+    const regEx = /\S+@\S+\.\S+/;
+    return regEx.test(email);
+  });
+
+  //==================================================================
+  const {
+    value: passwordValue,
+    isValid: passwordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: passwordReset,
+  } = useInput(value => value.trim() !== '' && value.trim().length > 3);
+  //==================================================================
+
   const [createAccount, setCreateAccount] = useState(false);
-  // const dataUpdate = useContext(DataUpdate);
+
   const onClickHandler = el => {
     if (el === 'x') {
+      // el.preventDefault();
       setCreateAccount(false);
+      console.log('ok');
     }
   };
-  const onCreateAccount = () => {
+
+  const onCreateAccount = el => {
+    el.preventDefault();
     setCreateAccount(true);
   };
+  const onLoginHandler = el => {
+    el.preventDefault();
+  };
+  const isValidClass = (isValid, hasError) => {
+    if (!isValid && hasError) {
+      return classes['login__inputBox__input--invalid'];
+    }
+  };
+  const onDemoHandler = el => {
+    el.preventDefault();
+    props.message({
+      title: 'Demo Modus aktivieren ?',
+      message:
+        'Im Demo-Modus ist speichern nicht möglich, alle Daten gehen nach dem APP Neustart verloren !',
+      showBtnX: true,
+      // dismiss: cancelDemo,BUG
+      // confirm: startDemo,
+    });
+  };
+  const onPasswordForgotten = el => {
+    el.preventDefault();
+    console.log('forgotten');
+  };
+  const cancelDemo = () => {
+    console.log('cancel');
+  };
+  const startDemo = () => {
+    console.log('start');
+  };
+  //==================================================================
   return (
-    <div className={`${classes.login}  ${props.hide && classes.login__hide}`}>
+    <form className={`${classes.login}  ${props.hide && classes.login__hide}`}>
       <div className={classes.login__card}>
         <header className={classes.login__header}>
           <h2>{createAccount ? 'Account anlegen' : 'Login'}</h2>
@@ -27,6 +95,9 @@ const Login = props => {
               <input
                 type="text"
                 className={classes.login__inputBox__input}
+                value={nameValue}
+                onChange={nameChangeHandler}
+                onBlur={nameBlurHandler}
               ></input>
             </div>
           )}
@@ -34,26 +105,46 @@ const Login = props => {
             <label htmlFor="">Email:</label>
             <input
               type="email"
-              className={classes.login__inputBox__input}
+              className={`${classes.login__inputBox__input} ${isValidClass(
+                emailIsValid,
+                emailInputHasError
+              )}`}
+              value={emailValue}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
             ></input>
           </div>
           <div className={classes.login__messageBox__inputBox}>
             <label htmlFor="">Password:</label>
             <input
               type="password"
-              className={classes.login__inputBox__input}
+              className={`${classes.login__inputBox__input} ${isValidClass(
+                passwordIsValid,
+                passwordInputHasError
+              )}`}
+              value={passwordValue}
+              onChange={passwordChangeHandler}
+              onBlur={passwordBlurHandler}
             ></input>
           </div>
           {/* <p>{props.message}</p> */}
         </div>
         <footer className={classes.login__footer}>
           {!createAccount && (
-            <button className={classes.login__footer__loginBtn}>
+            <button
+              className={classes.login__footer__loginBtn}
+              onClick={onDemoHandler}
+            >
               DEMO-Login
             </button>
           )}
           {!createAccount && (
-            <button className={classes.login__footer__loginBtn}>LOGIN</button>
+            <button
+              className={classes.login__footer__loginBtn}
+              onClick={onLoginHandler}
+            >
+              LOGIN
+            </button>
           )}
           {createAccount && (
             <ButtonRound
@@ -79,7 +170,10 @@ const Login = props => {
           )}
         </footer>
         <div className={classes.login__secondFooterBox}>
-          <button className={classes.login__secondFooterBox__textBtn}>
+          <button
+            className={classes.login__secondFooterBox__textBtn}
+            onClick={onPasswordForgotten}
+          >
             Password vergessen
           </button>
           <button
@@ -90,7 +184,7 @@ const Login = props => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

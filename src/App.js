@@ -22,6 +22,8 @@ const messageInitialState = {
   recipeName: '',
   recipeId: '',
   delete: false,
+  dismiss: '',
+  confirm: '',
 };
 const messageReducer = (state, action) => {
   if (action.type === 'SHOWINFOBOX') {
@@ -32,6 +34,8 @@ const messageReducer = (state, action) => {
       recipeName: action.message.recipeName,
       recipeId: action.message.recipeId,
       delete: action.message.delete,
+      dismiss: action.message.dismiss,
+      confirm: action.message.confirm,
     };
   }
   if (action.type === 'HIDEINFOBOX') {
@@ -98,20 +102,13 @@ function App() {
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
-  const onClickLogin = () => {
-    console.log('Login');
-  };
-  //==================================================================
   return (
     <DataProvider>
       <div className={classes.App}>
         <Login
-          title={'Login'}
-          message={messageState.message}
+          message={onSetMessage}
           hide={false}
-          // hide={messageState.hideInfoBox}
-          showXBtn={messageState.showBtnX}
-          clickLogin={onClickLogin}
+          // clickLogin={onClickLogin}
         />
         <InfoBox
           title={messageState.title}

@@ -55,6 +55,11 @@
 }
 .login__inputBox__input {
   padding: 0.2rem 1rem;
+  border-radius: 0.6rem;
+}
+.login__inputBox__input--invalid {
+  background-color: rgb(247, 163, 148);
+  border: rgb(146, 51, 51) solid 2px;
 }
 .login__messageBox p {
   font-size: 1.5rem;

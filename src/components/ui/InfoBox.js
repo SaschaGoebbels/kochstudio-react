@@ -6,6 +6,10 @@ import ButtonRound from './ButtonRound';
 const InfoBox = props => {
   // const dataUpdate = useContext(DataUpdate);
   const onClickHandler = el => {
+    if (el === 'x') {
+      // props.confirm();BUG
+      // console.log(props);
+    }
     // console.log(data.inputCurrentValue.recipeName);
     props.clickInfoBox(el);
   };
