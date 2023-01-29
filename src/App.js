@@ -89,7 +89,7 @@ function App() {
     dispatchMessage({ type: 'SHOWINFOBOX', message });
   };
   const onClickInfoBox = btnId => {
-    console.log(messageState);
+    // console.log(messageState);
     if (messageState.delete) {
       console.log(messageState.recipeName);
     }
@@ -108,14 +108,15 @@ function App() {
         <Login
           message={onSetMessage}
           hide={false}
-          // clickLogin={onClickLogin}
+          // clickInfoBox={onClickLogin}
         />
         <InfoBox
-          title={messageState.title}
-          message={messageState.message}
-          hide={messageState.hideInfoBox}
-          showXBtn={messageState.showBtnX}
+          // title={messageState.title}
+          // message={messageState.message}
+          // hide={messageState.hideInfoBox}
+          // showXBtn={messageState.showBtnX}
           clickInfoBox={onClickInfoBox}
+          messageState={messageState}
         />
         <Input
           className={`${classes.app__input} ${

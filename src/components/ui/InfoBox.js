@@ -5,27 +5,30 @@ import ButtonRound from './ButtonRound';
 
 const InfoBox = props => {
   // const dataUpdate = useContext(DataUpdate);
+
   const onClickHandler = el => {
     if (el === 'x') {
-      // props.confirm();BUG
-      // console.log(props);
+      props.messageState.dismiss('x');
+      console.log(props);
     }
     // console.log(data.inputCurrentValue.recipeName);
     props.clickInfoBox(el);
   };
   return (
     <div
-      className={`${classes.infoBox}  ${props.hide && classes.infoBox__hide}`}
+      className={`${classes.infoBox}  ${
+        props.messageState.hideInfoBox && classes.infoBox__hide
+      }`}
     >
       <div className={classes.infoBox__card}>
         <header className={classes.infoBox__header}>
-          <h2>{props.title}</h2>
+          <h2>{props.messageState.title}</h2>
         </header>
         <div className={classes.infoBox__messageBox}>
-          <p>{props.message}</p>
+          <p>{props.messageState.message}</p>
         </div>
         <footer className={classes.infoBox__footer}>
-          {props.showXBtn && (
+          {props.messageState.showBtnX && (
             <ButtonRound
               btnId="x"
               className={classes.buttonAddEdit}

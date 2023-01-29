@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 // import DataUpdate from '../store/DataProvider';
 import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
-import useInput from '../../hooks/useLogin';
+import useInput from '../../hooks/useInput';
 
 const Login = props => {
   //==================================================================
@@ -67,18 +67,19 @@ const Login = props => {
       message:
         'Im Demo-Modus ist speichern nicht möglich, alle Daten gehen nach dem APP Neustart verloren !',
       showBtnX: true,
-      // dismiss: cancelDemo,BUG
-      // confirm: startDemo,
+      dismiss: cancelDemo,
+      confirm: startDemo,
     });
   };
   const onPasswordForgotten = el => {
     el.preventDefault();
     console.log('forgotten');
   };
-  const cancelDemo = () => {
+  const cancelDemo = el => {
+    console.log(el);
     console.log('cancel');
   };
-  const startDemo = () => {
+  const startDemo = el => {
     console.log('start');
   };
   //==================================================================
