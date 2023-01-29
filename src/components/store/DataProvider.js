@@ -1160,7 +1160,8 @@ const DataProvider = props => {
   // // // }, [getDataHandler]);
   //==================================================================
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
-  // useEffect(() => {
+  // const [headerText, setHeaderText] = useState('Gerichte');
+
   const dataUpdateFunction = (type, dataUpdate) => {
     if (type === 'INPUT') {
       dispatchData(dataUpdate);
@@ -1173,9 +1174,10 @@ const DataProvider = props => {
       // getDataHandler();
       console.log('provider');
     }
+    // if (type === 'header') {
+    //   setHeaderText(dataUpdate);
+    // }
   };
-  // }, []);
-  //==================================================================
   //==================================================================
   return (
     <DataContext.Provider value={dataState}>

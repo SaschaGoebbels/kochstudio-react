@@ -10,11 +10,11 @@ import NavbarContext from '../../store/navbar-context';
 const RecipeList = props => {
   const navbarCtx = useContext(NavbarContext);
   const dataCtx = useContext(DataContext);
+
   const listClickHandler = recipe => {
-    // console.log(props);
-    // console.log('RecipeList', recipe);
-    // console.log('RecipeList-Data', dataCtx.recipeList);
+    props.headerTextHandler(recipe.name);
     setRecipePage({ hide: false, recipe: recipe });
+    // console.log(recipe);
   };
   //==================================================================
   const [recipePage, setRecipePage] = useState({ hide: true, recipe: {} });
@@ -22,12 +22,19 @@ const RecipeList = props => {
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
   };
+  const onFavChangeHandler = recipeObject => {
+    setRecipePage(prev => {
+      prev.recipe.fav = !prev.recipe.fav;
+      return prev;
+    });
+  };
   //==================================================================
   return (
     <div className={`${classes.contentListBox} `}>
       <RecipePage
         showRecipePage={recipePage.hide}
         recipeObject={recipePage.recipe}
+        favChangeHandler={onFavChangeHandler}
       ></RecipePage>
       <ul className={classes.contentListBox__ul}>
         {dataCtx.recipeList.map(item => (

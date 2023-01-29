@@ -17,6 +17,7 @@ const ContentSwipe = props => {
       <RecipeList
         recipe_obj={props.recipe_obj}
         recipeListButton={recipeListButtonHandler}
+        headerTextHandler={props.headerTextHandler}
       />
     </div>
   );

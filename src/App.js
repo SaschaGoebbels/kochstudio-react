@@ -45,12 +45,17 @@ const messageReducer = (state, action) => {
 
 function App() {
   const navbarCtx = useContext(NavbarContext);
+  //==================================================================
   // header
   let testData = 'testName';
   const onMenuButtonHandler = () => {
     console.log('APP-Menu-Button');
   };
-  let changeHeaderText = 'Gerichte';
+  const [headerText, setHeaderText] = useState('Gerichte');
+  const headerChangeHandler = headerText => {
+    console.log(headerText);
+    setHeaderText(headerText);
+  };
   //==================================================================
   // content
   // const [recipeObj, setRecipeObj] = useState(recipe_obj);
@@ -63,6 +68,8 @@ function App() {
   // };
   const [inputHide, setInputHide] = useState(true);
   const recipeListButtonHandler = item => {
+    // setHeaderText('TEST');
+    console.log(item);
     if (item === 'add') {
       setInputHide(false);
     }
@@ -107,14 +114,13 @@ function App() {
           recipeNameId={{ name: 'testname', id: 'testID 123' }}
           // input={inputHandler}
         ></Input>
-        <Header
-          headerText={changeHeaderText}
-          onMenuButton={onMenuButtonHandler}
-        />
+        <Header headerText={headerText} onMenuButton={onMenuButtonHandler} />
+        {/* <Header headerText={'headerText'} onMenuButton={onMenuButtonHandler} /> */}
         <Content
           content={
             <ContentSwipe
               recipeListButton={recipeListButtonHandler}
+              headerTextHandler={headerChangeHandler}
             ></ContentSwipe>
           }
         ></Content>

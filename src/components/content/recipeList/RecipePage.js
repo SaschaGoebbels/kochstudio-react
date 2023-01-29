@@ -5,15 +5,17 @@ import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
 import Footer from '../../ui/Footer';
 import NavbarContext from '../../store/navbar-context';
-
-// put recipe page into content/recipeList
+import { useState } from 'react';
 
 const RecipePage = props => {
+  const [fav, setFav] = useState(props.recipeObject.fav);
   const navbarCtx = useContext(NavbarContext);
   const onRoundButtonHandler = btnId => {
+    if (btnId === 'heart') {
+      setFav(prev => !prev);
+      props.favChangeHandler(props.recipeObject);
+    }
     // console.log(btnId);
-    console.log(props.recipeObject.fav);
-    console.log(props.showRecipePage);
   };
   return (
     <div
