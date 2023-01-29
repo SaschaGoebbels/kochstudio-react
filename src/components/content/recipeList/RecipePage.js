@@ -21,11 +21,11 @@ const RecipePage = props => {
     }
     if (btnId === 'pen') {
       dataCtx.inputCurrentValue = props.recipeObject;
+      state.inputCurrentValue = { ...props.recipeObject };
       // dataCtx.inputCurrentValue = '';
-      console.log(dataCtx);
       state.inputPageHide = false;
     }
-    console.log(btnId);
+    // console.log(btnId);
   };
   return (
     <div

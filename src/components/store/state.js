@@ -5,6 +5,7 @@ const state = proxy({
   headerText: 'Gericht',
   recipePageHide: true,
   inputPageHide: true,
+  inputCurrentValue: {},
 });
 
 export { state };

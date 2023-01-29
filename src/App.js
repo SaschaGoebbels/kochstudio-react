@@ -79,15 +79,12 @@ function App() {
   // input button
   const onButtonInputHandler = btnId => {
     if (btnId === 'check') {
-      state.inputPageHide = true;
-      state.headerText = 'Gerichte';
-      state.navigation = 'btn1';
+      // update Recipe
     }
     if (btnId === 'x') {
-      state.inputPageHide = true;
-      state.headerText = 'Gerichte';
-      state.navigation = 'btn1';
+      // reset currentValue
     }
+    state.inputPageHide = true;
   };
 
   //infoBox

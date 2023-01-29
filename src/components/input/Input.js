@@ -29,9 +29,8 @@ class recipe {
 //==================================================================
 
 const Input = props => {
-  // const snap = useSnapshot(state);
+  const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
-  console.log(dataCtx.inputCurrentValue);
   const updateInputData = useDataUpdate();
   const deleteHandler = recipe => {
     console.log('delete item', recipe.name, recipe.id);
@@ -73,11 +72,17 @@ const Input = props => {
     }
     props.onClickInput(item); // pass btn state upwards
   };
-  console.log(dataCtx.inputCurrentValue);
+  //==================================================================
+  ////////////////// CHECK //////////////////
+  // // // useEffect(() => {
+  // // //   setRecipeNameState(snap.inputCurrentValue.name);
+  // // //   setIngredientsState(snap.inputCurrentValue.ingredients);
+  // // //   setPreparationState(snap.inputCurrentValue.preparation);
+  // // //   // console.log(snap.inputCurrentValue.ingredients[0]);
+  // // // }, [snap.inputCurrentValue]);
   //==================================================================
   const [recipeNameState, setRecipeNameState] = useState(
-    // dataCtx.inputCurrentValue.recipeName || ''
-    dataCtx.inputCurrentValue.name
+    snap.inputCurrentValue.name
   );
   const [ingredientsState, setIngredientsState] = useState(
     dataCtx.inputCurrentValue.ingredients
@@ -162,20 +167,22 @@ const Input = props => {
       });
     });
   };
-  const ingredientsListItems = ingredientsState.map(item => (
-    <li className={classes.input__listItem} id={item.id} key={item.id}>
-      <Ingredient
-        name={item.ingredientName}
-        quantity={item.quantity}
-        editMode={item.editMode}
-        onToggleEditMode={toggleEditMode}
-        unit={item.unit}
-        id={item.id}
-        listItem={true}
-        onRecipeIngredientsHandler={recipeIngredientsHandler}
-      />
-    </li>
-  ));
+  const ingredientsListItems =
+    ingredientsState &&
+    ingredientsState.map(item => (
+      <li className={classes.input__listItem} id={item.id} key={item.id}>
+        <Ingredient
+          name={item.ingredientName}
+          quantity={item.quantity}
+          editMode={item.editMode}
+          onToggleEditMode={toggleEditMode}
+          unit={item.unit}
+          id={item.id}
+          listItem={true}
+          onRecipeIngredientsHandler={recipeIngredientsHandler}
+        />
+      </li>
+    ));
   //==================================================================
   const onSubmitHandler = event => {
     event.preventDefault();
