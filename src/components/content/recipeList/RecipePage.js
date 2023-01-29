@@ -11,13 +11,14 @@ import NavbarContext from '../../store/navbar-context';
 const RecipePage = props => {
   const navbarCtx = useContext(NavbarContext);
   const onRoundButtonHandler = btnId => {
-    console.log(btnId);
-    console.log(props.showRecipe);
+    // console.log(btnId);
+    console.log(props.recipeObject.fav);
+    console.log(props.showRecipePage);
   };
   return (
     <div
       className={`${classes.recipePage} ${
-        props.showRecipe && classes['recipePage--hide']
+        props.showRecipePage && classes['recipePage--hide']
       }`}
     >
       <div className={classes.recipePage__box}>
@@ -28,41 +29,26 @@ const RecipePage = props => {
             className={classes.buttonFav}
             buttonName={'heart'}
             color={''}
-            iconColor={props.isFav && '#e56d6d'}
+            iconColor={props.recipeObject.fav ? '#e56d6d' : ''}
             isFav={''}
             onClickHandler={onRoundButtonHandler}
           />
         </div>
         <ul className={classes.recipePage__box__ul}>
-          <li className={classes.recipePage__box__ul__li}>
-            <p>name</p>
-            <p>100</p>
-            <p>g</p>
-          </li>
-          <li className={classes.recipePage__box__ul__li}>
-            <p>name ninijn ni ijunn i m,oimiom </p>
-            <p>100</p>
-            <p>g</p>
-          </li>
-          <li className={classes.recipePage__box__ul__li}>
-            <p>name</p>
-            <p>100</p>
-            <p>g</p>
-          </li>
+          {props.recipeObject.ingredients &&
+            props.recipeObject.ingredients.map(item => {
+              return (
+                <li className={classes.recipePage__box__ul__li} key={item.id}>
+                  <p>{item.ingredientName}</p>
+                  <p>{item.quantity}</p>
+                  <p>{item.unit}</p>
+                </li>
+              );
+            })}
         </ul>
         <div className={classes.recipePage__prepBox}>
           <h2>Zubereitung:</h2>
-          <p>
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-            Name nommnm mkp mkm pkmkm pkom km km mk km pkm pk mpm m pm pm pm m
-          </p>
+          <p>{props.recipeObject.preparation}</p>
         </div>
       </div>
       <div>

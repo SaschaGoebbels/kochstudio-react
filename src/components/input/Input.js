@@ -53,22 +53,24 @@ const Input = props => {
   const dataCtx = useContext(DataContext);
   const updateInputData = useDataUpdate();
   const changeHeaderText = props.headerText;
-
+  const deleteHandler = recipe => {
+    console.log('delete item', recipe.name, recipe.id);
+  };
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
       props.setMessage({
         title: 'Achtung',
         message: 'Dieser Eintrag wird gelöscht !',
-        recipeName: props.recipeName,
-        showBtnX: true,
-        delete: true,
+        value: props.recipeNameId,
+        confirm: deleteHandler,
       });
     }
+    //==================================================================
     if (item === 'x') {
-      // console.log(dataCtx);
-      // console.log('x');
-      updateInputData('getFetch');
+      console.log('x');
+      // updateInputData('getFetch');
     }
+
     if (item === 'check') {
       if (recipeNameState.trim().length === 0) {
         props.setMessage({

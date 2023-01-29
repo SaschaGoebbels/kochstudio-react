@@ -10,13 +10,14 @@ import NavbarContext from '../../store/navbar-context';
 const RecipeList = props => {
   const navbarCtx = useContext(NavbarContext);
   const dataCtx = useContext(DataContext);
-  const listClickHandler = item => {
-    console.log('RecipeList', item, dataCtx.recipeList);
-    setRecipePageHide(false);
-    // props.recipeListButton(item);
+  const listClickHandler = recipe => {
+    // console.log(props);
+    // console.log('RecipeList', recipe);
+    // console.log('RecipeList-Data', dataCtx.recipeList);
+    setRecipePage({ hide: false, recipe: recipe });
   };
   //==================================================================
-  const [recipePageHide, setRecipePageHide] = useState(true);
+  const [recipePage, setRecipePage] = useState({ hide: true, recipe: {} });
   //==================================================================
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
@@ -24,13 +25,17 @@ const RecipeList = props => {
   //==================================================================
   return (
     <div className={`${classes.contentListBox} `}>
-      <RecipePage showRecipe={recipePageHide} isFav={true}></RecipePage>
+      <RecipePage
+        showRecipePage={recipePage.hide}
+        recipeObject={recipePage.recipe}
+      ></RecipePage>
       <ul className={classes.contentListBox__ul}>
         {dataCtx.recipeList.map(item => (
           <li
             key={item.id}
             className={classes.contentListBox__item}
-            onClick={() => listClickHandler([item.name, item.id])}
+            // onClick={() => listClickHandler({ name: item.name, id: item.id })}
+            onClick={() => listClickHandler(item)}
           >
             {item.name}
           </li>

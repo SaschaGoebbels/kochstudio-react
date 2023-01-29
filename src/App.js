@@ -15,27 +15,27 @@ import Input from './components/input/Input';
 import NavbarContext from './components/store/navbar-context';
 
 const messageInitialState = {
+  hideInfoBox: true,
   title: '',
   message: '',
   showBtnX: true,
-  hideInfoBox: true,
-  recipeName: '',
-  recipeId: '',
-  delete: false,
   dismiss: '',
   confirm: '',
 };
 const messageReducer = (state, action) => {
   if (action.type === 'SHOWINFOBOX') {
+    //show x btn if not set to false
+    const xBtn =
+      action.message.showBtnX === undefined || action.message.showBtnX === true
+        ? true
+        : false;
     return {
       title: action.message.title,
       message: action.message.message,
-      showBtnX: action.message.showBtnX,
-      recipeName: action.message.recipeName,
-      recipeId: action.message.recipeId,
-      delete: action.message.delete,
+      showBtnX: xBtn,
       dismiss: action.message.dismiss,
       confirm: action.message.confirm,
+      value: action.message.value,
     };
   }
   if (action.type === 'HIDEINFOBOX') {
@@ -67,7 +67,6 @@ function App() {
       setInputHide(false);
     }
   };
-  const [recipePageHide, setRecipePageHide] = useState(true);
   //==================================================================
   // input button
   const onButtonInputHandler = btnId => {
@@ -89,35 +88,14 @@ function App() {
     dispatchMessage({ type: 'SHOWINFOBOX', message });
   };
   const onClickInfoBox = btnId => {
-    // console.log(messageState);
-    if (messageState.delete) {
-      console.log(messageState.recipeName);
-    }
-    if (btnId === 'check') {
-      console.log('Check');
-    }
-    if (btnId === 'x') {
-      console.log('x');
-    }
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
   return (
     <DataProvider>
       <div className={classes.App}>
-        <Login
-          message={onSetMessage}
-          hide={false}
-          // clickInfoBox={onClickLogin}
-        />
-        <InfoBox
-          // title={messageState.title}
-          // message={messageState.message}
-          // hide={messageState.hideInfoBox}
-          // showXBtn={messageState.showBtnX}
-          clickInfoBox={onClickInfoBox}
-          messageState={messageState}
-        />
+        <Login message={onSetMessage} hide={true} />
+        <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
           className={`${classes.app__input} ${
             inputHide && classes.app__input_hide
@@ -126,7 +104,7 @@ function App() {
           onClickInput={onButtonInputHandler}
           // onAddNewRecipe={addNewRecipe}BUG
           setMessage={onSetMessage}
-          recipeName={'TestName_APP'}
+          recipeNameId={{ name: 'testname', id: 'testID 123' }}
           // input={inputHandler}
         ></Input>
         <Header
@@ -136,9 +114,7 @@ function App() {
         <Content
           content={
             <ContentSwipe
-              // recipe_obj={recipe_obj}
               recipeListButton={recipeListButtonHandler}
-              // recipePageHide={onNavbarClickRecipePageHide}
             ></ContentSwipe>
           }
         ></Content>

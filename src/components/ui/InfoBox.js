@@ -1,18 +1,16 @@
 import React, { useState, useContext } from 'react';
-// import DataUpdate from '../store/DataProvider';
 import classes from './InfoBox.module.css';
 import ButtonRound from './ButtonRound';
 
 const InfoBox = props => {
-  // const dataUpdate = useContext(DataUpdate);
-
   const onClickHandler = el => {
-    if (el === 'x') {
-      props.messageState.dismiss('x');
-      console.log(props);
-    }
-    // console.log(data.inputCurrentValue.recipeName);
     props.clickInfoBox(el);
+    if (el === 'x' && props.messageState.dismiss) {
+      props.messageState.dismiss(props.messageState.value);
+    }
+    if (el === 'check' && props.messageState.confirm) {
+      props.messageState.confirm(props.messageState.value);
+    }
   };
   return (
     <div

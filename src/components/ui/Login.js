@@ -73,10 +73,9 @@ const Login = props => {
   };
   const onPasswordForgotten = el => {
     el.preventDefault();
-    console.log('forgotten');
+    console.log('Password forgotten');
   };
   const cancelDemo = el => {
-    console.log(el);
     console.log('cancel');
   };
   const startDemo = el => {
@@ -181,7 +180,7 @@ const Login = props => {
             onClick={onCreateAccount}
             className={classes.login__secondFooterBox__textBtn}
           >
-            Accont anlegen
+            Account anlegen
           </button>
         </div>
       </div>
