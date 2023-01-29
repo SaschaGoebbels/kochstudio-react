@@ -13,6 +13,8 @@ import Navbar from './components/navbar/Navbar';
 import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
 import NavbarContext from './components/store/navbar-context';
+import { useSnapshot } from 'valtio';
+import { state } from './components/store/state';
 
 const messageInitialState = {
   hideInfoBox: true,
@@ -45,17 +47,13 @@ const messageReducer = (state, action) => {
 
 function App() {
   const navbarCtx = useContext(NavbarContext);
+  const snap = useSnapshot(state);
   //==================================================================
   // header
-  let testData = 'testName';
   const onMenuButtonHandler = () => {
     console.log('APP-Menu-Button');
   };
-  const [headerText, setHeaderText] = useState('Gerichte');
-  const headerChangeHandler = headerText => {
-    console.log(headerText);
-    setHeaderText(headerText);
-  };
+
   //==================================================================
   // content
   // const [recipeObj, setRecipeObj] = useState(recipe_obj);
@@ -66,22 +64,29 @@ function App() {
   //     return newArr;
   //   });
   // };
-  const [inputHide, setInputHide] = useState(true);
+  // const [inputHide, setInputHide] = useState(true);
   const recipeListButtonHandler = item => {
     // setHeaderText('TEST');
     console.log(item);
     if (item === 'add') {
-      setInputHide(false);
+      state.inputPageHide = false;
+      setTimeout(() => {
+        state.headerText = 'Neuer Eintrag';
+      }, 150);
     }
   };
   //==================================================================
   // input button
   const onButtonInputHandler = btnId => {
     if (btnId === 'check') {
-      setInputHide(true);
+      state.inputPageHide = true;
+      state.headerText = 'Gerichte';
+      state.navigation = 'btn1';
     }
     if (btnId === 'x') {
-      setInputHide(true);
+      state.inputPageHide = true;
+      state.headerText = 'Gerichte';
+      state.navigation = 'btn1';
     }
   };
 
@@ -105,22 +110,19 @@ function App() {
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
           className={`${classes.app__input} ${
-            inputHide && classes.app__input_hide
+            snap.inputPageHide && classes.app__input_hide
           }`}
           headerText={'data.recipeName' || 'Neuer Eintrag'}
           onClickInput={onButtonInputHandler}
           // onAddNewRecipe={addNewRecipe}BUG
           setMessage={onSetMessage}
           recipeNameId={{ name: 'testname', id: 'testID 123' }}
-          // input={inputHandler}
         ></Input>
-        <Header headerText={headerText} onMenuButton={onMenuButtonHandler} />
-        {/* <Header headerText={'headerText'} onMenuButton={onMenuButtonHandler} /> */}
+        <Header onMenuButton={onMenuButtonHandler} />
         <Content
           content={
             <ContentSwipe
               recipeListButton={recipeListButtonHandler}
-              headerTextHandler={headerChangeHandler}
             ></ContentSwipe>
           }
         ></Content>

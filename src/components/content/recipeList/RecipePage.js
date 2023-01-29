@@ -1,21 +1,31 @@
 import React, { useContext } from 'react';
 import classes from './RecipePage.module.css';
 
+import DataProvider, { DataContext } from '../../store/DataProvider';
+
 import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
 import Footer from '../../ui/Footer';
-import NavbarContext from '../../store/navbar-context';
 import { useState } from 'react';
+import { state } from '../../store/state';
+import { useSnapShot } from 'valtio';
 
 const RecipePage = props => {
+  const dataCtx = useContext(DataContext);
+  // console.log(dataCtx);
   const [fav, setFav] = useState(props.recipeObject.fav);
-  const navbarCtx = useContext(NavbarContext);
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
       setFav(prev => !prev);
       props.favChangeHandler(props.recipeObject);
     }
-    // console.log(btnId);
+    if (btnId === 'pen') {
+      dataCtx.inputCurrentValue = props.recipeObject;
+      // dataCtx.inputCurrentValue = '';
+      console.log(dataCtx);
+      state.inputPageHide = false;
+    }
+    console.log(btnId);
   };
   return (
     <div

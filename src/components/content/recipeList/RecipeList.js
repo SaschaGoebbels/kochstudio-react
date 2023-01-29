@@ -6,13 +6,18 @@ import classes from './RecipeList.module.css';
 import RecipePage from './RecipePage';
 import NavbarContext from '../../store/navbar-context';
 
+import { state } from '../../store/state';
+import { useSnapshot } from 'valtio';
+
 //==================================================================
 const RecipeList = props => {
+  const snap = useSnapshot(state);
   const navbarCtx = useContext(NavbarContext);
   const dataCtx = useContext(DataContext);
 
   const listClickHandler = recipe => {
-    props.headerTextHandler(recipe.name);
+    state.headerText = recipe.name;
+    state.recipePageHide = false;
     setRecipePage({ hide: false, recipe: recipe });
     // console.log(recipe);
   };
@@ -32,7 +37,8 @@ const RecipeList = props => {
   return (
     <div className={`${classes.contentListBox} `}>
       <RecipePage
-        showRecipePage={recipePage.hide}
+        // showRecipePage={recipePage.hide}
+        showRecipePage={snap.recipePageHide}
         recipeObject={recipePage.recipe}
         favChangeHandler={onFavChangeHandler}
       ></RecipePage>

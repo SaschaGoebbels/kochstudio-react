@@ -4,8 +4,11 @@ import indexClasses from '../../index.module.css';
 import classes from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { state } from '../store/state';
+import { useSnapshot } from 'valtio';
 
 const Header = props => {
+  const snap = useSnapshot(state);
   const [menuBtn, setMenuBtn] = useState(false);
   const onMenuBtnHandler = () => {
     console.log('OK');
@@ -18,8 +21,8 @@ const Header = props => {
     <div className={classes.header}>
       <div className={classes.header__box}>
         <div className={(classes.header__textBox, indexClasses.center)}>
-          <h1 className={classes.header__text}>{`${props.headerText}`}</h1>
-          {/* <h1 className={classes.header__text}>{header}</h1> */}
+          {/* <h1 className={classes.header__text}>{`${props.headerText}`}</h1> */}
+          <h1 className={classes.header__text}>{snap.headerText}</h1>
         </div>
         <div className={classes.header__menu_btn} onClick={onMenuBtnHandler}>
           <FontAwesomeIcon

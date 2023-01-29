@@ -3,6 +3,9 @@ import React, { useState, useReducer, useContext, useEffect } from 'react';
 import { useDataUpdate } from '../store/DataProvider';
 import DataProvider, { DataContext } from '../store/DataProvider';
 
+import { state } from '../store/state';
+import { useSnapshot } from 'valtio';
+
 import classes from './Input.module.css';
 import uuid from 'react-uuid';
 import Header from '../header/Header';
@@ -23,36 +26,13 @@ class recipe {
   }
 }
 
-// // // const testIngredients = [ // DELETE
-// // //   {
-// // //     ingredientName: 'Zwiebel',
-// // //     quantity: 3,
-// // //     unit: 'Stk.',
-// // //     id: 111111,
-// // //     editMode: false,
-// // //   },
-// // //   {
-// // //     ingredientName: 'Kartoffel',
-// // //     quantity: 1,
-// // //     unit: 'kg',
-// // //     id: 222222,
-// // //     editMode: false,
-// // //   },
-// // //   {
-// // //     ingredientName: 'Nudel',
-// // //     quantity: 500,
-// // //     unit: 'g',
-// // //     id: 3333333,
-// // //     editMode: false,
-// // //   },
-// // // ];
-
 //==================================================================
 
 const Input = props => {
+  // const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
+  console.log(dataCtx.inputCurrentValue);
   const updateInputData = useDataUpdate();
-  const changeHeaderText = props.headerText;
   const deleteHandler = recipe => {
     console.log('delete item', recipe.name, recipe.id);
   };
@@ -93,12 +73,13 @@ const Input = props => {
     }
     props.onClickInput(item); // pass btn state upwards
   };
+  console.log(dataCtx.inputCurrentValue);
   //==================================================================
   const [recipeNameState, setRecipeNameState] = useState(
-    dataCtx.inputCurrentValue.recipeName || ''
+    // dataCtx.inputCurrentValue.recipeName || ''
+    dataCtx.inputCurrentValue.name
   );
   const [ingredientsState, setIngredientsState] = useState(
-    // testIngredients DELETE
     dataCtx.inputCurrentValue.ingredients
   );
   const [preparationState, setPreparationState] = useState(
@@ -201,7 +182,7 @@ const Input = props => {
   };
   return (
     <div className={`${classes.input} ${props.className}`}>
-      <Header headerText={changeHeaderText} />
+      <Header />
       <Content
         content={
           <form onSubmit={onSubmitHandler} className={classes.inputForm}>

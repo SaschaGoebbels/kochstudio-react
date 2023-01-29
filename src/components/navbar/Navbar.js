@@ -1,16 +1,32 @@
 import React, { useState, useContext } from 'react';
 import classes from './Navbar.module.css';
 import NavbarButton from './NavbarButton';
-import NavbarContext from '../store/navbar-context';
+import { state } from '../store/state';
+import { useSnapshot } from 'valtio';
+// import NavbarContext from '../store/navbar-context';
 
 const Navbar = props => {
-  const navbarCtx = useContext(NavbarContext);
+  // const navbarCtx = useContext(NavbarContext);
+  const snap = useSnapshot(state);
   let iconColor = props.iconColor;
   const currentIcon = '#fa8719';
   const [btnNav, setBtnNav] = useState('btn1');
 
   const navChangeFunction = btnId => {
-    navbarCtx.navbar = btnId;
+    if (btnId === 'btn1') {
+      state.headerText = 'Gerichte';
+    }
+    if (btnId === 'btn2') {
+      state.headerText = 'Wochenplan';
+    }
+    if (btnId === 'btn3') {
+      state.headerText = 'Favoriten';
+    }
+    if (btnId === 'btn4') {
+      state.headerText = 'Einkaufsliste';
+    }
+    state.navigation = btnId;
+    state.recipePageHide = true;
     setBtnNav(btnId);
   };
   return (

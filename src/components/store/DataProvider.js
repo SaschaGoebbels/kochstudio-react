@@ -15,7 +15,7 @@ const dataInit = {
   addItem: recipe => {},
   removeItem: recipe => {},
   inputCurrentValue: {
-    recipeName: '',
+    name: '',
     ingredients: [],
     preparation: '',
   },
