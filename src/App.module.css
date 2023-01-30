@@ -8,16 +8,3 @@
   color: var(--clr_accent_ff);
   background-color: var(--clr_main_background);
 }
-.app__input {
-  position: absolute;
-  transform: translate(0%, 0%) scale(1);
-  opacity: 1;
-  transition: all ease-in-out 200ms;
-  z-index: 100;
-}
-
-.app__input_hide {
-  transform: translate(40%, 27%) scale(0);
-  transition: all ease-in-out 200ms;
-  opacity: 0;
-}

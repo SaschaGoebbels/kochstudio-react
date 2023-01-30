@@ -43,7 +43,7 @@ const InputField = props => {
   const textarea = (
     <textarea
       style={propsStyle}
-      className={classes.input}
+      className={`${classes.input} ${classes.input__textarea}`}
       {...props.properties}
     ></textarea>
   );

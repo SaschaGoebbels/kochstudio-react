@@ -12,7 +12,7 @@ import { useSnapShot } from 'valtio';
 
 const RecipePage = props => {
   const dataCtx = useContext(DataContext);
-  // console.log(dataCtx);
+
   const [fav, setFav] = useState(props.recipeObject.fav);
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
@@ -20,12 +20,10 @@ const RecipePage = props => {
       props.favChangeHandler(props.recipeObject);
     }
     if (btnId === 'pen') {
-      dataCtx.inputCurrentValue = props.recipeObject;
+      // console.log('pen');
+      props.setHideInput(false);
       state.inputCurrentValue = { ...props.recipeObject };
-      // dataCtx.inputCurrentValue = '';
-      state.inputPageHide = false;
     }
-    // console.log(btnId);
   };
   return (
     <div

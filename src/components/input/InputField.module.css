@@ -11,3 +11,6 @@
   color: #fff;
   margin-bottom: 1rem;
 }
+.classes.input__textarea {
+  font-family: var(--ff_main);
+}

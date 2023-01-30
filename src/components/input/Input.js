@@ -18,7 +18,7 @@ import ButtonBox from '../ui/ButtonBox';
 //==================================================================
 class recipe {
   constructor(name, ingredients, preparation) {
-    this.recipeName = name;
+    this.name = name;
     this.ingredients = [ingredients];
     this.preparation = preparation;
     this.id = uuid();
@@ -32,26 +32,75 @@ const Input = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateInputData = useDataUpdate();
+
   const deleteHandler = recipe => {
     console.log('delete item', recipe.name, recipe.id);
+    //close recipePage and delete item
+    props.hideInputCheckPageChangeHeaderText(
+      snap.navigation,
+      snap.currentRecipe
+    );
   };
+
+  const cancelEditHandler = () => {
+    props.hideInputCheckPageChangeHeaderText(
+      snap.navigation,
+      snap.currentRecipe
+    );
+    resetAllInputValues();
+  };
+
+  const createNewRecipe = () => {
+    let recipeInput = new recipe(
+      recipeNameState,
+      ingredientsState,
+      preparationState
+    );
+    updateInputData('INPUT', { recipeInput });
+    cancelEditHandler();
+  };
+
+  const updateExistingRecipe = currentRecipe => {
+    const recipeUpdate = JSON.parse(JSON.stringify(currentRecipe));
+    recipeUpdate.name = recipeNameState;
+    recipeUpdate.ingredients = JSON.parse(JSON.stringify(ingredientsState));
+    recipeUpdate.preparation = preparationState;
+    state.currentRecipe = JSON.parse(JSON.stringify(recipeUpdate));
+    updateInputData('UPDATERECIPE', { recipeUpdate });
+    props.hideInputCheckPageChangeHeaderText(
+      snap.navigation,
+      recipeUpdate
+      // snap.currentRecipe
+    );
+  };
+
+  const resetAllInputValues = () => {
+    setRecipeNameState();
+    setIngredientsState([]);
+    setPreparationState('');
+  };
+  //==================================================================
   const onButtonBoxHandler = item => {
     if (item === 'trash') {
       props.setMessage({
-        title: 'Achtung',
+        title: `${recipeNameState} löschen ?`,
         message: 'Dieser Eintrag wird gelöscht !',
         value: props.recipeNameId,
         confirm: deleteHandler,
       });
     }
-    //==================================================================
     if (item === 'x') {
-      console.log('x');
-      // updateInputData('getFetch');
+      props.setMessage({
+        title: 'Bearbeitung abbrechen ?',
+        message: 'Änderungen werden gelöscht !',
+        confirm: cancelEditHandler,
+      });
     }
-
     if (item === 'check') {
-      if (recipeNameState.trim().length === 0) {
+      if (
+        recipeNameState === undefined ||
+        recipeNameState.trim().length === 0
+      ) {
         props.setMessage({
           title: 'Fehler',
           message: 'Bitte Name eingeben !',
@@ -59,37 +108,32 @@ const Input = props => {
         });
         return;
       }
-      const recipeInput = new recipe(
-        recipeNameState,
-        ingredientsState,
-        preparationState
-      );
-      updateInputData('INPUT', { recipeInput });
-      // updateInputData({ type: 'INPUT', recipeInput: recipeInput });
-      setRecipeNameState('');
-      setIngredientsState([]);
-      setPreparationState('');
+      // if not edit existing recipe, create new one
+      if (!snap.currentRecipe.name) {
+        createNewRecipe();
+        resetAllInputValues();
+        return;
+      }
+      if (snap.currentRecipe) {
+        updateExistingRecipe(snap.currentRecipe);
+      }
     }
-    props.onClickInput(item); // pass btn state upwards
   };
   //==================================================================
-  ////////////////// CHECK //////////////////
-  // // // useEffect(() => {
-  // // //   setRecipeNameState(snap.inputCurrentValue.name);
-  // // //   setIngredientsState(snap.inputCurrentValue.ingredients);
-  // // //   setPreparationState(snap.inputCurrentValue.preparation);
-  // // //   // console.log(snap.inputCurrentValue.ingredients[0]);
-  // // // }, [snap.inputCurrentValue]);
+  const [hideTrash, setHideTrash] = useState(true);
+  // if current recipe is true fill all inputs with content to edit
+  useEffect(() => {
+    const editRecipe = JSON.parse(JSON.stringify(snap.currentRecipe));
+    setHideTrash(editRecipe.name ? false : true);
+    setRecipeNameState(editRecipe.name ? editRecipe.name : '');
+    setIngredientsState(editRecipe.ingredients ? editRecipe.ingredients : []);
+    setPreparationState(editRecipe.preparation ? editRecipe.preparation : '');
+  }, [snap.currentRecipe]);
+
   //==================================================================
-  const [recipeNameState, setRecipeNameState] = useState(
-    snap.inputCurrentValue.name
-  );
-  const [ingredientsState, setIngredientsState] = useState(
-    dataCtx.inputCurrentValue.ingredients
-  );
-  const [preparationState, setPreparationState] = useState(
-    dataCtx.inputCurrentValue.preparation
-  );
+  const [recipeNameState, setRecipeNameState] = useState();
+  const [ingredientsState, setIngredientsState] = useState();
+  const [preparationState, setPreparationState] = useState();
   const recipeNameChangeHandler = el => {
     setRecipeNameState(el.target.value);
   };
@@ -188,7 +232,11 @@ const Input = props => {
     event.preventDefault();
   };
   return (
-    <div className={`${classes.input} ${props.className}`}>
+    <div
+      className={`${classes.input} ${
+        props.hideInput && classes['input--hide']
+      }`}
+    >
       <Header />
       <Content
         content={
@@ -255,7 +303,12 @@ const Input = props => {
         }
       ></Content>
       <Footer
-        footerContent={<ButtonBox onClickHandler={onButtonBoxHandler} />}
+        footerContent={
+          <ButtonBox
+            onClickHandler={onButtonBoxHandler}
+            hideTrash={hideTrash}
+          />
+        }
       ></Footer>
     </div>
   );

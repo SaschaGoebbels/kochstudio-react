@@ -10,15 +10,15 @@ export function useDataUpdate() {
 }
 //==================================================================
 //==================================================================
-
+//default data for test purposes
 const dataInit = {
   addItem: recipe => {},
   removeItem: recipe => {},
-  inputCurrentValue: {
-    name: '',
-    ingredients: [],
-    preparation: '',
-  },
+  // inputCurrentValue: {
+  //   name: '',
+  //   ingredients: [],
+  //   preparation: '',
+  // },
   recipeList: [
     {
       name: 'Arme Ritter',
@@ -1104,16 +1104,22 @@ const dataInit = {
   ],
 };
 
-const defaultInputState = {
-  recipeName: '',
-  ingredients: [],
-  preparation: '',
-};
 //==================================================================
 const dataReducer = (state, action) => {
+  // console.log(action.dataUpdate.recipeUpdate);
+  // console.log(action.type);
   if (action.type === 'INPUT') {
-    // console.log(state.recipeList);
-    state.recipeList.push(action.recipeInput);
+    console.log(state.recipeList);
+    // state.recipeList.push(action.dataUpdate.recipeInput);
+    state.recipeList = [...state.recipeList, action.dataUpdate.recipeInput];
+    console.log(state.recipeList);
+    return state;
+  }
+  if (action.type === 'UPDATERECIPE') {
+    const index = state.recipeList
+      .map(e => e.id)
+      .indexOf(action.dataUpdate.recipeUpdate.id);
+    state.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
     return state;
   }
   return state;
@@ -1163,8 +1169,8 @@ const DataProvider = props => {
   // const [headerText, setHeaderText] = useState('Gerichte');
 
   const dataUpdateFunction = (type, dataUpdate) => {
-    if (type === 'INPUT') {
-      dispatchData(dataUpdate);
+    if (type === 'INPUT' || type === 'UPDATERECIPE') {
+      dispatchData({ type, dataUpdate });
     }
     if (type === 'postFetch') {
       // sendData(dataUpdate);

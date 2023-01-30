@@ -9,15 +9,17 @@ const ButtonBox = props => {
   };
   return (
     <div className={classes.buttonBox}>
-      <ButtonRound
-        btnId="trash"
-        className={classes.buttonAddEdit}
-        buttonName={'trash'}
-        color={'#fa5252'}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onClickHandler}
-      />
+      {!props.hideTrash && (
+        <ButtonRound
+          btnId="trash"
+          className={classes.buttonAddEdit}
+          buttonName={'trash'}
+          color={'#fa5252'}
+          iconColor={''}
+          isFav={''}
+          onClickHandler={onClickHandler}
+        />
+      )}
       <ButtonRound
         btnId="x"
         className={classes.buttonAddEdit}

@@ -47,6 +47,28 @@ const messageReducer = (state, action) => {
 
 function App() {
   const navbarCtx = useContext(NavbarContext);
+  //==================================================================
+  const [hideInput, setHideInput] = useState(true);
+  const hideInputCheckPageChangeHeaderText = (navigation, recipe) => {
+    setHideInput(true);
+    if (recipe.name) {
+      state.headerText = recipe.name;
+      return;
+    }
+    if (navigation === 'btn1') {
+      state.headerText = 'Gerichte';
+    }
+    if (navigation === 'btn2') {
+      state.headerText = 'Wochenplan';
+    }
+    if (navigation === 'btn3') {
+      state.headerText = 'Favoriten';
+    }
+    if (navigation === 'btn4') {
+      state.headerText = 'Einkaufsliste';
+    }
+  };
+  //==================================================================
   const snap = useSnapshot(state);
   //==================================================================
   // header
@@ -55,38 +77,17 @@ function App() {
   };
 
   //==================================================================
-  // content
-  // const [recipeObj, setRecipeObj] = useState(recipe_obj);
-  // const addNewRecipe = newRecipe => {
-  //   ////////////////// FIXME //////////////////
-  //   setRecipeObj(prev => {
-  //     const newArr = prev.recipe_list.push(newRecipe);
-  //     return newArr;
-  //   });
-  // };
-  // const [inputHide, setInputHide] = useState(true);
+
   const recipeListButtonHandler = item => {
-    // setHeaderText('TEST');
     console.log(item);
     if (item === 'add') {
-      state.inputPageHide = false;
+      setHideInput(false);
       setTimeout(() => {
         state.headerText = 'Neuer Eintrag';
       }, 150);
     }
   };
   //==================================================================
-  // input button
-  const onButtonInputHandler = btnId => {
-    if (btnId === 'check') {
-      // update Recipe
-    }
-    if (btnId === 'x') {
-      // reset currentValue
-    }
-    state.inputPageHide = true;
-  };
-
   //infoBox
   const [messageState, dispatchMessage] = useReducer(
     messageReducer,
@@ -100,26 +101,26 @@ function App() {
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
+
   return (
     <DataProvider>
       <div className={classes.App}>
         <Login message={onSetMessage} hide={true} />
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
-          className={`${classes.app__input} ${
-            snap.inputPageHide && classes.app__input_hide
-          }`}
-          headerText={'data.recipeName' || 'Neuer Eintrag'}
-          onClickInput={onButtonInputHandler}
-          // onAddNewRecipe={addNewRecipe}BUG
+          hideInput={hideInput}
+          hideInputCheckPageChangeHeaderText={
+            hideInputCheckPageChangeHeaderText
+          }
           setMessage={onSetMessage}
-          recipeNameId={{ name: 'testname', id: 'testID 123' }}
+          recipeNameId={snap.inputCurrentValue}
         ></Input>
         <Header onMenuButton={onMenuButtonHandler} />
         <Content
           content={
             <ContentSwipe
               recipeListButton={recipeListButtonHandler}
+              setHideInput={setHideInput}
             ></ContentSwipe>
           }
         ></Content>

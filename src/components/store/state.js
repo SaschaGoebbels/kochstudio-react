@@ -4,8 +4,8 @@ const state = proxy({
   navigation: 'btn1',
   headerText: 'Gericht',
   recipePageHide: true,
-  inputPageHide: true,
-  inputCurrentValue: {},
+  // inputCurrentValue: {},
+  currentRecipe: {},
 });
 
 export { state };

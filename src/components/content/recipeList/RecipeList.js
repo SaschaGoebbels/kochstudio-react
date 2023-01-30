@@ -8,6 +8,7 @@ import NavbarContext from '../../store/navbar-context';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
+import { useEffect } from 'react';
 
 //==================================================================
 const RecipeList = props => {
@@ -18,11 +19,14 @@ const RecipeList = props => {
   const listClickHandler = recipe => {
     state.headerText = recipe.name;
     state.recipePageHide = false;
+    state.currentRecipe = recipe;
     setRecipePage({ hide: false, recipe: recipe });
-    // console.log(recipe);
   };
   //==================================================================
   const [recipePage, setRecipePage] = useState({ hide: true, recipe: {} });
+  useEffect(() => {
+    setRecipePage({ hide: false, recipe: snap.currentRecipe });
+  }, [snap.currentRecipe]);
   //==================================================================
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
@@ -34,9 +38,11 @@ const RecipeList = props => {
     });
   };
   //==================================================================
+
   return (
     <div className={`${classes.contentListBox} `}>
       <RecipePage
+        setHideInput={props.setHideInput}
         // showRecipePage={recipePage.hide}
         showRecipePage={snap.recipePageHide}
         recipeObject={recipePage.recipe}
