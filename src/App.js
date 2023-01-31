@@ -47,11 +47,17 @@ const messageReducer = (state, action) => {
 
 function App() {
   const navbarCtx = useContext(NavbarContext);
+
   //==================================================================
   const [hideInput, setHideInput] = useState(true);
   const hideInputCheckPageChangeHeaderText = (navigation, recipe) => {
     setHideInput(true);
-    if (recipe.name) {
+    if (navigation === 'delete') {
+      state.headerText = 'Gerichte';
+      state.navigation = 'btn1';
+      return;
+    }
+    if (recipe.name.length > 0) {
       state.headerText = recipe.name;
       return;
     }
@@ -79,7 +85,6 @@ function App() {
   //==================================================================
 
   const recipeListButtonHandler = item => {
-    console.log(item);
     if (item === 'add') {
       setHideInput(false);
       setTimeout(() => {

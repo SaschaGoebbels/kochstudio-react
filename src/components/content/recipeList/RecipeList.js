@@ -23,9 +23,13 @@ const RecipeList = props => {
     setRecipePage({ hide: false, recipe: recipe });
   };
   //==================================================================
-  const [recipePage, setRecipePage] = useState({ hide: true, recipe: {} });
+  const [recipePage, setRecipePage] = useState({
+    hide: true,
+    recipe: snap.initialState,
+  });
   useEffect(() => {
     setRecipePage({ hide: false, recipe: snap.currentRecipe });
+    // console.log(recipePage.recipe.ingredients.length);
   }, [snap.currentRecipe]);
   //==================================================================
   const onRoundButtonHandler = item => {
@@ -53,7 +57,6 @@ const RecipeList = props => {
           <li
             key={item.id}
             className={classes.contentListBox__item}
-            // onClick={() => listClickHandler({ name: item.name, id: item.id })}
             onClick={() => listClickHandler(item)}
           >
             {item.name}

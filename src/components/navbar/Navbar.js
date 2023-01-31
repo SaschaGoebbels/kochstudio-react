@@ -15,20 +15,17 @@ const Navbar = props => {
   const navChangeFunction = btnId => {
     if (btnId === 'btn1') {
       state.headerText = 'Gerichte';
-      state.currentRecipe = {};
     }
     if (btnId === 'btn2') {
       state.headerText = 'Wochenplan';
-      state.currentRecipe = {};
     }
     if (btnId === 'btn3') {
       state.headerText = 'Favoriten';
-      state.currentRecipe = {};
     }
     if (btnId === 'btn4') {
       state.headerText = 'Einkaufsliste';
-      state.currentRecipe = {};
     }
+    state.currentRecipe = snap.initialState;
     state.navigation = btnId;
     state.recipePageHide = true;
     setBtnNav(btnId);

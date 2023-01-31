@@ -2,6 +2,8 @@ import React, { useState, useReducer, useContext } from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
+import { state } from '../store/state';
+import { useSnapshot } from 'valtio';
 
 export const DataContext = React.createContext(null);
 const DataUpdate = React.createContext();
@@ -1105,27 +1107,42 @@ const dataInit = {
 };
 
 //==================================================================
-const dataReducer = (state, action) => {
+const dataReducer = (stateReducer, action) => {
   // console.log(action.dataUpdate.recipeUpdate);
   // console.log(action.type);
   if (action.type === 'INPUT') {
-    console.log(state.recipeList);
-    // state.recipeList.push(action.dataUpdate.recipeInput);
-    state.recipeList = [...state.recipeList, action.dataUpdate.recipeInput];
-    console.log(state.recipeList);
-    return state;
+    console.log(stateReducer.recipeList);
+    stateReducer.recipeList = [
+      ...stateReducer.recipeList,
+      action.dataUpdate.recipeInput,
+    ];
+    sortArray(stateReducer.recipeList);
+    console.log(stateReducer.recipeList);
+    return stateReducer;
   }
   if (action.type === 'UPDATERECIPE') {
-    const index = state.recipeList
+    const index = stateReducer.recipeList
       .map(e => e.id)
       .indexOf(action.dataUpdate.recipeUpdate.id);
-    state.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
-    return state;
+    stateReducer.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
+    sortArray(stateReducer.recipeList);
+    return stateReducer;
   }
-  return state;
+  if (action.type === 'DELETE') {
+    stateReducer.recipeList = stateReducer.recipeList.filter(el => {
+      if (el.id !== action.dataUpdate.id) return el;
+    });
+    state.currentRecipe = state.initialState;
+    return stateReducer;
+  }
+  return stateReducer;
 };
 //==================================================================
-
+const sortArray = array => {
+  array.sort(function (a, b) {
+    return a.name.localeCompare(b.name);
+  });
+};
 //==================================================================
 //==================================================================
 const DataProvider = props => {
@@ -1169,7 +1186,7 @@ const DataProvider = props => {
   // const [headerText, setHeaderText] = useState('Gerichte');
 
   const dataUpdateFunction = (type, dataUpdate) => {
-    if (type === 'INPUT' || type === 'UPDATERECIPE') {
+    if (type === 'INPUT' || type === 'UPDATERECIPE' || type === 'DELETE') {
       dispatchData({ type, dataUpdate });
     }
     if (type === 'postFetch') {

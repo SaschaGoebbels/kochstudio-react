@@ -34,12 +34,10 @@ const Input = props => {
   const updateInputData = useDataUpdate();
 
   const deleteHandler = recipe => {
-    console.log('delete item', recipe.name, recipe.id);
-    //close recipePage and delete item
-    props.hideInputCheckPageChangeHeaderText(
-      snap.navigation,
-      snap.currentRecipe
-    );
+    state.recipePageHide = true;
+    state.navigation = 'btn1';
+    updateInputData('DELETE', snap.currentRecipe);
+    props.hideInputCheckPageChangeHeaderText('delete', snap.currentRecipe);
   };
 
   const cancelEditHandler = () => {
@@ -67,17 +65,13 @@ const Input = props => {
     recipeUpdate.preparation = preparationState;
     state.currentRecipe = JSON.parse(JSON.stringify(recipeUpdate));
     updateInputData('UPDATERECIPE', { recipeUpdate });
-    props.hideInputCheckPageChangeHeaderText(
-      snap.navigation,
-      recipeUpdate
-      // snap.currentRecipe
-    );
+    props.hideInputCheckPageChangeHeaderText(snap.navigation, recipeUpdate);
   };
 
   const resetAllInputValues = () => {
-    setRecipeNameState();
-    setIngredientsState([]);
-    setPreparationState('');
+    setRecipeNameState(snap.initialState.name);
+    setIngredientsState(snap.initialState.ingredients);
+    setPreparationState(snap.initialState.preparation);
   };
   //==================================================================
   const onButtonBoxHandler = item => {
@@ -90,6 +84,14 @@ const Input = props => {
       });
     }
     if (item === 'x') {
+      if (
+        recipeNameState.length <= 0 &&
+        ingredientsState.length <= 0 &&
+        preparationState.length <= 0
+      ) {
+        cancelEditHandler();
+        return;
+      }
       props.setMessage({
         title: 'Bearbeitung abbrechen ?',
         message: 'Änderungen werden gelöscht !',
@@ -109,12 +111,12 @@ const Input = props => {
         return;
       }
       // if not edit existing recipe, create new one
-      if (!snap.currentRecipe.name) {
+      if (snap.currentRecipe.name.length <= 0) {
         createNewRecipe();
         resetAllInputValues();
         return;
       }
-      if (snap.currentRecipe) {
+      if (snap.currentRecipe.name.length >= 0) {
         updateExistingRecipe(snap.currentRecipe);
       }
     }
@@ -151,6 +153,8 @@ const Input = props => {
       });
     });
   };
+  //==================================================================
+  //==================================================================
   // set new item // delete item // shift
   const recipeIngredientsHandler = (el, btnId, update) => {
     // on save update

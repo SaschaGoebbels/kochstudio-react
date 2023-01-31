@@ -25,6 +25,7 @@ const RecipePage = props => {
       state.inputCurrentValue = { ...props.recipeObject };
     }
   };
+
   return (
     <div
       className={`${classes.recipePage} ${
