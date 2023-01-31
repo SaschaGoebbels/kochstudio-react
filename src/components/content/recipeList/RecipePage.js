@@ -7,12 +7,12 @@ import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
 import Footer from '../../ui/Footer';
 import { useState } from 'react';
+import { useSnapshot } from 'valtio';
 import { state } from '../../store/state';
-import { useSnapShot } from 'valtio';
 
 const RecipePage = props => {
   const dataCtx = useContext(DataContext);
-
+  const snap = useSnapshot(state);
   const [fav, setFav] = useState(props.recipeObject.fav);
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
@@ -25,7 +25,6 @@ const RecipePage = props => {
       state.inputCurrentValue = { ...props.recipeObject };
     }
   };
-
   return (
     <div
       className={`${classes.recipePage} ${
@@ -46,7 +45,8 @@ const RecipePage = props => {
           />
         </div>
         <ul className={classes.recipePage__box__ul}>
-          {props.recipeObject.ingredients &&
+          {/* {props.recipeObject.ingredients.length > 0 && */}
+          {snap.currentRecipe.ingredients !== null &&
             props.recipeObject.ingredients.map(item => {
               return (
                 <li className={classes.recipePage__box__ul__li} key={item.id}>

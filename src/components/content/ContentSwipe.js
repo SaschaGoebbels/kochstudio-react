@@ -15,11 +15,20 @@ const ContentSwipe = props => {
       id="content_page"
     >
       <RecipeList
-        recipe_obj={props.recipe_obj}
+        favList={true}
+        // recipe_obj={props.recipe_obj}
         recipeListButton={recipeListButtonHandler}
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
       />
+      {/* <RecipeList
+        recipe_obj={props.recipe_obj.filter(el => {
+          if (el.fav === true) return el;
+        })}
+        recipeListButton={recipeListButtonHandler}
+        headerTextHandler={props.headerTextHandler}
+        setHideInput={props.setHideInput}
+      /> */}
     </div>
   );
 };

@@ -19,7 +19,7 @@ import ButtonBox from '../ui/ButtonBox';
 class recipe {
   constructor(name, ingredients, preparation) {
     this.name = name;
-    this.ingredients = [ingredients];
+    this.ingredients = ingredients;
     this.preparation = preparation;
     this.id = uuid();
     this.fav = false;

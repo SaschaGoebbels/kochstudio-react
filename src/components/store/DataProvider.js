@@ -1132,7 +1132,7 @@ const dataReducer = (stateReducer, action) => {
     stateReducer.recipeList = stateReducer.recipeList.filter(el => {
       if (el.id !== action.dataUpdate.id) return el;
     });
-    state.currentRecipe = state.initialState;
+    state.currentRecipe = { ...state.initialState };
     return stateReducer;
   }
   return stateReducer;

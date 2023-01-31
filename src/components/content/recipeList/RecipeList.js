@@ -29,7 +29,6 @@ const RecipeList = props => {
   });
   useEffect(() => {
     setRecipePage({ hide: false, recipe: snap.currentRecipe });
-    // console.log(recipePage.recipe.ingredients.length);
   }, [snap.currentRecipe]);
   //==================================================================
   const onRoundButtonHandler = item => {
@@ -37,7 +36,9 @@ const RecipeList = props => {
   };
   const onFavChangeHandler = recipeObject => {
     setRecipePage(prev => {
-      prev.recipe.fav = !prev.recipe.fav;
+      snap.currentRecipe.fav === true
+        ? (state.currentRecipe.fav = false)
+        : (state.currentRecipe.fav = true);
       return prev;
     });
   };
