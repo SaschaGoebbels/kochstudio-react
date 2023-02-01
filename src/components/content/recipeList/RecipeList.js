@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 const RecipeList = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
+  const [searchInput, setSearchInput] = useState('');
 
   const listClickHandler = recipe => {
     state.headerText = recipe.name;
@@ -42,10 +43,21 @@ const RecipeList = props => {
     });
   };
   //==================================================================
-
+  //SearchBar
+  useEffect(() => {
+    setSearchInput('');
+  }, [snap.searchBarHide]);
+  const searchChangeHandler = value => {
+    setSearchInput(value.target.value);
+    console.log(value.target.value);
+  };
+  //==================================================================
   return (
     <div className={`${classes.contentListBox} `}>
-      <SearchBar></SearchBar>
+      <SearchBar
+        searchInput={searchInput}
+        inputChangeHandler={searchChangeHandler}
+      ></SearchBar>
       <RecipePage
         setHideInput={props.setHideInput}
         // showRecipePage={recipePage.hide}
