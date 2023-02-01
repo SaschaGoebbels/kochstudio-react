@@ -49,7 +49,6 @@ const RecipeList = props => {
   }, [snap.searchBarHide]);
   const searchChangeHandler = value => {
     setSearchInput(value.target.value);
-    console.log(value.target.value);
   };
   //==================================================================
   return (
@@ -60,7 +59,6 @@ const RecipeList = props => {
       ></SearchBar>
       <RecipePage
         setHideInput={props.setHideInput}
-        // showRecipePage={recipePage.hide}
         showRecipePage={snap.recipePageHide}
         recipeObject={recipePage.recipe}
         favChangeHandler={onFavChangeHandler}
@@ -70,6 +68,11 @@ const RecipeList = props => {
           .filter(el => {
             if (props.showFavList === false) return el;
             if (el.fav === true) return el;
+          })
+          .filter(el => {
+            if (searchInput === '') return el;
+            const name = el.name;
+            if (name.toLowerCase().includes(searchInput)) return el;
           })
           .map(item => (
             <li

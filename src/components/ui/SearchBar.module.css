@@ -10,11 +10,11 @@
   z-index: 99;
   font-size: 1.5rem;
   padding: 0.5rem 6rem;
-  transition: all 250ms ease-in-out;
+  transition: transform 250ms ease-in-out;
 }
 .searchBar--hide {
   transform: translate(-100%, -100%) translateY(-9px);
-  border: red solid 2px;
+  z-index: 1;
 }
 .searchBar__btnBox {
   position: absolute;

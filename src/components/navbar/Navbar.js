@@ -24,6 +24,7 @@ const Navbar = props => {
     if (btnId === 'btn4') {
       state.headerText = 'Einkaufsliste';
     }
+    state.searchBarHide = true;
     state.currentRecipe = snap.initialState;
     state.navigation = btnId;
     state.recipePageHide = true;
