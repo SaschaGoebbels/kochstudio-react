@@ -1,15 +1,25 @@
 import React from 'react';
 import { useState } from 'react';
-import indexClasses from '../../index.module.css';
 import classes from './Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { state } from '../store/state';
 import { useSnapshot } from 'valtio';
 
 const Header = props => {
   const snap = useSnapshot(state);
   const [menuBtn, setMenuBtn] = useState(false);
+  const showSearchBtnOnRecipeList = headerText => {
+    // if (snap.headerText === 'Gerichte' || snap.headerText === 'Favoriten') {
+    if (headerText === 'Gerichte' || headerText === 'Favoriten') {
+      return true;
+    } else return false;
+  };
+  const onSearchBtnHandler = () => {
+    state.searchBarHide = false;
+    console.log('search');
+  };
   const onMenuBtnHandler = () => {
     console.log('OK');
     setMenuBtn(current => {
@@ -20,11 +30,24 @@ const Header = props => {
   return (
     <div className={classes.header}>
       <div className={classes.header__box}>
-        <div className={(classes.header__textBox, indexClasses.center)}>
-          {/* <h1 className={classes.header__text}>{`${props.headerText}`}</h1> */}
+        {showSearchBtnOnRecipeList(snap.headerText) && (
+          <div
+            className={`${classes.header__btn} ${classes['header__btn--search']}`}
+            onClick={onSearchBtnHandler}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              className={classes.header__burger_menu}
+            ></FontAwesomeIcon>
+          </div>
+        )}
+        <div className={classes.header__textBox}>
           <h1 className={classes.header__text}>{snap.headerText}</h1>
         </div>
-        <div className={classes.header__menu_btn} onClick={onMenuBtnHandler}>
+        <div
+          className={`${classes.header__btn} ${classes['header__btn--menu']}`}
+          onClick={onMenuBtnHandler}
+        >
           <FontAwesomeIcon
             icon={faBars}
             className={classes.header__burger_menu}

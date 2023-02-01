@@ -1,20 +1,15 @@
 import React from 'react';
-import ButtonRound from '../ui/buttonRound';
-import Recipe_list from './recipe_list/recipe_list';
-import classes from './content.module.css';
+// import ButtonRound from '../ui/buttonRound';
 
-const Content = () => {
+// import classes from './content.module.css';
+
+const ShoppingList = () => {
   //
   return (
     <div
       className={`${classes.content} ${classes.content_page_1}`}
       id="content_page"
     >
-      <Recipe_list />
-      <div className={classes.content_spacer}></div>
-      {/* <!-- POSITION RELATIV --> */}
-      {/* <!--Recipe_List--> */}
-      {/* <!--=====   Weeklyplan     ==============================================================================================================--> */}
       <div className={classes.content__scroll_list} id="div_weekly_plan">
         <div className={classes.content__ar_menulist}>
           {/* <!--content__ar_menulist--> */}
@@ -49,4 +44,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default ShoppingList;

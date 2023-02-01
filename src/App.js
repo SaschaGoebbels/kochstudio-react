@@ -12,7 +12,6 @@ import Footer from './components/ui/Footer';
 import Navbar from './components/navbar/Navbar';
 import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
-import NavbarContext from './components/store/navbar-context';
 import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
 
@@ -46,8 +45,6 @@ const messageReducer = (state, action) => {
 };
 
 function App() {
-  const navbarCtx = useContext(NavbarContext);
-
   //==================================================================
   const [hideInput, setHideInput] = useState(true);
   const hideInputCheckPageChangeHeaderText = (navigation, recipe) => {
@@ -124,6 +121,7 @@ function App() {
         <Content
           content={
             <ContentSwipe
+              changePage={snap.navigation}
               recipeListButton={recipeListButtonHandler}
               setHideInput={setHideInput}
             ></ContentSwipe>

@@ -6,7 +6,6 @@
   width: 400vw;
   height: 73.5vh;
   transition: all 300ms ease-in-out;
-  border: rgba(0, 255, 34, 0.486) solid 2px;
 }
 .content_page_1 {
   left: 0;

@@ -1111,13 +1111,11 @@ const dataReducer = (stateReducer, action) => {
   // console.log(action.dataUpdate.recipeUpdate);
   // console.log(action.type);
   if (action.type === 'INPUT') {
-    console.log(stateReducer.recipeList);
     stateReducer.recipeList = [
       ...stateReducer.recipeList,
       action.dataUpdate.recipeInput,
     ];
     sortArray(stateReducer.recipeList);
-    console.log(stateReducer.recipeList);
     return stateReducer;
   }
   if (action.type === 'UPDATERECIPE') {

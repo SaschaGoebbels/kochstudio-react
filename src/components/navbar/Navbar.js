@@ -3,7 +3,6 @@ import classes from './Navbar.module.css';
 import NavbarButton from './NavbarButton';
 import { state } from '../store/state';
 import { useSnapshot } from 'valtio';
-// import NavbarContext from '../store/navbar-context';
 
 const Navbar = props => {
   // const navbarCtx = useContext(NavbarContext);

@@ -2,59 +2,30 @@ import React, { useState, useContext } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/ButtonRound';
-import classes from './RecipeList.module.css';
-import RecipePage from './RecipePage';
-import SearchBar from '../../ui/SearchBar';
+import classes from './WeeklyPlan.module.css';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 import { useEffect } from 'react';
 
 //==================================================================
-const RecipeList = props => {
+const WeeklyPlan = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
-
-  const listClickHandler = recipe => {
-    state.headerText = recipe.name;
-    state.recipePageHide = false;
-    state.currentRecipe = recipe;
-    setRecipePage({ hide: false, recipe: recipe });
+  const listClickHandler = () => {
+    console.log('ok');
   };
-  //==================================================================
-  const [recipePage, setRecipePage] = useState({
-    hide: true,
-    recipe: snap.initialState,
-  });
-  useEffect(() => {
-    setRecipePage({ hide: false, recipe: snap.currentRecipe });
-  }, [snap.currentRecipe]);
-  //==================================================================
-  const onRoundButtonHandler = item => {
-    props.recipeListButton(item);
-  };
-  const onFavChangeHandler = recipeObject => {
-    setRecipePage(prev => {
-      snap.currentRecipe.fav === true
-        ? (state.currentRecipe.fav = false)
-        : (state.currentRecipe.fav = true);
-      return prev;
-    });
+  const onRoundButtonHandler = () => {
+    console.log('btn');
   };
   //==================================================================
 
   return (
     <div className={`${classes.contentListBox} `}>
-      <SearchBar></SearchBar>
-      <RecipePage
-        setHideInput={props.setHideInput}
-        // showRecipePage={recipePage.hide}
-        showRecipePage={snap.recipePageHide}
-        recipeObject={recipePage.recipe}
-        favChangeHandler={onFavChangeHandler}
-      ></RecipePage>
+      <h2>Hier entsteht der Wochenplan</h2>
       <ul className={classes.contentListBox__ul}>
-        {dataCtx.recipeList
+        <li>Montag</li>
+        {/* {dataCtx.recipeList
           .filter(el => {
             if (props.showFavList === false) return el;
             if (el.fav === true) return el;
@@ -67,7 +38,7 @@ const RecipeList = props => {
             >
               {item.name}
             </li>
-          ))}
+          ))} */}
       </ul>
       <ButtonRound
         btnId="add"
@@ -90,4 +61,4 @@ const RecipeList = props => {
     </div>
   );
 };
-export default RecipeList;
+export default WeeklyPlan;
