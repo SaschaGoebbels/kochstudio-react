@@ -12,6 +12,8 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons';
+import { faListUl } from '@fortawesome/free-solid-svg-icons';
+import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 
 const ButtonRound = props => {
   let buttonIconColor = props.iconColor;
@@ -52,6 +54,12 @@ const ButtonRound = props => {
       break;
     case 'down':
       buttonName = faArrowAltCircleDown;
+      break;
+    case 'list':
+      buttonName = faListUl;
+      break;
+    case 'plan':
+      buttonName = faObjectGroup;
       break;
   }
   let buttonSize =

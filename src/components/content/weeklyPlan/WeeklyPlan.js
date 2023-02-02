@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import uuid from 'react-uuid';
-import ButtonRound from '../../ui/ButtonRound';
+// import ButtonRound from '../../ui/ButtonRound';
+import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './WeeklyPlan.module.css';
 
 import { state } from '../../store/state';
@@ -15,11 +16,11 @@ const WeeklyPlan = props => {
   const listClickHandler = () => {
     console.log('ok');
   };
-  const onRoundButtonHandler = () => {
-    console.log('btn');
-  };
-  //==================================================================
 
+  //==================================================================
+  const onRoundButtonHandler = btnId => {
+    console.log(btnId);
+  };
   return (
     <div className={`${classes.contentListBox} `}>
       <h2>Hier entsteht der Wochenplan</h2>
@@ -40,24 +41,9 @@ const WeeklyPlan = props => {
             </li>
           ))} */}
       </ul>
-      <ButtonRound
-        btnId="add"
-        className={classes.buttonAddEdit}
-        buttonName={'add'}
-        color={''}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onRoundButtonHandler}
-      />
-      <ButtonRound
-        btnId="coin"
-        className={classes.buttonCoincidence}
-        buttonName={'coin'}
-        color={''}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onRoundButtonHandler}
-      />
+      <ButtonBoxContent
+        onRoundButtonHandler={onRoundButtonHandler}
+      ></ButtonBoxContent>
     </div>
   );
 };

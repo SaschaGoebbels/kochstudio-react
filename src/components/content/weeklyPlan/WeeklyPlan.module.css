@@ -5,6 +5,7 @@
   width: 100vw;
   max-width: 75rem;
   height: 100%;
+  border: rgb(60, 255, 0) solid 2px;
 }
 .contentListBox__ul {
   display: flex;
