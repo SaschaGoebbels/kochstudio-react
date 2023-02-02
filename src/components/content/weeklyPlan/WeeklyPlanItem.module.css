@@ -1,0 +1,22 @@
+.itemBox {
+  border: var(--clr-accent_background) solid 3px;
+  border-radius: 1.5rem;
+  width: 60vw;
+  height: 6rem;
+}
+.itemBox__textBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  padding: 0.5rem 2rem;
+  font-size: 1.8rem;
+}
+.itemBox__day {
+  color: var(--clr_main_ff);
+  transform: translateX(-20%);
+}
+.itemBox__recipe {
+  background-color: var(--clr-input_background);
+  border-radius: 0 0 1.2rem 1.2rem;
+}
