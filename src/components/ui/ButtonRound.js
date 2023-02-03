@@ -33,6 +33,7 @@ const ButtonRound = props => {
       break;
     case 'heart':
       buttonName = faHeart;
+      //DELETE
       if (isFav) {
         buttonIconColor = '#ffd43b';
       }
@@ -69,6 +70,8 @@ const ButtonRound = props => {
       ? classes.buttonRound_large
       : classes.buttonRound_medium; //small medium large
   let buttonColor = props.color || '#20c997';
+  let buttonBorderColor = props.borderColor || '#087f5b';
+  let buttonShadow = props.shadow || '0px 2px 20px rgba(0, 0, 0, 0.5)';
   const btnClickHandler = id => {
     // console.log('ButtonRound', id.currentTarget.id);
     props.onClickHandler(id.currentTarget.id);
@@ -77,7 +80,11 @@ const ButtonRound = props => {
     <div
       id={props.btnId}
       // var(--clr-navbar_background)
-      style={{ backgroundColor: buttonColor }}
+      style={{
+        backgroundColor: buttonColor,
+        border: `${buttonBorderColor} solid 3px`,
+        boxShadow: `${buttonShadow}`,
+      }}
       className={`${classes.buttonRound} ${buttonSize} ${buttonClassName}`}
       //  ${
       //   buttonSize === 'small' && classes.buttonRound_small

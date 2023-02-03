@@ -37,24 +37,38 @@ const WeeklyPlan = props => {
     if (dayNumb === 6) return 'Samstag';
     if (dayNumb === 7) return 'Sonntag';
   };
-  const currentDate = () => {
-    console.log('day');
-  };
   //==================================================================
   const onRoundButtonHandler = btnId => {
     console.log(btnId);
   };
+  const onCheckButtonHandler = btnId => {
+    console.log(btnId);
+  };
   return (
     <div className={`${classes.contentListBox} `}>
-      <div></div>
+      {/* //fallback for empty List */}
+      {dataCtx.weeklyPlan.length === 0 && (
+        <div className={classes.contentListBox__emptyList}>
+          <WeeklyPlanItem
+            day={'Der Wochenplan ist aktuell leer !'}
+            recipe={'auf + drücken zum hinzufügen ...'}
+            checkButtonHide={true}
+          ></WeeklyPlanItem>
+        </div>
+      )}
       <ul className={classes.contentListBox__ul}>
         {dataCtx.weeklyPlan.map((item, i) => {
           let day = '';
           if (i === 0) day = dayOutput(dayNumb);
           if (i > 0) day = dayOutput(dayNumb + i);
           return (
-            <li>
-              <WeeklyPlanItem day={day} recipe={item.name}></WeeklyPlanItem>
+            <li key={item.id}>
+              <WeeklyPlanItem
+                day={day}
+                recipe={item.name}
+                checkButtonHandler={onCheckButtonHandler}
+                id={item.id}
+              ></WeeklyPlanItem>
             </li>
           );
         })}

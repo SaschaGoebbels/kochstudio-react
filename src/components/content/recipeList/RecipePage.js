@@ -25,6 +25,7 @@ const RecipePage = props => {
       state.inputCurrentValue = { ...props.recipeObject };
     }
   };
+  const btnCheckedColor = '#E5BE35';
   return (
     <div
       className={`${classes.recipePage} ${
@@ -32,18 +33,31 @@ const RecipePage = props => {
       }`}
     >
       <div className={classes.recipePage__box}>
-        <div className={classes.recipePage__box__favBox}>
-          <h2>Zutaten:</h2>
+        <div className={classes.recipePage__box__btn}>
+          <ButtonRound
+            btnId="list"
+            buttonName={'list'}
+            buttonSize={'small'}
+            color={props.recipeObject.fav ? btnCheckedColor : ''}
+            onClickHandler={props.onRoundButtonHandler}
+          />
+          <ButtonRound
+            btnId="plan"
+            buttonName={'plan'}
+            buttonSize={'small'}
+            color={props.recipeObject.fav ? btnCheckedColor : ''}
+            onClickHandler={props.onRoundButtonHandler}
+          />
           <ButtonRound
             btnId="heart"
-            className={classes.buttonFav}
             buttonName={'heart'}
-            color={''}
-            iconColor={props.recipeObject.fav ? '#e56d6d' : ''}
-            isFav={''}
+            buttonSize={'small'}
+            color={props.recipeObject.fav ? btnCheckedColor : ''}
+            // color={props.recipeObject.fav ? '#e56d6d' : ''}
             onClickHandler={onRoundButtonHandler}
           />
         </div>
+        <h2>Zutaten:</h2>
         <ul className={classes.recipePage__box__ul}>
           {/* {props.recipeObject.ingredients.length > 0 && */}
           {snap.currentRecipe.ingredients !== null &&

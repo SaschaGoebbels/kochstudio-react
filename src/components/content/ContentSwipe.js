@@ -2,7 +2,7 @@ import React from 'react';
 import ButtonRound from '../ui/ButtonRound';
 import RecipeList from './recipeList/RecipeList';
 import WeeklyPlan from './weeklyPlan/WeeklyPlan';
-import ShoppingList from './shopping_list/xxxShoppingList';
+// import ShoppingList from './shopping_list/ShoppingList';
 import classes from './ContentSwipe.module.css';
 import { useSnapshot } from 'valtio';
 import { state } from '../store/state';

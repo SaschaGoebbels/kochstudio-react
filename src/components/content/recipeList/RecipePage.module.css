@@ -23,9 +23,13 @@
   height: 100%;
   padding: 2rem;
 }
-.recipePage__box__favBox {
+.recipePage__box__btn {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 4rem;
 }
 .recipePage__prepBox {
   margin-top: 2rem;
@@ -45,7 +49,6 @@
   align-items: center;
 }
 .buttonAddEdit {
-  /* position: absolute; */
   position: fixed;
   right: 1.5rem;
   bottom: 2rem;

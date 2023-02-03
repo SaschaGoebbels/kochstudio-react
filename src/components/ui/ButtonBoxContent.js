@@ -10,24 +10,6 @@ const ButtonBoxContent = props => {
     <div>
       <div>
         <ButtonRound
-          btnId="list"
-          className={`${classes.buttonList} ${classes.buttonRight}`}
-          buttonName={'list'}
-          color={''}
-          iconColor={''}
-          isFav={''}
-          onClickHandler={props.onRoundButtonHandler}
-        />
-        <ButtonRound
-          btnId="plan"
-          className={`${classes.buttonPlan} ${classes.buttonRight}`}
-          buttonName={'plan'}
-          color={''}
-          iconColor={''}
-          isFav={''}
-          onClickHandler={props.onRoundButtonHandler}
-        />
-        <ButtonRound
           btnId="add"
           className={`${classes.buttonAddEdit} ${classes.buttonRight}`}
           buttonName={'add'}

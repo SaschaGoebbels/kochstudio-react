@@ -7,4 +7,5 @@
   height: 100vh;
   color: var(--clr_accent_ff);
   background-color: var(--clr_main_background);
+  overflow-x: hidden;
 }

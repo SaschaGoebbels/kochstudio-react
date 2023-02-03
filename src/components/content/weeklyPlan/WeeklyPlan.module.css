@@ -8,6 +8,9 @@
   max-width: 75rem;
   height: 100%;
 }
+.contentListBox__emptyList {
+  margin-top: 2rem;
+}
 .contentListBox__ul {
   display: flex;
   align-items: center;

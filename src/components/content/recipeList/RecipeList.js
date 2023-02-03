@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import uuid from 'react-uuid';
-import ButtonRound from '../../ui/ButtonRound';
+import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './RecipeList.module.css';
 import RecipePage from './RecipePage';
 import SearchBar from '../../ui/SearchBar';
@@ -84,24 +84,9 @@ const RecipeList = props => {
             </li>
           ))}
       </ul>
-      <ButtonRound
-        btnId="add"
-        className={classes.buttonAddEdit}
-        buttonName={'add'}
-        color={''}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onRoundButtonHandler}
-      />
-      <ButtonRound
-        btnId="coin"
-        className={classes.buttonCoincidence}
-        buttonName={'coin'}
-        color={''}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onRoundButtonHandler}
-      />
+      <ButtonBoxContent
+        onRoundButtonHandler={onRoundButtonHandler}
+      ></ButtonBoxContent>
     </div>
   );
 };

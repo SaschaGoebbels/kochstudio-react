@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import uuid from 'react-uuid';
 import ButtonRound from '../../ui/ButtonRound';
-import classes from './WeeklyPlan.module.css';
+import classes from './ShoppingList.module.css';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
