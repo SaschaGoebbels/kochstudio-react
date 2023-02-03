@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
-
+import { useDataUpdate } from '../../store/DataProvider';
 import Header from '../../header/Header';
 import Content from '../../ui/Content';
 import SearchBar from '../../ui/SearchBar';
@@ -15,6 +15,11 @@ import { useSnapshot } from 'valtio';
 const WeeklyPlanEdit = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
+  const updateData = useDataUpdate();
+  const listClickHandler = item => {
+    // console.log(item);
+    updateData('PLAN', item);
+  };
   const onButtonBoxHandler = btnId => {
     if (btnId === 'x') state.weeklyPlan.editMode = false;
     console.log(snap.weeklyPlan.editMode);
@@ -30,10 +35,13 @@ const WeeklyPlanEdit = props => {
           <div>
             <RecipeListBox
               recipeList={dataCtx.recipeList}
-              weeklyPlan={dataCtx.weeklyPlan}
+              weeklyPlan={true}
+              // setCurrentRecipeList={props.setCurrentRecipeList}
+              // weeklyPlan={dataCtx.weeklyPlan}
+              listClickHandler={listClickHandler}
               showFavList={false}
               searchInput={''}
-              listItemColor={'#fff'}
+              // listItemColor={'#fff'}
             ></RecipeListBox>
           </div>
         }

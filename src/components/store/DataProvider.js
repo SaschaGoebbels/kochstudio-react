@@ -25,6 +25,7 @@ const dataInit = {
     {
       name: 'Arme Ritter',
       fav: false,
+
       ingredients: [
         {
           ingredientName: 'Mehl',
@@ -135,6 +136,7 @@ const dataInit = {
     {
       name: 'Arme Ritter',
       fav: false,
+      weeklyPlan: true,
       ingredients: [
         {
           ingredientName: 'Mehl',
@@ -243,6 +245,7 @@ const dataInit = {
     {
       name: 'Chili con carne',
       fav: true,
+      weeklyPlan: true,
       ingredients: [
         {
           ingredientName: 'Hackfleisch',
@@ -1243,6 +1246,13 @@ const dataReducer = (stateReducer, action) => {
     state.currentRecipe = { ...state.initialState };
     return stateReducer;
   }
+  if (action.type === 'PLAN') {
+    stateReducer.recipeList.filter(el => {
+      if (el.id === action.dataUpdate.id) el.weeklyPlan = !el.weeklyPlan;
+    });
+    console.log(stateReducer.recipeList);
+    return stateReducer;
+  }
   return stateReducer;
 };
 //==================================================================
@@ -1294,7 +1304,12 @@ const DataProvider = props => {
   // const [headerText, setHeaderText] = useState('Gerichte');
 
   const dataUpdateFunction = (type, dataUpdate) => {
-    if (type === 'INPUT' || type === 'UPDATERECIPE' || type === 'DELETE') {
+    if (
+      type === 'INPUT' ||
+      type === 'UPDATERECIPE' ||
+      type === 'DELETE' ||
+      type === 'PLAN'
+    ) {
       dispatchData({ type, dataUpdate });
     }
     if (type === 'postFetch') {

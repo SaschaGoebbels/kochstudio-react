@@ -31,12 +31,12 @@ class recipe {
 const Input = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
-  const updateInputData = useDataUpdate();
+  const updateData = useDataUpdate();
 
   const deleteHandler = recipe => {
     state.recipePageHide = true;
     state.navigation = 'btn1';
-    updateInputData('DELETE', snap.currentRecipe);
+    updateData('DELETE', snap.currentRecipe);
     props.hideInputCheckPageChangeHeaderText('delete', snap.currentRecipe);
   };
 
@@ -54,7 +54,7 @@ const Input = props => {
       ingredientsState,
       preparationState
     );
-    updateInputData('INPUT', { recipeInput });
+    updateData('INPUT', { recipeInput });
     cancelEditHandler();
   };
 
@@ -64,7 +64,7 @@ const Input = props => {
     recipeUpdate.ingredients = JSON.parse(JSON.stringify(ingredientsState));
     recipeUpdate.preparation = preparationState;
     state.currentRecipe = JSON.parse(JSON.stringify(recipeUpdate));
-    updateInputData('UPDATERECIPE', { recipeUpdate });
+    updateData('UPDATERECIPE', { recipeUpdate });
     props.hideInputCheckPageChangeHeaderText(snap.navigation, recipeUpdate);
   };
 

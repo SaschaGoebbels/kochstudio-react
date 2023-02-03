@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react';
-// import classes from './Ingredient.module.css';
 import classes from './Ingredient.module.css';
 import uuid from 'react-uuid';
 import InputField from './InputField';
