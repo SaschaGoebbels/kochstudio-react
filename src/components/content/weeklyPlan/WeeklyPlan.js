@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
-import uuid from 'react-uuid';
+
+import WeeklyPlanEdit from './WeeklyPlanEdit';
 import WeeklyPlanItem from './WeeklyPlanItem';
 import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './WeeklyPlan.module.css';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
-import { useEffect } from 'react';
 
 //==================================================================
 const WeeklyPlan = props => {
@@ -37,8 +37,15 @@ const WeeklyPlan = props => {
     if (dayNumb === 6) return 'Samstag';
     if (dayNumb === 7) return 'Sonntag';
   };
+  const footerClickHandler = btnId => {
+    console.log('OK');
+  };
   //==================================================================
   const onRoundButtonHandler = btnId => {
+    if (btnId === 'add') {
+      state.weeklyPlan.editMode = true;
+      // state.searchBarHide = false;
+    }
     console.log(btnId);
   };
   const onCheckButtonHandler = btnId => {
@@ -46,6 +53,7 @@ const WeeklyPlan = props => {
   };
   return (
     <div className={`${classes.contentListBox} `}>
+      <WeeklyPlanEdit></WeeklyPlanEdit>
       {/* //fallback for empty List */}
       {dataCtx.weeklyPlan.length === 0 && (
         <div className={classes.contentListBox__emptyList}>

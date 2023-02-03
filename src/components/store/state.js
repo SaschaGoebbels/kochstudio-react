@@ -8,6 +8,7 @@ const state = proxy({
   currentRecipe: { name: '', ingredients: [], preparation: '' },
   initialState: { name: '', ingredients: [], preparation: '' },
   buttonBoxContent: { coin: true, add: true, list: true, plan: true },
+  weeklyPlan: { editMode: false },
 });
 
 export { state };
