@@ -19,8 +19,23 @@ const WeeklyPlanEdit = props => {
   const [currentRecipeList, setCurrentRecipeList] = useState(
     dataCtx.recipeList
   );
+  const [weeklyPlanState, setWeeklyPlanState] = useState(dataCtx.weeklyPlan);
 
   const listClickHandler = itemId => {
+    setWeeklyPlanState(prev => {
+      prev.filter(el => {
+        if (el.id === itemId) {
+          console.log('remove');
+          return;
+        }
+      });
+      return [
+        ...prev,
+        dataCtx.recipeList.filter(el => {
+          if (el.id === itemId) return el;
+        }),
+      ];
+    });
     setCurrentRecipeList(prev => {
       return prev.map(el => {
         if (el.id === itemId) {
@@ -47,7 +62,8 @@ const WeeklyPlanEdit = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={currentRecipeList}
+              recipeList={dataCtx.recipeList}
+              weeklyPlan={weeklyPlanState}
               listClickHandler={listClickHandler}
               showFavList={false}
               searchInput={props.searchInput}

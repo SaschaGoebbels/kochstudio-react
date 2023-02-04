@@ -17,23 +17,22 @@ const WeeklyPlan = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const recipeListFiltered = data => {
-    return data.filter(el => {
-      if (el.weeklyPlan === true) {
-        return el;
-      }
-    });
-  };
-  const [planState, setPlanState] = useState(
-    recipeListFiltered(dataCtx.recipeList)
-  );
+  // const recipeListFiltered = data => {
+  //   return data.filter(el => {
+  //     if (el.weeklyPlan === true) {
+  //       return el;
+  //     }
+  //   });
+  // };
+  console.log(dataCtx.weeklyPlan);
+  const [planState, setPlanState] = useState(dataCtx.weeklyPlan);
   const setPlanStateFromOutSide = () => {
     setTimeout(() => {
-      setPlanState(recipeListFiltered(dataCtx.recipeList));
+      setPlanState(dataCtx.weeklyPlan);
     }, 50);
   };
   useEffect(() => {
-    setPlanState(recipeListFiltered(dataCtx.recipeList));
+    setPlanState(dataCtx.weeklyPlan);
   }, [snap.weeklyPlan.editMode]);
   //==================================================================
   // SearchBar

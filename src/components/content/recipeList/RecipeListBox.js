@@ -19,8 +19,12 @@ const RecipeListBox = props => {
             const name = el.name;
             if (name.toLowerCase().includes(props.searchInput)) return el;
           })
+          // decide weeklyPlan or not => check on render if exist in recipe list
           .map(item => {
-            if (item.weeklyPlan) {
+            if (
+              props.weeklyPlan &&
+              props.weeklyPlan.some(el => el.id === item.id)
+            ) {
               return (
                 <li
                   style={props.listItemCheckedStyle}

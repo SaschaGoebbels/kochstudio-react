@@ -14,58 +14,7 @@ export function useDataUpdate() {
 //==================================================================
 //default data for test purposes
 const dataInit = {
-  addItem: recipe => {},
-  removeItem: recipe => {},
-  // inputCurrentValue: {
-  //   name: '',
-  //   ingredients: [],
-  //   preparation: '',
-  // },
   weeklyPlan: [
-    {
-      name: 'Arme Ritter',
-      fav: false,
-
-      ingredients: [
-        {
-          ingredientName: 'Mehl',
-          quantity: '300',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-7597-82be-600a740b6bef',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Eier',
-          quantity: '5',
-          unit: 'Stk.',
-          id: 'c643a35b-efdb-0952-6dd8-6a5b46228d5a',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Milch',
-          quantity: '300',
-          unit: 'ml',
-          id: 'e261f15d-7c42-e2b8-3295-c170e6b38f04',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Toastbrot ',
-          quantity: '0.5',
-          unit: 'Stk.',
-          id: '402f316c-60d7-274e-cf27-4ea68e75e6ca',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Salz',
-          quantity: '1',
-          unit: 'TL-gestr.',
-          id: '643a6fa8-722d-d2ca-78b1-81ecbe780ec7',
-          editMode: false,
-        },
-      ],
-      preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
-      id: '759e69c2-9ab5-231b-0d59-e15339b60270',
-    },
     {
       name: 'Aus nix irgend was',
       fav: true,
@@ -1247,10 +1196,18 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'PLAN') {
-    if (action.dataUpdate.currentRecipe) {
+    // add to list
+    console.log('plan');
+    if (action.dataUpdate.currentRecipeList) {
+      console.log('OK');
       stateReducer.recipeList = [...action.dataUpdate.currentRecipeList];
+      // stateReducer.weeklyPlan = updateWeeklyPlan(
+      //   stateReducer.recipeList,
+      //   stateReducer.weeklyPlan
+      // );
       return stateReducer;
     }
+    // remove from list
     if (action.dataUpdate.itemId) {
       const updatedList = stateReducer.recipeList.map(el => {
         if (el.id === action.dataUpdate.itemId) {
@@ -1258,11 +1215,21 @@ const dataReducer = (stateReducer, action) => {
         }
         return el;
       });
+      // stateReducer.weeklyPlan = updateWeeklyPlan(
+      //   stateReducer.recipeList,
+      //   stateReducer.weeklyPlan
+      // );
       action.dataUpdate.setPlanStateFromOutSide();
+      return stateReducer;
     }
   }
   return stateReducer;
 };
+// const updateWeeklyPlan = (recipeList, currentWeeklyPlan) => {
+//   return currentWeeklyPlan.filter(el => {
+//     if (el.weeklyPlan === true) return el;
+//   });
+// };
 //==================================================================
 const sortArray = array => {
   array.sort(function (a, b) {
