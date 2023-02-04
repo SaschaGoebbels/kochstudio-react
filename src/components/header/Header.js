@@ -12,7 +12,11 @@ const Header = props => {
   const [menuBtn, setMenuBtn] = useState(false);
   const showSearchBtnOnRecipeList = headerText => {
     // if (snap.headerText === 'Gerichte' || snap.headerText === 'Favoriten') {
-    if (headerText === 'Gerichte' || headerText === 'Favoriten') {
+    if (
+      headerText === 'Gerichte' ||
+      headerText === 'Favoriten' ||
+      snap.weeklyPlan.editMode === true
+    ) {
       return true;
     } else return false;
   };

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { state } from '../store/state';
-import { useSnapshot } from 'valtio';
+import { snapshot, useSnapshot } from 'valtio';
 
 export const DataContext = React.createContext(null);
 const DataUpdate = React.createContext();
@@ -1247,11 +1247,19 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'PLAN') {
-    stateReducer.recipeList.filter(el => {
-      if (el.id === action.dataUpdate.id) el.weeklyPlan = !el.weeklyPlan;
-    });
-    console.log(stateReducer.recipeList);
-    return stateReducer;
+    if (action.dataUpdate.currentRecipe) {
+      stateReducer.recipeList = [...action.dataUpdate.currentRecipeList];
+      return stateReducer;
+    }
+    if (action.dataUpdate.itemId) {
+      const updatedList = stateReducer.recipeList.map(el => {
+        if (el.id === action.dataUpdate.itemId) {
+          el.weeklyPlan = false;
+        }
+        return el;
+      });
+      action.dataUpdate.setPlanStateFromOutSide();
+    }
   }
   return stateReducer;
 };

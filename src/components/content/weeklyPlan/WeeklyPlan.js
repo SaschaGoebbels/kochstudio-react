@@ -1,21 +1,51 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
+import { useDataUpdate } from '../../store/DataProvider';
 
 import WeeklyPlanEdit from './WeeklyPlanEdit';
 import WeeklyPlanItem from './WeeklyPlanItem';
+import SearchBar from '../../ui/SearchBar';
 import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './WeeklyPlan.module.css';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
-
+//==================================================================
 //==================================================================
 const WeeklyPlan = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
-  const listClickHandler = () => {
-    console.log('ok');
+  const updateData = useDataUpdate();
+  //==================================================================
+  const recipeListFiltered = data => {
+    return data.filter(el => {
+      if (el.weeklyPlan === true) {
+        return el;
+      }
+    });
   };
+  const [planState, setPlanState] = useState(
+    recipeListFiltered(dataCtx.recipeList)
+  );
+  const setPlanStateFromOutSide = () => {
+    setTimeout(() => {
+      setPlanState(recipeListFiltered(dataCtx.recipeList));
+    }, 50);
+  };
+  useEffect(() => {
+    setPlanState(recipeListFiltered(dataCtx.recipeList));
+  }, [snap.weeklyPlan.editMode]);
+  //==================================================================
+  // SearchBar
+  const [searchInput, setSearchInput] = useState('');
+  useEffect(() => {
+    setSearchInput('');
+  }, [snap.searchBarHide]);
+  const searchChangeHandler = value => {
+    setSearchInput(value.target.value);
+  };
+  //==================================================================
+  // day handling
   const dateToday = new Date();
   const dayNumb = dateToday.getDay();
   // checkDate(dateToday);
@@ -37,25 +67,25 @@ const WeeklyPlan = props => {
     if (dayNumb === 6) return 'Samstag';
     if (dayNumb === 7) return 'Sonntag';
   };
-  const footerClickHandler = btnId => {
-    console.log('OK');
-  };
   //==================================================================
   const onRoundButtonHandler = btnId => {
     if (btnId === 'add') {
       state.weeklyPlan.editMode = true;
-      // state.searchBarHide = false;
+      state.headerText = 'Zum Wochenplan hinzufügen';
     }
-    console.log(btnId);
   };
-  const onCheckButtonHandler = btnId => {
-    console.log(btnId);
+  const onCheckButtonHandler = itemId => {
+    updateData('PLAN', { itemId, setPlanStateFromOutSide });
   };
   return (
     <div className={`${classes.contentListBox} `}>
-      <WeeklyPlanEdit></WeeklyPlanEdit>
+      <SearchBar
+        searchInput={searchInput}
+        inputChangeHandler={searchChangeHandler}
+      ></SearchBar>
+      <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit>
       {/* //fallback for empty List */}
-      {dataCtx.weeklyPlan.length === 0 && (
+      {planState.length === 0 && (
         <div className={classes.contentListBox__emptyList}>
           <WeeklyPlanItem
             day={'Der Wochenplan ist aktuell leer !'}
@@ -65,7 +95,7 @@ const WeeklyPlan = props => {
         </div>
       )}
       <ul className={classes.contentListBox__ul}>
-        {dataCtx.weeklyPlan.map((item, i) => {
+        {planState.map((item, i) => {
           let day = '';
           if (i === 0) day = dayOutput(dayNumb);
           if (i > 0) day = dayOutput(dayNumb + i);

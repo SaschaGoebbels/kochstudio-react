@@ -28,9 +28,7 @@
   font-family: var(--ff_main);
   font-weight: 600;
 }
-.contentListBox__item--current {
-  background-color: brown;
-}
+
 .contentListBox__item:hover {
   transition: all 300ms;
   scale: 1.01 1.2;

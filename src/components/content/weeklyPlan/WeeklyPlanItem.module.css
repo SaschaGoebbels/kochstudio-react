@@ -1,7 +1,8 @@
 .itemBox {
   border: var(--clr-accent_background) solid 3px;
   border-radius: 1.5rem;
-  width: 60vw;
+  width: 70%;
+  margin: auto;
 }
 .itemBox__textBox {
   position: relative;

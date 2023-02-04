@@ -3,7 +3,7 @@ import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import Header from '../../header/Header';
 import Content from '../../ui/Content';
-import SearchBar from '../../ui/SearchBar';
+// import SearchBar from '../../ui/SearchBar';
 import RecipeListBox from '../recipeList/RecipeListBox';
 import Footer from '../../ui/Footer';
 import ButtonBox from '../../ui/ButtonBox';
@@ -16,13 +16,26 @@ const WeeklyPlanEdit = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
-  const listClickHandler = item => {
-    // console.log(item);
-    updateData('PLAN', item);
+  const [currentRecipeList, setCurrentRecipeList] = useState(
+    dataCtx.recipeList
+  );
+
+  const listClickHandler = itemId => {
+    setCurrentRecipeList(prev => {
+      return prev.map(el => {
+        if (el.id === itemId) {
+          el.weeklyPlan = !el.weeklyPlan;
+          return el;
+        }
+        return el;
+      });
+    });
   };
   const onButtonBoxHandler = btnId => {
-    if (btnId === 'x') state.weeklyPlan.editMode = false;
-    console.log(snap.weeklyPlan.editMode);
+    if (btnId === 'check') updateData('PLAN', { currentRecipeList });
+    state.weeklyPlan.editMode = false;
+    state.headerText = 'Wochenplan';
+    state.searchBarHide = true;
   };
   return (
     <div
@@ -34,14 +47,18 @@ const WeeklyPlanEdit = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={dataCtx.recipeList}
-              weeklyPlan={true}
-              // setCurrentRecipeList={props.setCurrentRecipeList}
-              // weeklyPlan={dataCtx.weeklyPlan}
+              recipeList={currentRecipeList}
               listClickHandler={listClickHandler}
               showFavList={false}
-              searchInput={''}
-              // listItemColor={'#fff'}
+              searchInput={props.searchInput}
+              listItemDefaultStyle={{
+                backgroundColor: '#93f9d7',
+                border: 'var(--clr_border) solid 2px',
+              }}
+              listItemCheckedStyle={{
+                backgroundColor: '#e8f9f4',
+                border: 'var(--clr_border) solid 2px',
+              }}
             ></RecipeListBox>
           </div>
         }

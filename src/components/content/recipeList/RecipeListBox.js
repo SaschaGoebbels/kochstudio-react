@@ -1,40 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import classes from './RecipeListBox.module.css';
-import DataProvider, { DataContext } from '../../store/DataProvider';
 
 const RecipeListBox = props => {
-  const dataCtx = useContext(DataContext);
-  const [currentRecipeList, setCurrentRecipeList] = useState(
-    dataCtx.recipeList
-  );
   const listClickHandler = itemId => {
-    // BUG
-    if (props.weeklyPlan === true) {
-      setCurrentRecipeList(prev => {
-        prev.map(el => {
-          if (el.id === itemId) {
-            console.log(el);
-
-            // el.weeklyPlan = !el.weeklyPlan;
-            return el;
-          }
-          return el;
-        });
-      });
-      console.log(currentRecipeList);
-      return;
-    }
     props.listClickHandler(itemId);
   };
 
   return (
-    <div
-      className={classes.contentListBox}
-      // setCurrentRecipeList={update => setCurrentRecipeList(update)}
-    >
+    <div className={classes.contentListBox}>
       <ul className={classes.contentListBox__ul}>
-        {currentRecipeList
+        {props.recipeList
           .filter(el => {
             if (props.showFavList === false) return el;
             if (el.fav === true) return el;
@@ -48,9 +23,7 @@ const RecipeListBox = props => {
             if (item.weeklyPlan) {
               return (
                 <li
-                  style={{
-                    backgroundColor: '#fff',
-                  }}
+                  style={props.listItemCheckedStyle}
                   key={item.id}
                   className={classes.contentListBox__item}
                   onClick={() => listClickHandler(item.id)}
@@ -61,9 +34,7 @@ const RecipeListBox = props => {
             } else {
               return (
                 <li
-                  style={{
-                    backgroundColor: '',
-                  }}
+                  style={props.listItemDefaultStyle}
                   key={item.id}
                   className={classes.contentListBox__item}
                   onClick={() => listClickHandler(item.id)}

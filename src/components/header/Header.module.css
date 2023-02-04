@@ -13,7 +13,7 @@
   z-index: 99;
   background-color: var(--clr-accent_background);
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-family: var(--ff_accent);
   display: flex;
   justify-content: center;
@@ -31,6 +31,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   top: 0.25em;
   width: 75%;
   height: 95%;
