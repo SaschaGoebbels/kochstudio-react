@@ -26,6 +26,7 @@
   padding: 0.5rem 1rem;
   border-radius: 0.8rem;
   width: 70%;
+  font-size: 1.4rem;
   font-family: var(--ff_main);
   font-weight: 600;
 }
