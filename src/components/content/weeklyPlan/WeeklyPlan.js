@@ -26,7 +26,7 @@ const WeeklyPlan = props => {
   };
   useEffect(() => {
     setPlanState(dataCtx.weeklyPlan);
-  }, [snap.weeklyPlan.editMode]);
+  }, [snap.weeklyPlan.editMode, snap.headerText === 'Wochenplan']);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');

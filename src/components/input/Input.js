@@ -1,7 +1,8 @@
 import React, { useState, useReducer, useContext, useEffect } from 'react';
 
-import { useDataUpdate } from '../store/DataProvider';
 import DataProvider, { DataContext } from '../store/DataProvider';
+import { useDataUpdate } from '../store/DataProvider';
+import { UPDATERECIPE } from '../store/DataProvider';
 
 import { state } from '../store/state';
 import { useSnapshot } from 'valtio';
@@ -64,7 +65,7 @@ const Input = props => {
     recipeUpdate.ingredients = JSON.parse(JSON.stringify(ingredientsState));
     recipeUpdate.preparation = preparationState;
     state.currentRecipe = JSON.parse(JSON.stringify(recipeUpdate));
-    updateData('UPDATERECIPE', { recipeUpdate });
+    updateData(UPDATERECIPE, { recipeUpdate });
     props.hideInputCheckPageChangeHeaderText(snap.navigation, recipeUpdate);
   };
 

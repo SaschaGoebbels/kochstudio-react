@@ -20,27 +20,19 @@ const RecipeList = props => {
     state.headerText = recipe.name;
     state.recipePageHide = false;
     state.currentRecipe = recipe;
-    setRecipePage({ hide: false, recipe: recipe });
+    setRecipePageState({ hide: false, recipe: recipe });
   };
   //==================================================================
-  const [recipePage, setRecipePage] = useState({
+  const [recipePageState, setRecipePageState] = useState({
     hide: true,
     recipe: snap.initialState,
   });
   useEffect(() => {
-    setRecipePage({ hide: false, recipe: snap.currentRecipe });
-  }, [snap.currentRecipe]);
+    setRecipePageState({ hide: false, recipe: snap.currentRecipe });
+  }, [snap.currentRecipe, dataCtx.recipeList]);
   //==================================================================
   const onRoundButtonHandler = item => {
     props.recipeListButton(item);
-  };
-  const onFavChangeHandler = recipeObject => {
-    setRecipePage(prev => {
-      snap.currentRecipe.fav === true
-        ? (state.currentRecipe.fav = false)
-        : (state.currentRecipe.fav = true);
-      return prev;
-    });
   };
   //==================================================================
   //SearchBar
@@ -60,8 +52,7 @@ const RecipeList = props => {
       <RecipePage
         setHideInput={props.setHideInput}
         showRecipePage={snap.recipePageHide}
-        recipeObject={recipePage.recipe}
-        favChangeHandler={onFavChangeHandler}
+        recipeObject={recipePageState.recipe}
       ></RecipePage>
       <ul className={classes.contentListBox__ul}>
         {dataCtx.recipeList

@@ -5,6 +5,8 @@ import useFetch from '../../hooks/useFetch';
 import { state } from '../store/state';
 import { snapshot, useSnapshot } from 'valtio';
 
+export const UPDATERECIPE = 'UPDATERECIPE';
+
 export const DataContext = React.createContext(null);
 const DataUpdate = React.createContext();
 export function useDataUpdate() {
@@ -1166,12 +1168,56 @@ const dataInit = {
       id: '7fcd7c46-20ef-b983-265c-8f7f3748153e',
     },
   ],
+  shoppingList: [
+    {
+      name: 'Aus nix irgend was',
+      fav: true,
+      ingredients: [
+        {
+          ingredientName: 'Nudel',
+          quantity: ' ',
+          unit: ' ',
+          id: '08c31d35-54f9-9d31-7be4-412f5049973f',
+          editMode: false,
+        },
+        {
+          ingredientName: 'Paprika',
+          quantity: ' ',
+          unit: ' ',
+          id: '7b73f90c-ad8d-7b1e-9699-10e68f7b03dd',
+          editMode: false,
+        },
+        {
+          ingredientName: 'Eier',
+          quantity: ' ',
+          unit: ' ',
+          id: '95b2cdeb-ed2f-6297-a4e4-2531c009c843',
+          editMode: false,
+        },
+        {
+          ingredientName: 'Würstchen',
+          quantity: ' ',
+          unit: ' ',
+          id: '127940b8-166a-e01c-c3a5-f6406be96471',
+          editMode: false,
+        },
+        {
+          ingredientName: 'Sucuk',
+          quantity: '200',
+          unit: 'g',
+          id: '82fddd2d-e8fa-b064-1ae1-3b3e041e9646',
+          editMode: false,
+        },
+      ],
+      preparation: '',
+      id: 'e3ab4a12-bcb5-b13e-fd64-d2f156d7de3e',
+    },
+  ],
 };
 
 //==================================================================
 const dataReducer = (stateReducer, action) => {
-  // console.log(action.dataUpdate.recipeUpdate);
-  // console.log(action.type);
+  // input new recipe
   if (action.type === 'INPUT') {
     stateReducer.recipeList = [
       ...stateReducer.recipeList,
@@ -1180,14 +1226,62 @@ const dataReducer = (stateReducer, action) => {
     sortArray(stateReducer.recipeList);
     return stateReducer;
   }
-  if (action.type === 'UPDATERECIPE') {
-    const index = stateReducer.recipeList
-      .map(e => e.id)
-      .indexOf(action.dataUpdate.recipeUpdate.id);
-    stateReducer.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
-    sortArray(stateReducer.recipeList);
-    return stateReducer;
+  //==================================================================
+  // update existing recipe
+  if (action.type === UPDATERECIPE) {
+    // replace existing recipe with updated version
+    if (action.dataUpdate.recipeUpdate) {
+      const index = stateReducer.recipeList
+        .map(e => e.id)
+        .indexOf(action.dataUpdate.recipeUpdate.id);
+      stateReducer.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
+      sortArray(stateReducer.recipeList);
+      return stateReducer;
+    }
+    //++++++++++++++++++++++++++++++++++++++++
+    // update recipe fav state and update recipePage
+    if (action.dataUpdate.favUpdate) {
+      let currentFavState;
+      stateReducer.recipeList = stateReducer.recipeList.map(el => {
+        if (el.id === action.dataUpdate.recipe.id) {
+          el.fav = !el.fav;
+          currentFavState = el.fav;
+        }
+        return el;
+      });
+      action.dataUpdate.favUpdate('fav', currentFavState);
+      return stateReducer;
+    }
+    //++++++++++++++++++++++++++++++++++++++++
+    // update plan onClick recipePage
+    if (action.dataUpdate.planUpdate) {
+      // remove from plan
+      if (action.dataUpdate.currentPlanState) {
+        stateReducer.weeklyPlan = removeFromlist(
+          stateReducer.weeklyPlan,
+          action.dataUpdate.recipe.id
+        );
+        // action.dataUpdate.setPlanStateFromOutSide();
+        action.dataUpdate.planUpdate('plan', false);
+        return stateReducer;
+      }
+      // add to plan
+      if (action.dataUpdate.currentPlanState === false) {
+        stateReducer.weeklyPlan = addToList(
+          stateReducer.weeklyPlan,
+          action.dataUpdate.recipe
+        );
+        action.dataUpdate.planUpdate('plan', true);
+        console.log(stateReducer.weeklyPlan);
+        return stateReducer;
+      }
+    }
+    //++++++++++++++++++++++++++++++++++++++++
+    if (action.dataUpdate.listUpdate) {
+      console.log('listUpdate');
+    }
   }
+  //==================================================================
   if (action.type === 'DELETE') {
     stateReducer.recipeList = stateReducer.recipeList.filter(el => {
       if (el.id !== action.dataUpdate.id) return el;
@@ -1196,25 +1290,34 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'PLAN') {
+    // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
       return stateReducer;
     }
-    // remove from list
+    // remove from plan
     if (action.dataUpdate.itemId) {
-      const updatedList = stateReducer.weeklyPlan.filter(el => {
-        if (el.id !== action.dataUpdate.itemId) {
-          return el;
-        }
-      });
-      stateReducer.weeklyPlan = updatedList;
+      stateReducer.weeklyPlan = removeFromlist(
+        stateReducer.weeklyPlan,
+        action.dataUpdate.itemId
+      );
       action.dataUpdate.setPlanStateFromOutSide();
       return stateReducer;
     }
   }
   return stateReducer;
 };
-
+//==================================================================
+// manipulate weeklyPlan and shoppingList
+const removeFromlist = (currentList, idToRemove) => {
+  currentList = currentList.filter(el => {
+    if (el.id !== idToRemove) return el;
+  });
+  return currentList;
+};
+const addToList = (currentList, objToAdd) => {
+  return [...currentList, objToAdd];
+};
 //==================================================================
 const sortArray = array => {
   array.sort(function (a, b) {

@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import classes from './RecipePage.module.css';
 
 import DataProvider, { DataContext } from '../../store/DataProvider';
+import { useDataUpdate } from '../../store/DataProvider';
+import { UPDATERECIPE } from '../../store/DataProvider';
 
 import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
@@ -9,15 +11,53 @@ import Footer from '../../ui/Footer';
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { state } from '../../store/state';
+import { useEffect } from 'react';
 
 const RecipePage = props => {
   const dataCtx = useContext(DataContext);
   const snap = useSnapshot(state);
-  const [fav, setFav] = useState(props.recipeObject.fav);
+  const dataUpdate = useDataUpdate();
+  const [favState, setFavState] = useState();
+  const [planState, setPlanState] = useState();
+  const [listState, setListState] = useState();
+  useEffect(() => {
+    setFavState(props.recipeObject.fav || false);
+    setPlanState(
+      dataCtx.weeklyPlan.some(el => el.id === props.recipeObject.id) || false
+    );
+    setListState(
+      dataCtx.shoppingList.some(el => el.id === props.recipeObject.id) || false
+    );
+  }, [props.recipeObject]);
+  const useEffectStartUpdate = (state, action) => {
+    // console.log(state, action);
+    setTimeout(() => {
+      if (state === 'fav') setFavState(action);
+      if (state === 'plan') setPlanState(action);
+      if (state === 'list') setListState(action);
+    }, 50);
+  };
+
   const onRoundButtonHandler = btnId => {
+    // console.log(btnId);
     if (btnId === 'heart') {
-      setFav(prev => !prev);
-      props.favChangeHandler(props.recipeObject);
+      dataUpdate(UPDATERECIPE, {
+        favUpdate: useEffectStartUpdate,
+        recipe: props.recipeObject,
+      });
+    }
+    if (btnId === 'plan') {
+      dataUpdate(UPDATERECIPE, {
+        planUpdate: useEffectStartUpdate,
+        currentPlanState: planState,
+        recipe: props.recipeObject,
+      });
+    }
+    if (btnId === 'list') {
+      dataUpdate(UPDATERECIPE, {
+        listUpdate: useEffectStartUpdate,
+        recipe: props.recipeObject,
+      });
     }
     if (btnId === 'pen') {
       // console.log('pen');
@@ -26,6 +66,7 @@ const RecipePage = props => {
     }
   };
   const btnCheckedColor = '#E5BE35';
+
   return (
     <div
       className={`${classes.recipePage} ${
@@ -38,21 +79,21 @@ const RecipePage = props => {
             btnId="list"
             buttonName={'list'}
             buttonSize={'small'}
-            color={props.recipeObject.fav ? btnCheckedColor : ''}
-            onClickHandler={props.onRoundButtonHandler}
+            color={listState ? btnCheckedColor : ''}
+            onClickHandler={onRoundButtonHandler}
           />
           <ButtonRound
             btnId="plan"
             buttonName={'plan'}
             buttonSize={'small'}
-            color={props.recipeObject.fav ? btnCheckedColor : ''}
-            onClickHandler={props.onRoundButtonHandler}
+            color={planState ? btnCheckedColor : ''}
+            onClickHandler={onRoundButtonHandler}
           />
           <ButtonRound
             btnId="heart"
             buttonName={'heart'}
             buttonSize={'small'}
-            color={props.recipeObject.fav ? btnCheckedColor : ''}
+            color={favState ? btnCheckedColor : ''}
             // color={props.recipeObject.fav ? '#e56d6d' : ''}
             onClickHandler={onRoundButtonHandler}
           />
