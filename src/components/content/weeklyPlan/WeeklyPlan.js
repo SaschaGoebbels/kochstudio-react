@@ -107,6 +107,7 @@ const WeeklyPlan = props => {
       </ul>
       <ButtonBoxContent
         onRoundButtonHandler={onRoundButtonHandler}
+        coinHide={true}
       ></ButtonBoxContent>
     </div>
   );

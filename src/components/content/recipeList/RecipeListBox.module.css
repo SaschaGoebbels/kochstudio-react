@@ -17,7 +17,7 @@
 .contentListBox__item {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -27,6 +27,7 @@
   width: 70%;
   font-family: var(--ff_main);
   font-weight: 600;
+  font-size: 1.3rem;
 }
 
 .contentListBox__item:hover {

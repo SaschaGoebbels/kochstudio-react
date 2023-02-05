@@ -5,7 +5,6 @@ const RecipeListBox = props => {
   const listClickHandler = itemId => {
     props.listClickHandler(itemId);
   };
-
   return (
     <div className={classes.contentListBox}>
       <ul className={classes.contentListBox__ul}>
@@ -17,7 +16,8 @@ const RecipeListBox = props => {
           .filter(el => {
             if (props.searchInput === '') return el;
             const name = el.name;
-            if (name.toLowerCase().includes(props.searchInput)) return el;
+            if (name.toLowerCase().includes(props.searchInput.toLowerCase()))
+              return el;
           })
           // decide weeklyPlan or not => check on render if exist in recipe list
           .map(item => {
@@ -30,7 +30,7 @@ const RecipeListBox = props => {
                   style={props.listItemCheckedStyle}
                   key={item.id}
                   className={classes.contentListBox__item}
-                  onClick={() => listClickHandler(item.id)}
+                  onClick={() => listClickHandler(item)}
                 >
                   {item.name}
                 </li>
@@ -41,7 +41,7 @@ const RecipeListBox = props => {
                   style={props.listItemDefaultStyle}
                   key={item.id}
                   className={classes.contentListBox__item}
-                  onClick={() => listClickHandler(item.id)}
+                  onClick={() => listClickHandler(item)}
                 >
                   {item.name}
                 </li>

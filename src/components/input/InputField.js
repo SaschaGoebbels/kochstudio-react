@@ -2,14 +2,6 @@ import { text } from '@fortawesome/fontawesome-svg-core';
 import React, { useState } from 'react';
 import classes from './InputField.module.css';
 
-// const InputField = props => {
-//   return (
-//     <div>
-//       <input className={classes.input} {...props.input} />
-//     </div>
-//   );
-// };
-
 const InputField = props => {
   let propsStyle = props.propsStyle || { width: '100%' };
   const label = (

@@ -8,11 +8,6 @@ import { state } from '../store/state';
 
 const SearchBar = props => {
   const snap = useSnapshot(state);
-
-  // const [searchInput, setSearchInput] = useState('');
-  // const inputChangeHandler = value => {
-  //   setSearchInput(value);
-  // };
   const onXHandler = () => {
     state.searchBarHide = true;
   };

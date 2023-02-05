@@ -22,7 +22,6 @@ const Header = props => {
   };
   const onSearchBtnHandler = () => {
     state.searchBarHide = false;
-    console.log('search');
   };
   const onMenuBtnHandler = () => {
     console.log('OK');

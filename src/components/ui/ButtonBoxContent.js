@@ -19,15 +19,17 @@ const ButtonBoxContent = props => {
           onClickHandler={props.onRoundButtonHandler}
         />
       </div>
-      <ButtonRound
-        btnId="coin"
-        className={classes.buttonCoincidence}
-        buttonName={'coin'}
-        color={''}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={props.onRoundButtonHandler}
-      />
+      {!props.coinHide && (
+        <ButtonRound
+          btnId="coin"
+          className={classes.buttonCoincidence}
+          buttonName={'coin'}
+          color={''}
+          iconColor={''}
+          isFav={''}
+          onClickHandler={props.onRoundButtonHandler}
+        />
+      )}
     </div>
   );
 };

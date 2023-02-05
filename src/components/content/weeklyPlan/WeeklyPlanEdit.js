@@ -3,7 +3,6 @@ import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import Header from '../../header/Header';
 import Content from '../../ui/Content';
-// import SearchBar from '../../ui/SearchBar';
 import RecipeListBox from '../recipeList/RecipeListBox';
 import Footer from '../../ui/Footer';
 import ButtonBox from '../../ui/ButtonBox';
@@ -22,19 +21,19 @@ const WeeklyPlanEdit = props => {
     setWeeklyPlanState(dataCtx.weeklyPlan);
   }, [snap.weeklyPlan.editMode]);
 
-  const listClickHandler = itemId => {
+  const listClickHandler = item => {
     setWeeklyPlanState(prev => {
-      if (prev.some(el => el.id === itemId)) {
+      if (prev.some(el => el.id === item.id)) {
         return [
           ...prev.filter(el => {
-            if (el.id !== itemId) return el;
+            if (el.id !== item.id) return el;
           }),
         ];
       }
       return [
         ...prev,
         ...dataCtx.recipeList.filter(el => {
-          if (el.id === itemId) return el;
+          if (el.id === item.id) return el;
         }),
       ];
     });

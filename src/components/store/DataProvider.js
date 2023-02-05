@@ -1272,7 +1272,6 @@ const dataReducer = (stateReducer, action) => {
           action.dataUpdate.recipe
         );
         action.dataUpdate.planUpdate('plan', true);
-        console.log(stateReducer.weeklyPlan);
         return stateReducer;
       }
     }
