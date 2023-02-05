@@ -1196,40 +1196,25 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'PLAN') {
-    // add to list
-    console.log('plan');
-    if (action.dataUpdate.currentRecipeList) {
-      console.log('OK');
-      stateReducer.recipeList = [...action.dataUpdate.currentRecipeList];
-      // stateReducer.weeklyPlan = updateWeeklyPlan(
-      //   stateReducer.recipeList,
-      //   stateReducer.weeklyPlan
-      // );
+    if (action.dataUpdate.weeklyPlanState) {
+      stateReducer.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
       return stateReducer;
     }
     // remove from list
     if (action.dataUpdate.itemId) {
-      const updatedList = stateReducer.recipeList.map(el => {
-        if (el.id === action.dataUpdate.itemId) {
-          el.weeklyPlan = false;
+      const updatedList = stateReducer.weeklyPlan.filter(el => {
+        if (el.id !== action.dataUpdate.itemId) {
+          return el;
         }
-        return el;
       });
-      // stateReducer.weeklyPlan = updateWeeklyPlan(
-      //   stateReducer.recipeList,
-      //   stateReducer.weeklyPlan
-      // );
+      stateReducer.weeklyPlan = updatedList;
       action.dataUpdate.setPlanStateFromOutSide();
       return stateReducer;
     }
   }
   return stateReducer;
 };
-// const updateWeeklyPlan = (recipeList, currentWeeklyPlan) => {
-//   return currentWeeklyPlan.filter(el => {
-//     if (el.weeklyPlan === true) return el;
-//   });
-// };
+
 //==================================================================
 const sortArray = array => {
   array.sort(function (a, b) {

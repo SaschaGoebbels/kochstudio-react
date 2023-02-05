@@ -17,14 +17,7 @@ const WeeklyPlan = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  // const recipeListFiltered = data => {
-  //   return data.filter(el => {
-  //     if (el.weeklyPlan === true) {
-  //       return el;
-  //     }
-  //   });
-  // };
-  console.log(dataCtx.weeklyPlan);
+
   const [planState, setPlanState] = useState(dataCtx.weeklyPlan);
   const setPlanStateFromOutSide = () => {
     setTimeout(() => {
@@ -46,6 +39,7 @@ const WeeklyPlan = props => {
   //==================================================================
   // day handling
   const dateToday = new Date();
+  // const dateToday = new Date('August 06, 2023 12:05:00');
   const dayNumb = dateToday.getDay();
   // checkDate(dateToday);
   const dayOutput = dayNumb => {
@@ -64,7 +58,7 @@ const WeeklyPlan = props => {
     if (dayNumb === 4) return 'Donnerstag';
     if (dayNumb === 5) return 'Freitag';
     if (dayNumb === 6) return 'Samstag';
-    if (dayNumb === 7) return 'Sonntag';
+    if (dayNumb === 0) return 'Sonntag';
   };
   //==================================================================
   const onRoundButtonHandler = btnId => {
@@ -95,8 +89,9 @@ const WeeklyPlan = props => {
       )}
       <ul className={classes.contentListBox__ul}>
         {planState.map((item, i) => {
-          let day = '';
+          let day = dayOutput(dayNumb);
           if (i === 0) day = dayOutput(dayNumb);
+          // if (i === 0) day = dayOutput(dayNumb);
           if (i > 0) day = dayOutput(dayNumb + i);
           return (
             <li key={item.id}>

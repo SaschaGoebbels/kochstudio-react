@@ -13,7 +13,7 @@
   transition: transform 250ms ease-in-out;
 }
 .searchBar--hide {
-  transform: translate(0%, -20rem);
+  transform: translate(0%, -30vh);
 }
 .searchBar__btnBox {
   position: absolute;

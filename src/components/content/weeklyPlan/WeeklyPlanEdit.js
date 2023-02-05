@@ -16,38 +16,31 @@ const WeeklyPlanEdit = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
-  const [currentRecipeList, setCurrentRecipeList] = useState(
-    dataCtx.recipeList
-  );
+
   const [weeklyPlanState, setWeeklyPlanState] = useState(dataCtx.weeklyPlan);
+  useEffect(() => {
+    setWeeklyPlanState(dataCtx.weeklyPlan);
+  }, [snap.weeklyPlan.editMode]);
 
   const listClickHandler = itemId => {
     setWeeklyPlanState(prev => {
-      prev.filter(el => {
-        if (el.id === itemId) {
-          console.log('remove');
-          return;
-        }
-      });
+      if (prev.some(el => el.id === itemId)) {
+        return [
+          ...prev.filter(el => {
+            if (el.id !== itemId) return el;
+          }),
+        ];
+      }
       return [
         ...prev,
-        dataCtx.recipeList.filter(el => {
+        ...dataCtx.recipeList.filter(el => {
           if (el.id === itemId) return el;
         }),
       ];
     });
-    setCurrentRecipeList(prev => {
-      return prev.map(el => {
-        if (el.id === itemId) {
-          el.weeklyPlan = !el.weeklyPlan;
-          return el;
-        }
-        return el;
-      });
-    });
   };
   const onButtonBoxHandler = btnId => {
-    if (btnId === 'check') updateData('PLAN', { currentRecipeList });
+    if (btnId === 'check') updateData('PLAN', { weeklyPlanState });
     state.weeklyPlan.editMode = false;
     state.headerText = 'Wochenplan';
     state.searchBarHide = true;
