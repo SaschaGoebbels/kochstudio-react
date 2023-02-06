@@ -11,7 +11,7 @@ const useCoin = ({ inputArray, favList }) => {
       });
     } else return inputArray;
   };
-  console.log(currentArray);
+  // console.log(currentArray);
   const randomNumber = arrayLength => {
     Math.trunc(Math.random() * arrayLength);
   };

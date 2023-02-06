@@ -2,7 +2,7 @@ import React from 'react';
 import ButtonRound from '../ui/ButtonRound';
 import RecipeList from './recipeList/RecipeList';
 import WeeklyPlan from './weeklyPlan/WeeklyPlan';
-// import ShoppingList from './shopping_list/ShoppingList';
+import ShoppingList from './shopping_list/ShoppingList';
 import classes from './ContentSwipe.module.css';
 import { useSnapshot } from 'valtio';
 import { state } from '../store/state';
@@ -40,6 +40,7 @@ const ContentSwipe = props => {
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
       />
+      <ShoppingList></ShoppingList>
     </div>
   );
 };
