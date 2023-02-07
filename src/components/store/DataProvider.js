@@ -1170,13 +1170,13 @@ const dataInit = {
   ],
   shoppingList: [
     {
-      name: 'Ritter',
+      name: 'Testmenu',
       fav: false,
       weeklyPlan: true,
       ingredients: [
         {
           ingredientName: 'Mehl',
-          quantity: '300',
+          quantity: '500',
           unit: 'g',
           id: 'c2b1602f-e6f7-7597-82be-600a7406bef',
           editMode: false,
@@ -1190,16 +1190,16 @@ const dataInit = {
         },
         {
           ingredientName: 'Milch',
-          quantity: '300',
-          unit: 'ml',
+          quantity: '0.5',
+          unit: 'l',
           id: 'e261f15d-7c42-e2b8-3295-c170e638f04',
           editMode: false,
         },
         {
-          ingredientName: 'Toastbrot ',
-          quantity: '0.5',
+          ingredientName: 'Sahne ',
+          quantity: '1',
           unit: 'Stk.',
-          id: '402f316c-60d7-274e-cf27-4ea68e756ca',
+          id: '402f316c-60d7-274e-cf27-4exxxe756ca',
           editMode: false,
         },
         {
