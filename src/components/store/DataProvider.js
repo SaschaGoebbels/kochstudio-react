@@ -1170,6 +1170,46 @@ const dataInit = {
   ],
   shoppingList: [
     {
+      name: 'Menu_1',
+      fav: false,
+      weeklyPlan: true,
+      id: '759c2-9ab5-231b-0d59-e153b60270',
+      ingredients: [
+        {
+          ingredientName: 'Mehl',
+          quantity: '500',
+          unit: 'g',
+          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
+          editMode: false,
+        },
+        // {
+        //   ingredientName: 'Mehl',
+        //   quantity: '100',
+        //   unit: 'g',
+        //   id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
+        //   editMode: false,
+        // },
+      ],
+    },
+    {
+      name: 'Menu_2',
+      fav: false,
+      weeklyPlan: true,
+      id: '759e69c2-9ab5-231b-0d59-e153b60',
+      ingredients: [
+        {
+          ingredientName: 'Mehl',
+          quantity: '300',
+          unit: 'g',
+          id: 'c2b1602f-e6f7-sss97-82be-aaaxsxsx6bef',
+          editMode: false,
+        },
+      ],
+    },
+  ],
+
+  shoppingList2: [
+    {
       name: 'Testmenu',
       fav: false,
       weeklyPlan: true,
@@ -1178,21 +1218,21 @@ const dataInit = {
           ingredientName: 'Mehl',
           quantity: '500',
           unit: 'g',
-          id: 'c2b1602f-e6f7-7597-82be-600a7406bef',
+          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
           editMode: false,
         },
         {
           ingredientName: 'Eier',
           quantity: '5',
           unit: 'Stk.',
-          id: 'c643a35b-efdb-0952-6dd8-6a5b4628d5a',
+          id: 'c643a35b-efdb-0952-6dd8-6a5b4sxsx62a',
           editMode: false,
         },
         {
           ingredientName: 'Milch',
           quantity: '0.5',
           unit: 'l',
-          id: 'e261f15d-7c42-e2b8-3295-c170e638f04',
+          id: 'e261f15d-7c42-e2b8-3295-c17xsxsf04',
           editMode: false,
         },
         {
@@ -1206,7 +1246,7 @@ const dataInit = {
           ingredientName: 'Salz',
           quantity: '1',
           unit: 'TL-gestr.',
-          id: '643a6fa8-722d-d2ca-78b1-81ecbe70ec7',
+          id: '643a6fa8-722d-d2ca-78b1-81ecxsxs0ec7',
           editMode: false,
         },
       ],
