@@ -79,7 +79,7 @@ const ShoppingList = props => {
 
   const [shoppingState, setShoppingState] = useState(dataCtx.shoppingList);
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
-
+  let tempSumState;
   const setListStateFromOutSide = () => {
     setTimeout(() => {
       setShoppingState(dataCtx.shoppingList);
@@ -102,53 +102,71 @@ const ShoppingList = props => {
   // // //logic for summarized ingredientList
   ////////////////// CHECK //////////////////
   const addRecipeToSummarized = (recipeList, listStateNow) => {
+    tempSumState = listStateNow;
     for (const recipe in recipeList) {
       const ingredients = recipeList[recipe].ingredients;
-      checkIngredientsOfRecipe(ingredients, listStateNow);
+      console.log(tempSumState);
+      tempSumState = checkIngredientsOfRecipe(ingredients, tempSumState);
     }
+    console.log(tempSumState);
+    setIngredientsSumListState(prev => [tempSumState]);
   };
-  const checkIngredientsOfRecipe = (ingredients, listStateNow) => {
-    for (const ingredient in ingredients) {
+  const checkIngredientsOfRecipe = (ingredients, tempSumState) => {
+    for (const key in ingredients) {
+      console.log(key);
+      console.log(key);
       // // // go through ingredients check nameKey in list,
       // // // if so add to ingredients array, else create new listItem and add ingredients
-      const nameKey = ingredients[ingredient].ingredientName
-        .trim()
-        .toLowerCase();
+      const nameKey = ingredients[key].ingredientName.trim().toLowerCase();
+      console.log(nameKey);
+      console.log(tempSumState);
       // // // check nameKey
-      // console.log(listStateNow);
-      if (listStateNow.some(el => el.nameKey === nameKey)) {
+      if (tempSumState.some(el => el.nameKey === nameKey)) {
         console.log('list contains');
-        ingredientExistInSumListAdd(
+        // create and append list
+        console.log(ingredients[key]);
+        tempSumState = ingredientExistInSumListAdd(
           nameKey,
-          listStateNow,
+          tempSumState,
           ingredients,
-          ingredient
+          key
         );
+        return tempSumState;
       } else {
-        console.log('else');
-        createIngredientSumList(ingredients, ingredient, nameKey, listStateNow);
+        return createIngredientSumList(ingredients, key, nameKey);
+        // createIngredientSumList(ingredients, ingredient, nameKey);
       }
     }
   };
   const ingredientExistInSumListAdd = (
     nameKey,
-    listStateNow,
+    tempSumState,
     ingredients,
     ingredient
   ) => {
     // if ingredientsSumList exists check if item is already on the list, if not add
     // create filtered array containing the current nameKey
-    const [filteredListStateNow] = listStateNow.filter(item => {
+    const [filteredListStateNow] = tempSumState.filter(item => {
       if (item.nameKey === nameKey) return item;
     });
     //now filter the ingredientsArray by id , if containing return and skip
+    // console.log(ingredients[ingredient].id);
+    // console.log(filteredListStateNow.ingredients[0].id);
+    //BUG
+    // console.log(filteredListStateNow.ingredients[0].id);
+    // console.log(ingredients);
+    // console.log(
+    //   filteredListStateNow.ingredients.some(
+    //     ing => ing.id === ingredients[ingredient].id
+    //   )
+    // );
     if (
       filteredListStateNow.ingredients.some(
         ing => ing.id === ingredients[ingredient].id
       )
     ) {
       console.log('already exists return now');
-      return;
+      return tempSumState;
     }
     console.log('append existing list');
     const ingSumListCreate = ingredientListUpdate(
@@ -164,15 +182,10 @@ const ShoppingList = props => {
       ...filteredListStateNow.ingredients,
       ingSumListCreate,
     ];
-    console.log(!listStateNow.some(el => el.nameKey === nameKey));
+    console.log(tempSumState);
+    return tempSumState;
   };
-  const createIngredientSumList = (
-    ingredients,
-    ingredient,
-    nameKey,
-    listStateNow
-  ) => {
-    console.log('create');
+  const createIngredientSumList = (ingredients, ingredient, nameKey) => {
     // create sumItemHolder
     const ingSumListCreate = ingredientListUpdate(
       true,
@@ -182,10 +195,12 @@ const ShoppingList = props => {
       ingredients[ingredient].unit,
       ingredients[ingredient].id
     );
-    console.log(ingSumListCreate);
-    // if nameKey do not exist create it and append list
-    listStateNow = [...listStateNow, ingSumListCreate];
-    console.log(listStateNow);
+    console.log('create', ingSumListCreate);
+    return (tempSumState = [...tempSumState, ingSumListCreate]);
+    console.log(tempSumState);
+    // setIngredientsSumListState(prev => [...prev, ingSumListCreate]);
+    // // // if nameKey do not exist create it and append list
+    // listStateNow = [...listStateNow, ingSumListCreate];
   };
   //++++++++++++++++++++++++++++++
   const ingredientListUpdate = (

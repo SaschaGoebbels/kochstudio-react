@@ -1168,7 +1168,7 @@ const dataInit = {
       id: '7fcd7c46-20ef-b983-265c-8f7f3748153e',
     },
   ],
-  shoppingList: [
+  shoppingList1: [
     {
       name: 'Menu_1',
       fav: false,
@@ -1182,13 +1182,13 @@ const dataInit = {
           id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
           editMode: false,
         },
-        // {
-        //   ingredientName: 'Mehl',
-        //   quantity: '100',
-        //   unit: 'g',
-        //   id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
-        //   editMode: false,
-        // },
+        {
+          ingredientName: 'Mehl',
+          quantity: '200',
+          unit: 'g',
+          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
+          editMode: false,
+        },
       ],
     },
     {
@@ -1208,7 +1208,7 @@ const dataInit = {
     },
   ],
 
-  shoppingList2: [
+  shoppingList: [
     {
       name: 'Testmenu',
       fav: false,
@@ -1239,7 +1239,7 @@ const dataInit = {
           ingredientName: 'Sahne ',
           quantity: '1',
           unit: 'Stk.',
-          id: '402f316c-60d7-274e-cf27-4exxxe756ca',
+          id: '402f316c-60d7-274e-cf27-4e23020xxxe756ca',
           editMode: false,
         },
         {
