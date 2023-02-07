@@ -11,14 +11,7 @@ import classes from './ShoppingList.module.css';
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 //==================================================================
-class ingItem {
-  constructor(name, quantity, unit, id) {
-    this.name = name;
-    this.quantity = quantity;
-    this.unit = unit;
-    this.id = id;
-  }
-}
+
 const setUnitMulti = inputUnit => {
   let multiplication = 1;
   if (inputUnit === 'g') {
@@ -55,19 +48,22 @@ const setUnitMulti = inputUnit => {
   }
 };
 
-class ingSumList {
-  constructor(nameKey, name, ingredients, unit) {
+class ingredientSumItem {
+  constructor(name, nameKey, quantity, unit) {
     this.nameKey = nameKey;
     this.name = name;
     this.unit = unit;
-    this.ingredients = ingredients;
-    this.sum = this.ingredients.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.exportQuantity
-    );
+    this.quantity = [quantity];
   }
-  add(item) {
-    this.ingredients = [...this.ingredients, item];
-    return this.ingredients;
+  add(value) {
+    this.quantity = [...this.quantity, value];
+    return this.quantity;
+  }
+  sum() {
+    return this.quantity.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
   }
 }
 //==================================================================
@@ -79,7 +75,7 @@ const ShoppingList = props => {
 
   const [shoppingState, setShoppingState] = useState(dataCtx.shoppingList);
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
-  let tempSumState;
+  let tempSumState = [];
   const setListStateFromOutSide = () => {
     setTimeout(() => {
       setShoppingState(dataCtx.shoppingList);
@@ -99,136 +95,75 @@ const ShoppingList = props => {
     setSearchInput(value.target.value);
   };
   //==================================================================
-  // // //logic for summarized ingredientList
-  ////////////////// CHECK //////////////////
-  const addRecipeToSummarized = (recipeList, listStateNow) => {
-    tempSumState = listStateNow;
-    for (const recipe in recipeList) {
-      const ingredients = recipeList[recipe].ingredients;
-      console.log(tempSumState);
-      tempSumState = checkIngredientsOfRecipe(ingredients, tempSumState);
-    }
-    console.log(tempSumState);
-    setIngredientsSumListState(prev => [tempSumState]);
-  };
-  const checkIngredientsOfRecipe = (ingredients, tempSumState) => {
-    for (const key in ingredients) {
-      console.log(key);
-      console.log(key);
-      // // // go through ingredients check nameKey in list,
-      // // // if so add to ingredients array, else create new listItem and add ingredients
-      const nameKey = ingredients[key].ingredientName.trim().toLowerCase();
-      console.log(nameKey);
-      console.log(tempSumState);
-      // // // check nameKey
-      if (tempSumState.some(el => el.nameKey === nameKey)) {
-        console.log('list contains');
-        // create and append list
-        console.log(ingredients[key]);
-        tempSumState = ingredientExistInSumListAdd(
-          nameKey,
-          tempSumState,
-          ingredients,
-          key
+
+  const createSumList = recipeList => {
+    for (const i in recipeList) {
+      for (const j in recipeList[i].ingredients) {
+        const ingredientName = recipeList[i].ingredients[j].ingredientName;
+        const nameKey = ingredientName.trim().toLowerCase();
+        const [unit, quantity] = evaluateQuantityUnit(
+          recipeList[i].ingredients[j].quantity,
+          recipeList[i].ingredients[j].unit
         );
-        return tempSumState;
-      } else {
-        return createIngredientSumList(ingredients, key, nameKey);
-        // createIngredientSumList(ingredients, ingredient, nameKey);
+        createSumItem(ingredientName, nameKey, quantity, unit);
       }
     }
+    setIngredientsSumListState(tempSumState);
   };
-  const ingredientExistInSumListAdd = (
-    nameKey,
-    tempSumState,
-    ingredients,
-    ingredient
-  ) => {
-    // if ingredientsSumList exists check if item is already on the list, if not add
-    // create filtered array containing the current nameKey
-    const [filteredListStateNow] = tempSumState.filter(item => {
-      if (item.nameKey === nameKey) return item;
-    });
-    //now filter the ingredientsArray by id , if containing return and skip
-    // console.log(ingredients[ingredient].id);
-    // console.log(filteredListStateNow.ingredients[0].id);
-    //BUG
-    // console.log(filteredListStateNow.ingredients[0].id);
-    // console.log(ingredients);
-    // console.log(
-    //   filteredListStateNow.ingredients.some(
-    //     ing => ing.id === ingredients[ingredient].id
-    //   )
-    // );
-    if (
-      filteredListStateNow.ingredients.some(
-        ing => ing.id === ingredients[ingredient].id
-      )
-    ) {
-      console.log('already exists return now');
-      return tempSumState;
-    }
-    console.log('append existing list');
-    const ingSumListCreate = ingredientListUpdate(
-      false,
-      ingredients[ingredient].ingredientName,
-      nameKey,
-      ingredients[ingredient].quantity,
-      ingredients[ingredient].unit,
-      ingredients[ingredient].id
-    );
-    // append ingredients list in sumItem
-    filteredListStateNow.ingredients = [
-      ...filteredListStateNow.ingredients,
-      ingSumListCreate,
-    ];
-    console.log(tempSumState);
-    return tempSumState;
-  };
-  const createIngredientSumList = (ingredients, ingredient, nameKey) => {
-    // create sumItemHolder
-    const ingSumListCreate = ingredientListUpdate(
-      true,
-      ingredients[ingredient].ingredientName,
-      nameKey,
-      ingredients[ingredient].quantity,
-      ingredients[ingredient].unit,
-      ingredients[ingredient].id
-    );
-    console.log('create', ingSumListCreate);
-    return (tempSumState = [...tempSumState, ingSumListCreate]);
-    console.log(tempSumState);
-    // setIngredientsSumListState(prev => [...prev, ingSumListCreate]);
-    // // // if nameKey do not exist create it and append list
-    // listStateNow = [...listStateNow, ingSumListCreate];
-  };
-  //++++++++++++++++++++++++++++++
-  const ingredientListUpdate = (
-    sumList,
-    name,
-    nameKey,
-    quantity,
-    initialUnit,
-    id
-  ) => {
-    const { unit, multi } = setUnitMulti(initialUnit);
-    const ingItemCreate = new ingItem(name, quantity / multi, unit, id);
-    if (sumList === true) {
-      const ingSumListCreate = new ingSumList(
+  const createSumItem = (ingredientName, nameKey, quantity, unit) => {
+    const [sumItem] = tempSumState.filter(el => el.nameKey === nameKey);
+    if (!sumItem) {
+      const newSumItem = new ingredientSumItem(
+        ingredientName,
         nameKey,
-        name,
-        [ingItemCreate],
+        +quantity,
         unit
       );
-      return ingSumListCreate;
+      tempSumState = [...tempSumState, newSumItem];
+      return;
     }
-    return ingItemCreate;
+    sumItem.add(+quantity);
   };
-
+  const evaluateQuantityUnit = (quantityInput, inputUnit) => {
+    const quantity = +quantityInput.replace(/,/g, '.');
+    console.log(2, '2');
+    console.log(quantity);
+    if (inputUnit === 'g') {
+      return ['kg', quantity / 1000];
+    }
+    if (inputUnit === 'kg') {
+      return ['kg', quantity];
+    }
+    if (inputUnit === 'ml') {
+      return ['l', quantity / 1000];
+    }
+    if (inputUnit === 'l') {
+      return ['l', quantity];
+    }
+    if (inputUnit === 'TL-gestr.') {
+      return ['Löffel', quantity * 4];
+    }
+    if (inputUnit === 'TL') {
+      return ['Löffel', quantity * 2];
+    }
+    if (inputUnit === 'EL') {
+      return ['Löffel', quantity];
+    }
+    if (inputUnit === 'Stk.') {
+      return ['Stk.', quantity];
+    }
+    if (inputUnit === 'Priese') {
+      return ['Priese', quantity];
+    }
+    if (inputUnit === 'Tasse') {
+      return ['Tasse', quantity];
+    } else {
+      return ['--', quantity];
+    }
+  };
   //==================================================================
   const onRoundButtonHandler = btnId => {
-    // console.log(dataCtx.shoppingList);
-    addRecipeToSummarized(dataCtx.shoppingList, ingredientsSumListState);
+    createSumList(dataCtx.shoppingList);
 
     // console.log(btnId);
     // if (btnId === 'add') {
@@ -237,9 +172,6 @@ const ShoppingList = props => {
     // }
   };
   const onCheckButtonHandler = itemId => {
-    // setIngredientsListState();
-    // console.log(itemId);
-    console.log(ingredientsSumListState);
     // updateData('PLAN', {
     //   itemId,
     //   setPlanStateFromOutSide: setListStateFromOutSide,
@@ -263,15 +195,16 @@ const ShoppingList = props => {
         </div>
       )}
       <ul className={classes.contentListBox__ul}>
-        {shoppingState.map((item, i) => {
+        {ingredientsSumListState.map((item, i) => {
           //
           return (
-            <li key={item.id}>
+            <li key={item.nameKey}>
               <ShoppingListItem
-                // day={day}
-                recipe={item.name}
+                name={item.name}
+                quantity={item.sum()}
+                unit={item.unit}
                 checkButtonHandler={onCheckButtonHandler}
-                id={item.id}
+                id={item.nameKey}
               ></ShoppingListItem>
             </li>
           );

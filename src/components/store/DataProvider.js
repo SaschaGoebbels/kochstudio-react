@@ -1216,7 +1216,7 @@ const dataInit = {
       ingredients: [
         {
           ingredientName: 'Mehl',
-          quantity: '500',
+          quantity: '1000',
           unit: 'g',
           id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
           editMode: false,
@@ -1259,7 +1259,7 @@ const dataInit = {
       weeklyPlan: true,
       ingredients: [
         {
-          ingredientName: 'Mehl',
+          ingredientName: 'Lauch',
           quantity: '300',
           unit: 'g',
           id: 'c2b1602f-e6f7-7597-82be-600a740b6bef',
