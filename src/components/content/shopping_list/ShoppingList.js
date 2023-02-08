@@ -4,6 +4,7 @@ import { useDataUpdate } from '../../store/DataProvider';
 
 import WeeklyPlanItem from '../weeklyPlan/WeeklyPlanItem';
 import ShoppingListItem from './ShoppingListItem';
+import ListEdit from '../ListEdit';
 import SearchBar from '../../ui/SearchBar';
 import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './ShoppingList.module.css';
@@ -54,6 +55,7 @@ class ingredientSumItem {
     this.name = name;
     this.unit = unit;
     this.quantity = [quantity];
+    this.checked = false;
   }
   add(value) {
     this.quantity = [...this.quantity, value];
@@ -72,19 +74,7 @@ const ShoppingList = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-
-  const [shoppingState, setShoppingState] = useState(dataCtx.shoppingList);
-  const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
-  let tempSumState = [];
-  const setListStateFromOutSide = () => {
-    setTimeout(() => {
-      setShoppingState(dataCtx.shoppingList);
-    }, 50);
-  };
-  // console.log(dataCtx.shoppingList);
-  useEffect(() => {
-    setShoppingState(dataCtx.weeklyPlan);
-  }, [snap.weeklyPlan.editMode, snap.headerText === 'Wochenplan']);
+  // const [listEditHide, setListEditHide] = useState(true);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');
@@ -95,7 +85,18 @@ const ShoppingList = props => {
     setSearchInput(value.target.value);
   };
   //==================================================================
-
+  const [shoppingListState, setShoppingListState] = useState(
+    dataCtx.shoppingList
+  );
+  //==================================================================
+  const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
+  let tempSumState = [];
+  const setListStateFromOutSide = () => {
+    setTimeout(() => {
+      setShoppingListState(dataCtx.shoppingList);
+    }, 50);
+  };
+  //==================================================================
   const createSumList = recipeList => {
     for (const i in recipeList) {
       for (const j in recipeList[i].ingredients) {
@@ -126,8 +127,6 @@ const ShoppingList = props => {
   };
   const evaluateQuantityUnit = (quantityInput, inputUnit) => {
     const quantity = +quantityInput.replace(/,/g, '.');
-    console.log(2, '2');
-    console.log(quantity);
     if (inputUnit === 'g') {
       return ['kg', quantity / 1000];
     }
@@ -161,21 +160,59 @@ const ShoppingList = props => {
       return ['--', quantity];
     }
   };
+
+  useEffect(() => {
+    setShoppingListState(dataCtx.shoppingList);
+  }, [snap.headerText === 'Einkaufsliste', snap.listEditHide]);
+
+  useEffect(() => {
+    createSumList(shoppingListState);
+  }, [shoppingListState]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
-    createSumList(dataCtx.shoppingList);
-
-    // console.log(btnId);
-    // if (btnId === 'add') {
-    //   state.shoppingList.editMode = true;
-    //   state.headerText = 'Zur Einkaufsliste hinzufügen';
-    // }
+    state.listEditHide = false;
+    if (btnId === 'add') {
+      state.shoppingList.editMode = true;
+      state.headerText = 'Zur Einkaufsliste hinzufügen';
+    }
   };
-  const onCheckButtonHandler = itemId => {
-    // updateData('PLAN', {
-    //   itemId,
-    //   setPlanStateFromOutSide: setListStateFromOutSide,
-    // });
+  const onCheckButtonHandler = nameKey => {
+    toggleIngredientCheck(nameKey);
+  };
+  const toggleIngredientCheck = nameKey => {
+    setIngredientsSumListState(prev => {
+      return [
+        ...prev.map(el => {
+          if (el.nameKey === nameKey) {
+            el.checked = !el.checked;
+          }
+          return el;
+        }),
+      ];
+    });
+  };
+  const updateShoppingList = listState => {
+    state.headerText = 'Einkaufsliste';
+    state.searchBarHide = true;
+    if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
+  };
+  const liItemChecked = checkState => {
+    return ingredientsSumListState
+      .filter(el => el.checked === checkState)
+      .map((item, i) => {
+        return (
+          <li key={item.nameKey}>
+            <ShoppingListItem
+              name={item.name}
+              quantity={item.sum()}
+              unit={item.unit}
+              checkButtonHandler={onCheckButtonHandler}
+              id={item.nameKey}
+              checked={item.checked}
+            ></ShoppingListItem>
+          </li>
+        );
+      });
   };
   return (
     <div className={`${classes.contentListBox} `}>
@@ -183,9 +220,17 @@ const ShoppingList = props => {
         searchInput={searchInput}
         inputChangeHandler={searchChangeHandler}
       ></SearchBar>
-      {/* <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit> */}
+      <ListEdit
+        searchInput={searchInput}
+        list={{
+          recipeList: dataCtx.recipeList,
+          recipeEditList: shoppingListState,
+        }}
+        // listEditHide={listEditHide}
+        onUpdateList={updateShoppingList}
+      ></ListEdit>
       {/* //fallback for empty List */}
-      {shoppingState.length === 0 && (
+      {shoppingListState.length === 0 && (
         <div className={classes.contentListBox__emptyList}>
           <WeeklyPlanItem
             day={'Die Einkaufsliste ist aktuell leer !'}
@@ -195,20 +240,8 @@ const ShoppingList = props => {
         </div>
       )}
       <ul className={classes.contentListBox__ul}>
-        {ingredientsSumListState.map((item, i) => {
-          //
-          return (
-            <li key={item.nameKey}>
-              <ShoppingListItem
-                name={item.name}
-                quantity={item.sum()}
-                unit={item.unit}
-                checkButtonHandler={onCheckButtonHandler}
-                id={item.nameKey}
-              ></ShoppingListItem>
-            </li>
-          );
-        })}
+        {liItemChecked(false)}
+        {liItemChecked(true)}
       </ul>
       <ButtonBoxContent
         onRoundButtonHandler={onRoundButtonHandler}

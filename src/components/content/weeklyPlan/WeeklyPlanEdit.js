@@ -55,7 +55,7 @@ const WeeklyPlanEdit = props => {
           <div>
             <RecipeListBox
               recipeList={dataCtx.recipeList}
-              weeklyPlan={weeklyPlanState}
+              recipeEditList={weeklyPlanState}
               listClickHandler={listClickHandler}
               showFavList={false}
               searchInput={props.searchInput}

@@ -1209,50 +1209,50 @@ const dataInit = {
   ],
 
   shoppingList: [
-    {
-      name: 'Testmenu',
-      fav: false,
-      weeklyPlan: true,
-      ingredients: [
-        {
-          ingredientName: 'Mehl',
-          quantity: '1000',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Eier',
-          quantity: '5',
-          unit: 'Stk.',
-          id: 'c643a35b-efdb-0952-6dd8-6a5b4sxsx62a',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Milch',
-          quantity: '0.5',
-          unit: 'l',
-          id: 'e261f15d-7c42-e2b8-3295-c17xsxsf04',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Sahne ',
-          quantity: '1',
-          unit: 'Stk.',
-          id: '402f316c-60d7-274e-cf27-4e23020xxxe756ca',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Salz',
-          quantity: '1',
-          unit: 'TL-gestr.',
-          id: '643a6fa8-722d-d2ca-78b1-81ecxsxs0ec7',
-          editMode: false,
-        },
-      ],
-      preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
-      id: '759e69c2-9ab5-231b-0d59-e153b60270',
-    },
+    // {
+    //   name: 'Testmenu',
+    //   fav: false,
+    //   weeklyPlan: true,
+    //   ingredients: [
+    //     {
+    //       ingredientName: 'Mehl',
+    //       quantity: '1000',
+    //       unit: 'g',
+    //       id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Eier',
+    //       quantity: '5',
+    //       unit: 'Stk.',
+    //       id: 'c643a35b-efdb-0952-6dd8-6a5b4sxsx62a',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Milch',
+    //       quantity: '0.5',
+    //       unit: 'l',
+    //       id: 'e261f15d-7c42-e2b8-3295-c17xsxsf04',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Sahne ',
+    //       quantity: '1',
+    //       unit: 'Stk.',
+    //       id: '402f316c-60d7-274e-cf27-4e23020xxxe756ca',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Salz',
+    //       quantity: '1',
+    //       unit: 'TL-gestr.',
+    //       id: '643a6fa8-722d-d2ca-78b1-81ecxsxs0ec7',
+    //       editMode: false,
+    //     },
+    //   ],
+    //   preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
+    //   id: '759e69c2-9ab5-231b-0d59-e153b60270',
+    // },
     {
       name: 'Arme Ritter',
       fav: false,
@@ -1389,6 +1389,23 @@ const dataReducer = (stateReducer, action) => {
       return stateReducer;
     }
   }
+  if (action.type === 'SHOP') {
+    // add to plan => replace the plan with updated version
+    if (action.dataUpdate.shoppingListState) {
+      stateReducer.shoppingList = [...action.dataUpdate.shoppingListState];
+      return stateReducer;
+    }
+    // remove from plan
+    if (action.dataUpdate.itemId) {
+      console.log(action.dataUpdate.itemId);
+      stateReducer.shoppingList = removeFromlist(
+        stateReducer.shoppingList,
+        action.dataUpdate.itemId
+      );
+      action.dataUpdate.setPlanStateFromOutSide();
+      return stateReducer;
+    }
+  }
   return stateReducer;
 };
 //==================================================================
@@ -1455,7 +1472,8 @@ const DataProvider = props => {
       type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
       type === 'DELETE' ||
-      type === 'PLAN'
+      type === 'PLAN' ||
+      type === 'SHOP'
     ) {
       dispatchData({ type, dataUpdate });
     }

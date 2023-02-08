@@ -8,7 +8,11 @@ const WeeklyPlanItem = props => {
       <div
         className={`${classes.itemBox__ingredient} ${classes.itemBox__textBox}`}
       >
-        <div className={classes.itemBox__ingredient_gridBox}>
+        <div
+          className={`${classes.itemBox__ingredient_gridBox} ${
+            props.checked && classes['itemBox__ingredient--checked']
+          }`}
+        >
           <p className={classes.itemBox__ingredient_name}>{props.name}</p>
           <p className={classes.itemBox__ingredient_quantity}>
             {props.quantity}{' '}
@@ -16,7 +20,7 @@ const WeeklyPlanItem = props => {
           <p className={classes.itemBox__ingredient_unit}>{props.unit}</p>
         </div>
         <div className={classes.itemBox__ingredient__btnBox}>
-          {!props.checkButtonHide && (
+          {!props.checked && (
             <ButtonRound
               btnId="check"
               className={`${classes.buttonList} ${classes.buttonRight}`}
@@ -32,11 +36,11 @@ const WeeklyPlanItem = props => {
               }}
             />
           )}
-          {props.trashButtonHide && (
+          {props.checked && (
             <ButtonRound
-              btnId="trash"
+              btnId="x"
               className={`${classes.buttonList} ${classes.buttonRight}`}
-              buttonName={'trash'}
+              buttonName={'x'}
               buttonSize={'small'}
               color={'#ffffff00'}
               borderColor={'#ffffff00'}

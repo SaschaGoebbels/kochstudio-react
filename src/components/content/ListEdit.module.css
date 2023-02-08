@@ -1,0 +1,16 @@
+.planEdit {
+  background-color: var(--clr-input_background);
+  z-index: 9999;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow-x: hidden;
+  transition: all 250ms ease-in-out;
+  transform: translate(0%, 0%) scale(1);
+  opacity: 1;
+}
+.planEdit--hide {
+  transition: all 250ms ease-in-out;
+  transform: translate(40%, 25%) scale(0);
+  opacity: 0;
+}

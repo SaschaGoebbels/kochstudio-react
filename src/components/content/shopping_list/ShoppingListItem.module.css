@@ -18,8 +18,13 @@
   color: var(--clr_main_ff);
   /* text-decoration: line-through; */
 }
+.itemBox__ingredient--checked {
+  text-decoration: line-through;
+  color: rgb(8, 8, 8);
+}
 .itemBox__ingredient_gridBox {
   display: grid;
+  align-items: center;
   gap: 1.2rem;
   width: 100%;
   grid-template-columns: minmax(10px, 500px) 20% 20%;
@@ -37,7 +42,3 @@
   position: absolute;
   right: 0;
 }
-/* .itemBox__recipe {
-  background-color: var(--clr-input_background);
-  border-radius: 0 0 1.2rem 1.2rem;
-} */

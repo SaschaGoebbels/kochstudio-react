@@ -22,8 +22,10 @@ const RecipeListBox = props => {
           // decide weeklyPlan or not => check on render if exist in recipe list
           .map(item => {
             if (
-              props.weeklyPlan &&
-              props.weeklyPlan.some(el => el.id === item.id)
+              props.recipeEditList &&
+              // props.weeklyPlan &&
+              // props.weeklyPlan.some(el => el.id === item.id)
+              props.recipeEditList.some(el => el.id === item.id)
             ) {
               return (
                 <li
