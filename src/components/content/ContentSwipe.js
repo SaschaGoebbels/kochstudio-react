@@ -33,14 +33,14 @@ const ContentSwipe = props => {
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
       />
-      <WeeklyPlan></WeeklyPlan>
+      <WeeklyPlan message={props.message}></WeeklyPlan>
       <RecipeList
         showFavList={true}
         recipeListButton={recipeListButtonHandler}
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
       />
-      <ShoppingList></ShoppingList>
+      <ShoppingList message={props.message}></ShoppingList>
     </div>
   );
 };

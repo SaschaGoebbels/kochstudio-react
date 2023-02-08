@@ -6,6 +6,7 @@ import WeeklyPlanItem from '../weeklyPlan/WeeklyPlanItem';
 import ShoppingListItem from './ShoppingListItem';
 import ListEdit from '../ListEdit';
 import SearchBar from '../../ui/SearchBar';
+import ButtonRound from '../../ui/ButtonRound';
 import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './ShoppingList.module.css';
 
@@ -91,6 +92,9 @@ const ShoppingList = props => {
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
   let tempSumState = [];
+  const sortAlphabetically = array => {
+    return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
+  };
   const setListStateFromOutSide = () => {
     setTimeout(() => {
       setShoppingListState(dataCtx.shoppingList);
@@ -109,7 +113,7 @@ const ShoppingList = props => {
         createSumItem(ingredientName, nameKey, quantity, unit);
       }
     }
-    setIngredientsSumListState(tempSumState);
+    setIngredientsSumListState(sortAlphabetically(tempSumState));
   };
   const createSumItem = (ingredientName, nameKey, quantity, unit) => {
     const [sumItem] = tempSumState.filter(el => el.nameKey === nameKey);
@@ -196,6 +200,7 @@ const ShoppingList = props => {
     state.searchBarHide = true;
     if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
   };
+
   const liItemChecked = checkState => {
     return ingredientsSumListState
       .filter(el => el.checked === checkState)
@@ -214,6 +219,22 @@ const ShoppingList = props => {
         );
       });
   };
+  const onTrashClickHandler = () => {
+    props.message({
+      title: 'Alles Löschen ?',
+      message: 'Es werden alle Einträge der Einkaufsliste gelöscht !',
+      showBtnX: true,
+      confirm: deleteShoppingList,
+    });
+  };
+  const deleteShoppingList = () => {
+    updateShoppingList([]);
+    //////////////////// FIXME //////////////////
+    // better from outside callback !!
+    setShoppingListState([]);
+  };
+  //==================================================================
+  //==================================================================
   return (
     <div className={`${classes.contentListBox} `}>
       <SearchBar
@@ -226,7 +247,6 @@ const ShoppingList = props => {
           recipeList: dataCtx.recipeList,
           recipeEditList: shoppingListState,
         }}
-        // listEditHide={listEditHide}
         onUpdateList={updateShoppingList}
       ></ListEdit>
       {/* //fallback for empty List */}
@@ -242,6 +262,16 @@ const ShoppingList = props => {
       <ul className={classes.contentListBox__ul}>
         {liItemChecked(false)}
         {liItemChecked(true)}
+        <ButtonRound
+          btnId="trash"
+          key={'trashAll'}
+          className={classes.buttonTrash}
+          buttonName={'trash'}
+          color={'#20c99740'}
+          iconColor={'#97150b'}
+          buttonSize={'large'}
+          onClickHandler={onTrashClickHandler}
+        />
       </ul>
       <ButtonBoxContent
         onRoundButtonHandler={onRoundButtonHandler}

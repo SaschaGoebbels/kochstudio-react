@@ -121,6 +121,7 @@ function App() {
         <Content
           content={
             <ContentSwipe
+              message={onSetMessage}
               changePage={snap.navigation}
               recipeListButton={recipeListButtonHandler}
               setHideInput={setHideInput}

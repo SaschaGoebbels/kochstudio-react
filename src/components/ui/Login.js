@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-// import DataUpdate from '../store/DataProvider';
 import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
