@@ -113,7 +113,31 @@ const ShoppingList = props => {
         createSumItem(ingredientName, nameKey, quantity, unit);
       }
     }
-    setIngredientsSumListState(sortAlphabetically(tempSumState));
+    // // // check current if checked && sum< keep it , else change to new value
+    setIngredientsSumListState(prev => {
+      return tempSumState.map(el => {
+        const [prevEl = { checked: false }] = prev.filter(
+          filterEl => filterEl.nameKey === el.nameKey
+        );
+        if (prevEl.checked === false) return el;
+        if (prevEl.checked === true) {
+          el.checked = true;
+          const currentSum = sumOfArray(el.quantity);
+          const newSum = sumOfArray(prevEl.quantity);
+          if (newSum >= currentSum) return el;
+          if (newSum < currentSum) {
+            el.checked = false;
+            return el;
+          }
+        }
+      });
+    });
+  };
+  const sumOfArray = array => {
+    return array.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
   };
   const createSumItem = (ingredientName, nameKey, quantity, unit) => {
     const [sumItem] = tempSumState.filter(el => el.nameKey === nameKey);

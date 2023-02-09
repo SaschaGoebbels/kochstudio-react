@@ -23,7 +23,7 @@ const Ingredient = props => {
     props.quantity || ''
   );
   const [ingredientUnitState, setIngredientUnitState] = useState(
-    props.unit || ''
+    props.unit || 'g'
   );
 
   //==================================================================
@@ -62,6 +62,7 @@ const Ingredient = props => {
         ingredientQuantityState,
         ingredientUnitState
       );
+      console.log(newIngredient);
       // send upwards to array
       props.onRecipeIngredientsHandler(newIngredient, btnId);
       setIngredientNameState('');

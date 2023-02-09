@@ -45,7 +45,7 @@ const WeeklyPlanItem = props => {
               color={'#ffffff00'}
               borderColor={'#ffffff00'}
               shadow={'none'}
-              iconColor={''}
+              iconColor={'#ffffff80'}
               isFav={''}
               onClickHandler={() => {
                 props.checkButtonHandler(props.id);

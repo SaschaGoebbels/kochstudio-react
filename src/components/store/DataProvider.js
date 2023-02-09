@@ -1314,6 +1314,13 @@ const dataReducer = (stateReducer, action) => {
   //==================================================================
   // update existing recipe
   if (action.type === UPDATERECIPE) {
+    ////////////////// CHECK //////////////////
+    console.log(stateReducer.weeklyPlan);
+    onRecipeListChangeUpdatePlanAndList(
+      action.dataUpdate.recipeUpdate,
+      stateReducer.weeklyPlan
+    );
+    console.log(stateReducer.weeklyPlan);
     // replace existing recipe with updated version
     if (action.dataUpdate.recipeUpdate) {
       const index = stateReducer.recipeList
@@ -1367,9 +1374,18 @@ const dataReducer = (stateReducer, action) => {
   }
   //==================================================================
   if (action.type === 'DELETE') {
-    stateReducer.recipeList = stateReducer.recipeList.filter(el => {
-      if (el.id !== action.dataUpdate.id) return el;
-    });
+    stateReducer.weeklyPlan = onRecipeDelete(
+      action.dataUpdate,
+      stateReducer.weeklyPlan
+    );
+    stateReducer.shoppingList = onRecipeDelete(
+      action.dataUpdate,
+      stateReducer.shoppingList
+    );
+    stateReducer.recipeList = onRecipeDelete(
+      action.dataUpdate,
+      stateReducer.recipeList
+    );
     state.currentRecipe = { ...state.initialState };
     return stateReducer;
   }
@@ -1426,6 +1442,16 @@ const sortArray = array => {
   });
 };
 //==================================================================
+////////////////// CHECK //////////////////
+const onRecipeListChangeUpdatePlanAndList = (recipeUpdate, array) => {
+  const index = array.findIndex(recipe => recipe.id === recipeUpdate.id);
+  return [...array.splice(index, 1, recipeUpdate)];
+};
+const onRecipeDelete = (recipe, array) => {
+  return array.filter(el => {
+    if (el.id !== recipe.id) return el;
+  });
+};
 //==================================================================
 const DataProvider = props => {
   const { isLoading, error, sendRequest } = useFetch(
