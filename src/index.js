@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import classes from './index.module.css';
-// import indexClasses from '../../index.module.css';
+import DataProvider, { DataContext } from './components/store/DataProvider';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <App />
+  <DataProvider>
+    <App />
+  </DataProvider>
   //</React.StrictMode>
 );
 

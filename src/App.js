@@ -1,10 +1,11 @@
 import classes from './App.module.css';
 import './variables.css';
 import React, { useState, useContext, useReducer } from 'react';
-import DataProvider from './components/store/DataProvider';
+import DataProvider, { DataContext } from './components/store/DataProvider';
 
 import InfoBox from './components/ui/InfoBox';
 import Login from './components/ui/Login';
+import Menu from './components/ui/Menu';
 import Header from './components/header/Header';
 import Content from './components/ui/Content';
 import ContentSwipe from './components/content/ContentSwipe';
@@ -45,6 +46,17 @@ const messageReducer = (state, action) => {
 };
 
 function App() {
+  const dataCtx = useContext(DataContext);
+  //==================================================================
+  // header
+  const onMenuButtonHandler = () => {
+    setMenuState({ hide: false });
+  };
+  //==================================================================
+  const [menuState, setMenuState] = useState(dataCtx.menuState);
+  const changeMenuState = menuStateObj => {
+    setMenuState(menuStateObj);
+  };
   //==================================================================
   const [hideInput, setHideInput] = useState(true);
   const hideInputCheckPageChangeHeaderText = (navigation, recipe) => {
@@ -74,12 +86,6 @@ function App() {
   //==================================================================
   const snap = useSnapshot(state);
   //==================================================================
-  // header
-  const onMenuButtonHandler = () => {
-    console.log('APP-Menu-Button');
-  };
-
-  //==================================================================
 
   const recipeListButtonHandler = item => {
     if (item === 'add') {
@@ -108,6 +114,11 @@ function App() {
     <DataProvider>
       <div className={classes.App}>
         <Login message={onSetMessage} hide={true} />
+        <Menu
+          menuState={menuState}
+          changeMenuState={changeMenuState}
+          userData={{ user: 'Sascha', email: 'goebbels.sascha@gmail.com' }}
+        ></Menu>
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
           hideInput={hideInput}

@@ -14,6 +14,7 @@ import { faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { faListUl } from '@fortawesome/free-solid-svg-icons';
 import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const ButtonRound = props => {
   let buttonIconColor = props.iconColor;
@@ -62,6 +63,9 @@ const ButtonRound = props => {
     case 'plan':
       buttonName = faObjectGroup;
       break;
+    case 'user':
+      buttonName = faUser;
+      break;
   }
   let buttonSize =
     props.buttonSize === 'small'
@@ -73,7 +77,6 @@ const ButtonRound = props => {
   let buttonBorderColor = props.borderColor || '#087f5b';
   let buttonShadow = props.shadow || '0px 2px 20px rgba(0, 0, 0, 0.5)';
   const btnClickHandler = id => {
-    // console.log('ButtonRound', id.currentTarget.id);
     props.onClickHandler(id.currentTarget.id);
   };
   return (

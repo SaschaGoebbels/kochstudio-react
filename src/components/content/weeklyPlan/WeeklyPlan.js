@@ -42,15 +42,13 @@ const WeeklyPlan = props => {
   // const dateToday = new Date('August 06, 2023 12:05:00');
   const dayNumb = dateToday.getDay();
   // checkDate(dateToday);
-  const dayOutput = dayNumb => {
-    if (dayNumb > 7) {
-      dayNumb = dayNumb - 7;
-    }
-    if (dayNumb > 14) {
-      dayNumb = dayNumb - 14;
-    }
-    if (dayNumb > 21) {
-      dayNumb = dayNumb - 21;
+  const dayOutput = dayNumbInput => {
+    let dayNumb = dayNumbInput;
+    if (dayNumbInput > 7) {
+      const calc = dayNumbInput / 7;
+      dayNumb === Math.floor(calc) * 7
+        ? (dayNumb = 7)
+        : (dayNumb = dayNumbInput - Math.floor(calc) * 7);
     }
     if (dayNumb === 1) return 'Montag';
     if (dayNumb === 2) return 'Dienstag';
@@ -58,7 +56,7 @@ const WeeklyPlan = props => {
     if (dayNumb === 4) return 'Donnerstag';
     if (dayNumb === 5) return 'Freitag';
     if (dayNumb === 6) return 'Samstag';
-    if (dayNumb === 0) return 'Sonntag';
+    if (dayNumb === 7) return 'Sonntag';
   };
   //==================================================================
   const onRoundButtonHandler = btnId => {

@@ -24,7 +24,6 @@ const Header = props => {
     state.searchBarHide = false;
   };
   const onMenuBtnHandler = () => {
-    console.log('OK');
     setMenuBtn(current => {
       return !current;
     });

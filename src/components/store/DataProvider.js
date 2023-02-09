@@ -16,6 +16,10 @@ export function useDataUpdate() {
 //==================================================================
 //default data for test purposes
 const dataInit = {
+  menuState: {
+    hide: true,
+    menuItemList: ['Einstellungen', 'Einkausliste', 'Liste exportieren'],
+  },
   weeklyPlan: [
     {
       name: 'Aus nix irgend was',
@@ -1166,45 +1170,6 @@ const dataInit = {
       ],
       preparation: 'Anleitung',
       id: '7fcd7c46-20ef-b983-265c-8f7f3748153e',
-    },
-  ],
-  shoppingList1: [
-    {
-      name: 'Menu_1',
-      fav: false,
-      weeklyPlan: true,
-      id: '759c2-9ab5-231b-0d59-e153b60270',
-      ingredients: [
-        {
-          ingredientName: 'Mehl',
-          quantity: '500',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Mehl',
-          quantity: '200',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
-          editMode: false,
-        },
-      ],
-    },
-    {
-      name: 'Menu_2',
-      fav: false,
-      weeklyPlan: true,
-      id: '759e69c2-9ab5-231b-0d59-e153b60',
-      ingredients: [
-        {
-          ingredientName: 'Mehl',
-          quantity: '300',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-sss97-82be-aaaxsxsx6bef',
-          editMode: false,
-        },
-      ],
     },
   ],
 
