@@ -40,6 +40,7 @@ const RecipePage = props => {
 
   const onRoundButtonHandler = btnId => {
     // console.log(btnId);
+    console.log(props.recipeObject);
     if (btnId === 'heart') {
       dataUpdate(UPDATERECIPE, {
         favUpdate: useEffectStartUpdate,

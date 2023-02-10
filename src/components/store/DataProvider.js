@@ -29,10 +29,8 @@ const dataReducer = (stateReducer, action) => {
   //==================================================================
   // update existing recipe
   if (action.type === UPDATERECIPE) {
-    ////////////////// CHECK //////////////////
-    console.log(stateReducer.weeklyPlan);
     onRecipeListChangeUpdatePlanAndList(
-      action.dataUpdate.recipeUpdate,
+      action.dataUpdate.recipe,
       stateReducer.weeklyPlan
     );
     console.log(stateReducer.weeklyPlan);
@@ -164,8 +162,8 @@ const sortArray = array => {
   });
 };
 //==================================================================
-////////////////// CHECK //////////////////
 const onRecipeListChangeUpdatePlanAndList = (recipeUpdate, array) => {
+  console.log(recipeUpdate, array);
   const index = array.findIndex(recipe => recipe.id === recipeUpdate.id);
   return [...array.splice(index, 1, recipeUpdate)];
 };

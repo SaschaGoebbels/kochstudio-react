@@ -216,7 +216,8 @@ const ShoppingList = props => {
     list: dataCtx.menuState.shoppingListSettings.avoidList,
   });
   const avoidListUpdate = el => {
-    setAvoidListState({ show: avoidListState.show, list: el.target.value });
+    console.log(el.target.value);
+    setAvoidListState({ show: true, list: el.target.value });
   };
   useEffect(() => {
     settingsPageCall(avoidListState.show, avoidListState.list);
@@ -329,7 +330,12 @@ const ShoppingList = props => {
       ></ListEdit>
       {/* //fallback for empty List */}
       {shoppingListState.length === 0 && (
-        <div className={classes.contentListBox__emptyList}>
+        <div
+          className={classes.contentListBox__emptyList}
+          onClick={() => {
+            onRoundButtonHandler('add');
+          }}
+        >
           <WeeklyPlanItem
             day={'Die Einkaufsliste ist aktuell leer !'}
             recipe={'auf + drücken zum hinzufügen ...'}
