@@ -42,11 +42,15 @@
   list-style: none;
 }
 .recipePage__box__ul__li {
-  padding: 0.1rem 0.3rem;
+  padding: 0.1rem 0.5rem;
+  gap: 2rem;
   display: grid;
-  grid-template-columns: 1fr minmax(min-content, 30%) minmax(min-content, 10%);
+  grid-template-columns: 1fr minmax(min-content, 20%) minmax(min-content, 20%);
   border-bottom: rgb(116, 115, 96) solid 1px;
   align-items: center;
+}
+.recipePage__box__ul__quantity {
+  text-align: end;
 }
 .buttonAddEdit {
   position: fixed;

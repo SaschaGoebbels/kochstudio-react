@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import classes from './Menu.module.css';
 import ButtonRound from './ButtonRound';
+import MenuItem from './MenuItem';
 
 const Menu = props => {
   const onUserHandler = btnId => {
     console.log('OK');
   };
+  const onMenuClickHandler = btnId => {
+    console.log(btnId);
+  };
   return (
     <div
-      onClick={() => props.changeMenuState({ hide: true })}
       className={`${classes.menuBox} ${
         !props.menuState.hide && classes['menuBox--modal']
       }`}
     >
+      <div
+        className={`${classes.onClick} ${
+          props.menuState.hide && classes['onClick--hide']
+        }`}
+        onClick={() => props.changeMenuState({ hide: true })}
+      ></div>
       <div
         className={`${classes.menuBox__dropInBox} ${
           props.menuState.hide && classes['menuBox__dropInBox--hide']
@@ -41,7 +50,33 @@ const Menu = props => {
           </div>
           <p>{props.userData.email}</p>
         </div>
-        <div className={classes.menuBox__SettingsBox}></div>
+        <div className={classes.menuBox__SettingsBox}>
+          <MenuItem
+            text={'Einstellungen'}
+            icon={'gear'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+          <MenuItem
+            text={'Einkausliste'}
+            icon={'list'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+          <MenuItem
+            text={'Exportieren'}
+            icon={'exp'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+          <MenuItem
+            text={'Importieren'}
+            icon={'get'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+          <MenuItem
+            text={'Rezept teilen'}
+            icon={'share'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+        </div>
       </div>
     </div>
   );

@@ -106,7 +106,9 @@ const RecipePage = props => {
               return (
                 <li className={classes.recipePage__box__ul__li} key={item.id}>
                   <p>{item.ingredientName}</p>
-                  <p>{item.quantity}</p>
+                  <p className={classes.recipePage__box__ul__quantity}>
+                    {item.quantity}
+                  </p>
                   <p>{item.unit}</p>
                 </li>
               );

@@ -1,0 +1,23 @@
+.menuItemBox {
+  display: flex;
+  align-items: center;
+  border-bottom: var(--clr_border) solid 1px;
+  height: 4rem;
+  gap: 0.5rem;
+}
+.menuItemBox__icon {
+  height: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menuIcon {
+  scale: 2.25;
+}
+.menuItemBox__text {
+  font-size: 2rem;
+  font-weight: 200;
+  color: var(--clr_main_ff);
+  letter-spacing: 0.15rem;
+}

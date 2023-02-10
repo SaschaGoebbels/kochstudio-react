@@ -52,11 +52,17 @@ function App() {
   //==================================================================
   const [menuState, setMenuState] = useState(dataCtx.menuState);
   const changeMenuState = menuStateObj => {
-    setMenuState(menuStateObj);
+    toggleMenuHide(menuStateObj);
+  };
+  const toggleMenuHide = menuStateObj => {
+    setMenuState(prev => {
+      prev.hide = !prev.hide;
+      return { ...prev };
+    });
   };
   // header
   const onMenuButtonHandler = btnId => {
-    setMenuState({ hide: false });
+    toggleMenuHide();
   };
   //==================================================================
   const settingsInitialValue = {
@@ -125,7 +131,6 @@ function App() {
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
-
   return (
     <DataProvider>
       <div className={classes.App}>
@@ -140,7 +145,10 @@ function App() {
         <Menu
           menuState={menuState}
           changeMenuState={changeMenuState}
-          userData={{ user: 'Sascha', email: 'goebbels.sascha@gmail.com' }}
+          userData={{
+            user: menuState.userData.userName,
+            email: 'goebbels.sascha@gmail.com',
+          }}
         ></Menu>
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
