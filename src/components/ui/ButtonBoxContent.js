@@ -6,6 +6,7 @@ import { snapshot } from 'valtio';
 import { state } from '../store/state';
 
 const ButtonBoxContent = props => {
+  const gearShow = props.gearShow || false;
   return (
     <div>
       <div>
@@ -18,6 +19,19 @@ const ButtonBoxContent = props => {
           isFav={''}
           onClickHandler={props.onRoundButtonHandler}
         />
+        {gearShow && (
+          <ButtonRound
+            btnId="gear"
+            className={`${classes.buttonRight} ${classes.buttonGear}`}
+            buttonName={'gear'}
+            color={'#ffffff00'}
+            borderColor={'#ffffff00'}
+            shadow={'none'}
+            iconColor={'#b9b9b9'}
+            isFav={''}
+            onClickHandler={props.onRoundButtonHandler}
+          />
+        )}
       </div>
       {!props.coinHide && (
         <ButtonRound

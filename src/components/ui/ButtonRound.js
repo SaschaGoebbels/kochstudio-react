@@ -15,6 +15,7 @@ import { faArrowAltCircleDown } from '@fortawesome/free-regular-svg-icons';
 import { faListUl } from '@fortawesome/free-solid-svg-icons';
 import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 
 const ButtonRound = props => {
   let buttonIconColor = props.iconColor;
@@ -65,6 +66,9 @@ const ButtonRound = props => {
       break;
     case 'user':
       buttonName = faUser;
+      break;
+    case 'gear':
+      buttonName = faGear;
       break;
   }
   let buttonSize =

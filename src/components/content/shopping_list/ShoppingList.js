@@ -198,10 +198,15 @@ const ShoppingList = props => {
   }, [shoppingListState]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
-    state.listEditHide = false;
     if (btnId === 'add') {
-      state.shoppingList.editMode = true;
-      state.headerText = 'Zur Einkaufsliste hinzufügen';
+      state.listEditHide = false;
+      if (btnId === 'add') {
+        state.shoppingList.editMode = true;
+        state.headerText = 'Zur Einkaufsliste hinzufügen';
+      }
+    }
+    if (btnId === 'gear') {
+      console.log('Settings');
     }
   };
   const onCheckButtonHandler = nameKey => {
@@ -300,6 +305,7 @@ const ShoppingList = props => {
       <ButtonBoxContent
         onRoundButtonHandler={onRoundButtonHandler}
         coinHide={true}
+        gearShow={true}
       ></ButtonBoxContent>
     </div>
   );

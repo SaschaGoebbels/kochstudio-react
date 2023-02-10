@@ -15,7 +15,8 @@ const Header = props => {
     if (
       headerText === 'Gerichte' ||
       headerText === 'Favoriten' ||
-      snap.weeklyPlan.editMode === true
+      snap.weeklyPlan.editMode === true ||
+      snap.listEditHide === false
     ) {
       return true;
     } else return false;

@@ -5,6 +5,9 @@
 .buttonAddEdit {
   bottom: 2rem;
 }
+.buttonGear {
+  top: 0;
+}
 .buttonList {
   bottom: 9rem;
 }

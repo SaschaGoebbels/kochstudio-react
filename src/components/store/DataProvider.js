@@ -17,6 +17,10 @@ export function useDataUpdate() {
 //default data for test purposes
 const dataInit = {
   menuState: {
+    loggedIn: false,
+    userName: '',
+    email: '',
+    password: '',
     hide: true,
     menuItemList: ['Einstellungen', 'Einkausliste', 'Liste exportieren'],
   },
