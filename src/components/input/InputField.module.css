@@ -13,4 +13,5 @@
 }
 .classes.input__textarea {
   font-family: var(--ff_main);
+  font-family: inherit;
 }

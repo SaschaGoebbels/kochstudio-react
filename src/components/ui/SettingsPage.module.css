@@ -1,0 +1,23 @@
+.settingsPage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr_main_background);
+  transform: translate(0%, 0%) scale(1);
+  opacity: 1;
+  transition: all ease-in-out 200ms;
+  pointer-events: all;
+}
+.settingPage--hide {
+  transform: translate(100%, 0%) scale(0, 1);
+  opacity: 0;
+  transition: all ease-in-out 200ms;
+  pointer-events: none;
+}

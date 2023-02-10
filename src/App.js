@@ -6,6 +6,7 @@ import DataProvider, { DataContext } from './components/store/DataProvider';
 import InfoBox from './components/ui/InfoBox';
 import Login from './components/ui/Login';
 import Menu from './components/ui/Menu';
+import SettingsPage from './components/ui/SettingsPage';
 import Header from './components/header/Header';
 import Content from './components/ui/Content';
 import ContentSwipe from './components/content/ContentSwipe';
@@ -15,6 +16,7 @@ import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
 import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
+import { useEffect } from 'react';
 
 const messageInitialState = {
   hideInfoBox: true,
@@ -48,14 +50,28 @@ const messageReducer = (state, action) => {
 function App() {
   const dataCtx = useContext(DataContext);
   //==================================================================
-  // header
-  const onMenuButtonHandler = () => {
-    setMenuState({ hide: false });
-  };
-  //==================================================================
   const [menuState, setMenuState] = useState(dataCtx.menuState);
   const changeMenuState = menuStateObj => {
     setMenuState(menuStateObj);
+  };
+  // header
+  const onMenuButtonHandler = btnId => {
+    setMenuState({ hide: false });
+  };
+  //==================================================================
+  const settingsInitialValue = {
+    show: false,
+    headerText: 'Einstellungen',
+  };
+  const [settingsState, setSettingsState] = useState(settingsInitialValue);
+  const onSettingsShowHandler = settings => {
+    setSettingsState({ ...settings });
+  };
+  const onSettingsButtonHandler = btnId => {
+    if (settingsState.confirm) {
+      settingsState.confirm();
+    }
+    setSettingsState(settingsInitialValue);
   };
   //==================================================================
   const [hideInput, setHideInput] = useState(true);
@@ -114,6 +130,13 @@ function App() {
     <DataProvider>
       <div className={classes.App}>
         <Login message={onSetMessage} hide={true} />
+        <SettingsPage
+          settingsPageShow={settingsState.show}
+          headerText={settingsState.headerText}
+          content={settingsState.content || ''}
+          onArrowButtonHandler={onSettingsButtonHandler}
+          hideTrash={true}
+        ></SettingsPage>
         <Menu
           menuState={menuState}
           changeMenuState={changeMenuState}
@@ -136,6 +159,7 @@ function App() {
               changePage={snap.navigation}
               recipeListButton={recipeListButtonHandler}
               setHideInput={setHideInput}
+              onSettingsShowHandler={onSettingsShowHandler}
             ></ContentSwipe>
           }
         ></Content>

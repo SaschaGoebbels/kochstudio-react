@@ -22,7 +22,10 @@ const dataInit = {
     email: '',
     password: '',
     hide: true,
-    menuItemList: ['Einstellungen', 'Einkausliste', 'Liste exportieren'],
+    menuNavigation: {
+      menuItemList: ['Einstellungen', 'Einkausliste', 'Liste exportieren'],
+    },
+    shoppingListSettings: { avoidList: 'Salz ,Pfeffer ' },
   },
   weeklyPlan: [
     {
@@ -1388,6 +1391,13 @@ const dataReducer = (stateReducer, action) => {
         action.dataUpdate.itemId
       );
       action.dataUpdate.setPlanStateFromOutSide();
+      return stateReducer;
+    }
+    if (action.type === 'SETTINGS') {
+      if (action.dataUpdate.avoidList) {
+        stateReducer.stateReducer.shoppingListSettings.avoidList =
+          action.dataUpdate.avoidList;
+      }
       return stateReducer;
     }
   }

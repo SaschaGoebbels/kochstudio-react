@@ -40,7 +40,10 @@ const ContentSwipe = props => {
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
       />
-      <ShoppingList message={props.message}></ShoppingList>
+      <ShoppingList
+        message={props.message}
+        onSettingsShowHandler={props.onSettingsShowHandler}
+      ></ShoppingList>
     </div>
   );
 };

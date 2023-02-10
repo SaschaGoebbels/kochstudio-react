@@ -206,9 +206,56 @@ const ShoppingList = props => {
       }
     }
     if (btnId === 'gear') {
-      console.log('Settings');
+      settingsPageCall(true, avoidListState.list);
     }
   };
+  //==================================================================
+  // // // settings
+  const [avoidListState, setAvoidListState] = useState({
+    show: false,
+    list: dataCtx.menuState.shoppingListSettings.avoidList,
+  });
+  const avoidListUpdate = el => {
+    setAvoidListState({ show: avoidListState.show, list: el.target.value });
+  };
+  useEffect(() => {
+    settingsPageCall(avoidListState.show, avoidListState.list);
+  }, [avoidListState]);
+
+  const avoidArray = avoidListState.list
+    .toLowerCase()
+    .split(',')
+    .map(el => el.trim());
+
+  const settingsPageCall = (show, currentState) => {
+    props.onSettingsShowHandler({
+      show,
+      headerText: 'Einstellungen',
+      value: currentState,
+      content: settingsPageContent,
+      confirm: onConfirmSettings,
+    });
+  };
+  const onConfirmSettings = () => {
+    updateData('SETTINGS', { avoidList: avoidListState.list });
+  };
+
+  const settingsPageContent = (
+    <div className={classes.settingsBox}>
+      <h2 className={classes.settingsHeading}>
+        Folgende Zutaten habe ich immer zuhause:
+      </h2>
+      <p>Zutaten mit Komma als Trennzeichen hier eintragen</p>
+      <textarea
+        id="avidList"
+        name="avidList"
+        rows="6"
+        // cols="50"
+        value={avoidListState.list}
+        onChange={avoidListUpdate}
+      ></textarea>
+    </div>
+  );
   const onCheckButtonHandler = nameKey => {
     toggleIngredientCheck(nameKey);
   };
@@ -229,10 +276,12 @@ const ShoppingList = props => {
     state.searchBarHide = true;
     if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
   };
+  //==================================================================
 
   const liItemChecked = checkState => {
     return ingredientsSumListState
       .filter(el => el.checked === checkState)
+      .filter(el => !avoidArray.some(ar => ar === el.nameKey))
       .map((item, i) => {
         return (
           <li key={item.nameKey}>
