@@ -66,8 +66,6 @@ const dataReducer = (stateReducer, action) => {
     // // update plan onClick recipePage
     if (action.dataUpdate.planUpdate) {
       // // remove from plan
-      // why chili already
-      console.log(stateReducer.weeklyPlan);
       if (action.dataUpdate.currentPlanState) {
         stateReducer.weeklyPlan = removeFromList(
           stateReducer.weeklyPlan,
@@ -78,13 +76,11 @@ const dataReducer = (stateReducer, action) => {
       }
       // // // add to plan
       if (action.dataUpdate.currentPlanState === false) {
-        console.log(stateReducer.weeklyPlan);
         stateReducer.weeklyPlan = addToList(
           stateReducer.weeklyPlan,
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.planUpdate('plan', true);
-        console.log(stateReducer.weeklyPlan);
         return stateReducer;
       }
     }

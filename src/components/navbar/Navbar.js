@@ -13,7 +13,7 @@ const Navbar = props => {
 
   const navChangeFunction = btnId => {
     if (btnId === 'btn1') {
-      state.headerText = 'Gerichte';
+      state.headerText = 'Rezepte';
     }
     if (btnId === 'btn2') {
       state.headerText = 'Wochenplan';
@@ -41,7 +41,7 @@ const Navbar = props => {
         iconColor={`${btnNav === 'btn1' ? currentIcon : iconColor}`}
         // currentIcon={`${btnNav === 'btn1' ? true : false}`}
         currentIcon={`${btnNav === 'btn1' ? 'classes.current_icon' : ''}`}
-        name="Gerichte"
+        name="Rezepte"
       />
       <NavbarButton
         onClickHandler={navChangeFunction}

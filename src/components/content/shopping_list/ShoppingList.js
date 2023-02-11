@@ -218,10 +218,6 @@ const ShoppingList = props => {
         state.headerText = 'Zur Einkaufsliste hinzufügen';
       }
     }
-    // ////////////////// CHECK //////////////////
-    // if (btnId === 'gear') {
-    //   settingsPageCall(true, avoidListState.list);
-    // }
   };
   // // // //==================================================================
   // // // // // // avoidList

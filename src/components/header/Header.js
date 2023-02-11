@@ -15,7 +15,7 @@ const Header = props => {
   // const [menuBtn, setMenuBtn] = useState(false);
   const showSearchBtnOnRecipeList = headerText => {
     if (
-      headerText === 'Gerichte' ||
+      headerText === 'Rezepte' ||
       headerText === 'Favoriten' ||
       snap.weeklyPlan.editMode === true ||
       snap.listEditHide === false
