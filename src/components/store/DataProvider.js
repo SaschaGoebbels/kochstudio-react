@@ -279,66 +279,7 @@ const dataInit = {
     hide: true,
     shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
   },
-  weeklyPlan: [
-    // {
-    //   name: 'Aus nix irgend was',
-    //   fav: true,
-    //   ingredients: [
-    //     {
-    //       ingredientName: 'Nudel',
-    //       quantity: '2',
-    //       unit: 'Tasse',
-    //       id: '08c31d35-54f9-9d31-7be4-412f5049973f',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Paprika',
-    //       quantity: '1',
-    //       unit: 'Stk.',
-    //       id: '7b73f90c-ad8d-7b1e-9699-10e68f7b03dd',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Eier',
-    //       quantity: '2',
-    //       unit: 'Stk.',
-    //       id: '95b2cdeb-ed2f-6297-a4e4-2531c009c843',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Würstchen',
-    //       quantity: '4',
-    //       unit: 'Stk.',
-    //       id: '127940b8-166a-e01c-c3a5-f6406be96471',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Sucuk',
-    //       quantity: '100',
-    //       unit: 'g',
-    //       id: '82fddd2d-e8fa-b064-1ae1-3b3e041e9646',
-    //       editMode: false,
-    //     },
-    //   ],
-    //   preparation: '',
-    //   id: 'e3ab4a12-bcb5-b13e-fd64-dxx156d7de3e',
-    // },
-    {
-      name: 'Bratwurst',
-      fav: false,
-      ingredients: [
-        {
-          ingredientName: 'Bratwurst',
-          quantity: '2',
-          unit: 'Stk.',
-          id: '9144a210-3da0-3b54-f91f-fc2778586fb6',
-          editMode: false,
-        },
-      ],
-      preparation: 'In der Pfanne schön kross anbraten.',
-      id: '982dd7b4-7a07-c39d-b6df-92dd9b32a648',
-    },
-  ],
+  weeklyPlan: [],
   recipeList: [
     {
       name: 'Arme Ritter',
@@ -1565,52 +1506,7 @@ const dataInit = {
     },
   ],
 
-  shoppingList: [
-    // {
-    //   name: 'Testmenu',
-    //   fav: false,
-    //   weeklyPlan: true,
-    //   ingredients: [
-    //     {
-    //       ingredientName: 'Mehl',
-    //       quantity: '1000',
-    //       unit: 'g',
-    //       id: 'c2b1602f-e6f7-sss97-82be-600axsxsx6bef',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Eier',
-    //       quantity: '5',
-    //       unit: 'Stk.',
-    //       id: 'c643a35b-efdb-0952-6dd8-6a5b4sxsx62a',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Milch',
-    //       quantity: '0.5',
-    //       unit: 'l',
-    //       id: 'e261f15d-7c42-e2b8-3295-c17xsxsf04',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Sahne ',
-    //       quantity: '1',
-    //       unit: 'Stk.',
-    //       id: '402f316c-60d7-274e-cf27-4e23020xxxe756ca',
-    //       editMode: false,
-    //     },
-    //     {
-    //       ingredientName: 'Salz',
-    //       quantity: '1',
-    //       unit: 'TL-gestr.',
-    //       id: '643a6fa8-722d-d2ca-78b1-81ecxsxs0ec7',
-    //       editMode: false,
-    //     },
-    //   ],
-    //   preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
-    //   id: '759e69c2-9ab5-231b-0d59-e153b60270',
-    // },
-  ],
+  shoppingList: [],
 };
 
 // <DELETE>

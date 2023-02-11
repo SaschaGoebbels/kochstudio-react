@@ -42,6 +42,7 @@ const ContentSwipe = props => {
       />
       <ShoppingList
         message={props.message}
+        avoidList={props.avoidList}
         onSettingsShowHandler={props.onSettingsShowHandler}
       ></ShoppingList>
     </div>

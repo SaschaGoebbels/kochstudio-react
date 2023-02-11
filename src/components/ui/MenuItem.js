@@ -36,7 +36,7 @@ const MenuItem = props => {
     <div
       className={classes.menuItemBox}
       onClick={() => {
-        props.onBtnClick(buttonName.iconName);
+        props.onBtnClick(props.id);
       }}
     >
       <div className={classes.menuItemBox__icon}>

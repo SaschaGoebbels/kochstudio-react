@@ -60,6 +60,9 @@ function App() {
       return { ...prev };
     });
   };
+  const onMenuClick = btnId => {
+    console.log(btnId);
+  };
   // header
   const onMenuButtonHandler = btnId => {
     toggleMenuHide();
@@ -150,6 +153,8 @@ function App() {
             email: 'goebbels.sascha@gmail.com',
           }}
           setMessage={onSetMessage}
+          onSettingsShowHandler={onSettingsShowHandler}
+          menuClick={onMenuClick}
         ></Menu>
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input
@@ -169,6 +174,7 @@ function App() {
               recipeListButton={recipeListButtonHandler}
               setHideInput={setHideInput}
               onSettingsShowHandler={onSettingsShowHandler}
+              avoidList={false}
             ></ContentSwipe>
           }
         ></Content>

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
+import uuid from 'react-uuid';
 
 import WeeklyPlanItem from '../weeklyPlan/WeeklyPlanItem';
 import ShoppingListItem from './ShoppingListItem';
@@ -57,6 +58,7 @@ class ingredientSumItem {
     this.unit = unit;
     this.quantity = [quantity];
     this.checked = false;
+    this.id = uuid();
   }
   add(value) {
     this.quantity = [...this.quantity, value];
@@ -75,9 +77,7 @@ const ShoppingList = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  // const [listEditHide, setListEditHide] = useState(true);
-  //==================================================================
-  // SearchBar
+  // // // SearchBar
   const [searchInput, setSearchInput] = useState('');
   useEffect(() => {
     setSearchInput('');
@@ -111,7 +111,7 @@ const ShoppingList = props => {
     }
     // // // check current if checked && sum< keep it , else change to new value
     setIngredientsSumListState(prev => {
-      return tempSumState.map(el => {
+      const temp = tempSumState.map(el => {
         const [prevEl = { checked: false }] = prev.filter(
           filterEl => filterEl.nameKey === el.nameKey
         );
@@ -127,6 +127,8 @@ const ShoppingList = props => {
           }
         }
       });
+      prev = sortAlphabetically(temp);
+      return prev;
     });
   };
   const sumOfArray = array => {
@@ -136,18 +138,31 @@ const ShoppingList = props => {
     );
   };
   const createSumItem = (ingredientName, nameKey, quantity, unit) => {
-    const [sumItem] = tempSumState.filter(el => el.nameKey === nameKey);
-    if (!sumItem) {
-      const newSumItem = new ingredientSumItem(
-        ingredientName,
-        nameKey,
-        +quantity,
-        unit
-      );
-      tempSumState = [...tempSumState, newSumItem];
+    // // // check if sumItem exist if not create one
+    const sumItem = tempSumState.filter(el => el.nameKey === nameKey);
+    if (sumItem.length === 0) {
+      tempSumState = [
+        ...tempSumState,
+        newSumItem(ingredientName, nameKey, quantity, unit),
+      ];
       return;
     }
-    sumItem.add(+quantity);
+    // // // if sumItem exist check unit and add if it fits, else create sumItem
+    const [addIfUnitIdentical] = sumItem.filter(el => el.unit === unit);
+    if (addIfUnitIdentical) {
+      addIfUnitIdentical.add(+quantity);
+      return;
+    } else {
+      tempSumState = [
+        ...tempSumState,
+        newSumItem(ingredientName, nameKey, quantity, unit),
+      ];
+      return;
+    }
+  };
+  const newSumItem = (ingredientName, nameKey, quantity, unit) => {
+    return new ingredientSumItem(ingredientName, nameKey, +quantity, unit);
+    tempSumState = [...tempSumState, newSumItem];
   };
   const evaluateQuantityUnit = (quantityInput, inputUnit) => {
     const quantity = +quantityInput.replace(/,/g, '.');
@@ -203,60 +218,61 @@ const ShoppingList = props => {
         state.headerText = 'Zur Einkaufsliste hinzufügen';
       }
     }
-    if (btnId === 'gear') {
-      settingsPageCall(true, avoidListState.list);
-    }
+    // ////////////////// CHECK //////////////////
+    // if (btnId === 'gear') {
+    //   settingsPageCall(true, avoidListState.list);
+    // }
   };
-  //==================================================================
-  // // // settings
+  // // // //==================================================================
+  // // // // // // settings
   const [avoidListState, setAvoidListState] = useState({
     show: false,
     list: dataCtx.menuState.shoppingListSettings.avoidList,
   });
-  const avoidListUpdate = el => {
-    console.log(el.target.value);
-    setAvoidListState({ show: true, list: el.target.value });
-  };
-  useEffect(() => {
-    settingsPageCall(avoidListState.show, avoidListState.list);
-  }, [avoidListState]);
+  // // // const avoidListUpdate = el => {
+  // // //   setAvoidListState({ show: true, list: el.target.value });
+  // // // };
+  // // // useEffect(() => {
+  // // //   settingsPageCall(avoidListState.show, avoidListState.list);
+  // // //   console.log('change');
+  // // // }, [avoidListState, props.avoidList]);
 
   const avoidArray = avoidListState.list
     .toLowerCase()
     .split(',')
     .map(el => el.trim());
 
-  const settingsPageCall = (show, currentState) => {
-    props.onSettingsShowHandler({
-      show,
-      headerText: 'Einstellungen',
-      value: currentState,
-      content: settingsPageContent,
-      confirm: onConfirmSettings,
-    });
-  };
-  const onConfirmSettings = () => {
-    updateData('SETTINGS', { avoidList: avoidListState.list });
-  };
+  // // // const settingsPageCall = (show, currentState) => {
+  // // //   props.onSettingsShowHandler({
+  // // //     show,
+  // // //     headerText: 'Einstellungen',
+  // // //     value: currentState,
+  // // //     content: settingsPageContent,
+  // // //     confirm: onConfirmSettings,
+  // // //   });
+  // // // };
+  // // // const onConfirmSettings = () => {
+  // // //   updateData('SETTINGS', { avoidList: avoidListState.list });
+  // // // };
 
-  const settingsPageContent = (
-    <div className={classes.settingsBox}>
-      <h2 className={classes.settingsHeading}>
-        Folgende Zutaten habe ich immer zuhause:
-      </h2>
-      <textarea
-        id="avidList"
-        name="avidList"
-        rows="6"
-        // cols="50"
-        value={avoidListState.list}
-        onChange={avoidListUpdate}
-      ></textarea>
-      <p>
-        Zutaten mit Komma als Trennzeichen eintragen ! z.B Salz, Pfeffer, Chili
-      </p>
-    </div>
-  );
+  // // // const settingsPageContent = (
+  // // //   <div className={classes.settingsBox}>
+  // // //     <h2 className={classes.settingsHeading}>
+  // // //       Folgende Zutaten habe ich immer zuhause:
+  // // //     </h2>
+  // // //     <textarea
+  // // //       id="avidList"
+  // // //       name="avidList"
+  // // //       rows="6"
+  // // //       // cols="50"
+  // // //       value={avoidListState.list}
+  // // //       onChange={avoidListUpdate}
+  // // //     ></textarea>
+  // // //     <p>
+  // // //       Zutaten mit Komma als Trennzeichen eintragen ! z.B Salz, Pfeffer, Chili
+  // // //     </p>
+  // // //   </div>
+  // // // );
   const onCheckButtonHandler = nameKey => {
     toggleIngredientCheck(nameKey);
   };
@@ -278,14 +294,13 @@ const ShoppingList = props => {
     if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
   };
   //==================================================================
-
   const liItemChecked = checkState => {
     return ingredientsSumListState
       .filter(el => el.checked === checkState)
       .filter(el => !avoidArray.some(ar => ar === el.nameKey))
       .map((item, i) => {
         return (
-          <li key={item.nameKey}>
+          <li key={item.id}>
             <ShoppingListItem
               name={item.name}
               quantity={item.sum()}
@@ -298,6 +313,7 @@ const ShoppingList = props => {
         );
       });
   };
+  const listArray = [...liItemChecked(false), ...liItemChecked(true)];
   const onTrashClickHandler = () => {
     props.message({
       title: 'Alles Löschen ?',
@@ -308,10 +324,7 @@ const ShoppingList = props => {
   };
   const deleteShoppingList = () => {
     updateShoppingList([]);
-    //////////////////// FIXME //////////////////
-    // better from outside callback !!
     setShoppingListState([]);
-    console.log(dataCtx.shoppingList);
   };
   //==================================================================
   //==================================================================
@@ -345,8 +358,9 @@ const ShoppingList = props => {
         </div>
       )}
       <ul className={classes.contentListBox__ul}>
-        {liItemChecked(false)}
-        {liItemChecked(true)}
+        {listArray}
+        {/* {liItemChecked(false)}
+        {liItemChecked(true)} */}
         {shoppingListState.length > 0 && (
           <ButtonRound
             btnId="trash"
