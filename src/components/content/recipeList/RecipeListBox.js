@@ -23,15 +23,15 @@ const RecipeListBox = props => {
           .map(item => {
             if (
               props.recipeEditList &&
-              // props.weeklyPlan &&
-              // props.weeklyPlan.some(el => el.id === item.id)
               props.recipeEditList.some(el => el.id === item.id)
             ) {
               return (
+                ////////////////// CHECK //////////////////
+                //change to props to listEdit to change button style !
                 <li
                   style={props.listItemCheckedStyle}
                   key={item.id}
-                  className={classes.contentListBox__item}
+                  className={`${classes.contentListBox__item} ${classes['contentListBox__item--effect']}`}
                   onClick={() => listClickHandler(item)}
                 >
                   {item.name}
@@ -42,13 +42,10 @@ const RecipeListBox = props => {
                 <li
                   style={props.listItemDefaultStyle}
                   key={item.id}
-                  className={classes.contentListBox__item}
+                  className={`${classes.contentListBox__item}`}
                   onClick={() => listClickHandler(item)}
                 >
                   {item.name}
-                  <div
-                    className={classes['contentListBox__item--effect']}
-                  ></div>
                 </li>
               );
             }
