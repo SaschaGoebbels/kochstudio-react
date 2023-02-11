@@ -77,10 +77,15 @@ const WeeklyPlan = props => {
       <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit>
       {/* //fallback for empty List */}
       {planState.length === 0 && (
-        <div className={classes.contentListBox__emptyList}>
+        <div
+          className={classes.contentListBox__emptyList}
+          onClick={() => {
+            onRoundButtonHandler('add');
+          }}
+        >
           <WeeklyPlanItem
             day={'Der Wochenplan ist aktuell leer !'}
-            recipe={'auf + drücken zum hinzufügen ...'}
+            recipe={'jetzt hinzufügen ?'}
             checkButtonHide={true}
           ></WeeklyPlanItem>
         </div>

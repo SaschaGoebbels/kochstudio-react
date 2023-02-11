@@ -20,6 +20,10 @@ const RecipePage = props => {
   const [favState, setFavState] = useState();
   const [planState, setPlanState] = useState();
   const [listState, setListState] = useState();
+  // const [currentRecipe, setCurrentRecipe] = useState();
+  // useEffect(() => {
+  //   setCurrentRecipe(snap.recipeObject);
+  // }, []);
   useEffect(() => {
     setFavState(props.recipeObject.fav || false);
     setPlanState(
@@ -37,31 +41,27 @@ const RecipePage = props => {
       if (state === 'list') setListState(action);
     }, 50);
   };
-
   const onRoundButtonHandler = btnId => {
-    // console.log(btnId);
-    console.log(props.recipeObject);
     if (btnId === 'heart') {
       dataUpdate(UPDATERECIPE, {
         favUpdate: useEffectStartUpdate,
-        recipe: props.recipeObject,
+        recipeUpdate: props.recipeObject,
       });
     }
     if (btnId === 'plan') {
       dataUpdate(UPDATERECIPE, {
         planUpdate: useEffectStartUpdate,
         currentPlanState: planState,
-        recipe: props.recipeObject,
+        recipeUpdate: props.recipeObject,
       });
     }
     if (btnId === 'list') {
       dataUpdate(UPDATERECIPE, {
         listUpdate: useEffectStartUpdate,
-        recipe: props.recipeObject,
+        recipeUpdate: props.recipeObject,
       });
     }
     if (btnId === 'pen') {
-      // console.log('pen');
       props.setHideInput(false);
       state.inputCurrentValue = { ...props.recipeObject };
     }

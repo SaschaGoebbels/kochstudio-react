@@ -40,28 +40,34 @@
 .menuBox__UserBox {
   height: 20%;
   background-color: var(--clr-accent_background);
-  padding: 1rem 2rem;
-  gap: 1rem;
+  padding: 1rem;
+  gap: 0.6rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  font-weight: 600;
-  font-size: 1.2rem;
+  font-weight: 400;
+  font-size: 1.8rem;
 }
 .menuBox__UserBtnBox {
   display: flex;
   align-items: center;
-  /* border: rgba(143, 143, 143, 0.562) solid 3px; */
+  border: rgba(143, 143, 143, 0.562) solid 3px;
   border-radius: 1.5rem;
   padding: 0.5rem;
+
+  gap: 1rem;
 }
 .menuBox__UserBtnBox p {
   text-align: center;
   margin-top: 0.3rem;
 }
+.menuBox__UserBox--userName {
+  font-weight: 600;
+  letter-spacing: 0.05rem;
+}
 .menuBox__SettingsBox {
   display: flex;
   flex-direction: column;
-  padding: 1rem 2rem 1rem 1rem;
+  padding: 0rem 2rem 1rem 1rem;
 }

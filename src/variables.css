@@ -11,6 +11,7 @@
   --clr_main_ff: rgb(235, 231, 231); /* #EBE7E7 */
   /* --clr_main_ff: #fff; */
   --clr_border: rgb(185, 185, 185);
+  --clr_border-bottom: rgb(185, 185, 185);
   --clr_accent_ff: rgb(26, 25, 25);
 
   --clr_frame: rgb(61, 190, 180);

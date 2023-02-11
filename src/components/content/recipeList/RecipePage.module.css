@@ -46,7 +46,7 @@
   gap: 2rem;
   display: grid;
   grid-template-columns: 1fr minmax(min-content, 20%) minmax(min-content, 20%);
-  border-bottom: rgb(116, 115, 96) solid 1px;
+  border-bottom: var(--clr_border-bottom) solid 1px;
   align-items: center;
 }
 .recipePage__box__ul__quantity {

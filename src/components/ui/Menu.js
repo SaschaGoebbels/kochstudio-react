@@ -9,6 +9,20 @@ const Menu = props => {
   };
   const onMenuClickHandler = btnId => {
     console.log(btnId);
+    props.setMessage({
+      title: 'Wir arbeiten daran',
+      message: 'Diese Funktion steht schon bald zur Verfügung',
+      value: '',
+      confirm: '',
+      showBtnX: false,
+    });
+  };
+  const onLoginHandler = () => {
+    if (props.userData.email) {
+      //show user editPage
+    } else {
+      //show loginPage
+    }
   };
   return (
     <div
@@ -27,7 +41,7 @@ const Menu = props => {
           props.menuState.hide && classes['menuBox__dropInBox--hide']
         }`}
       >
-        <div className={classes.menuBox__UserBox}>
+        <div className={classes.menuBox__UserBox} onClick={onLoginHandler}>
           <div className={classes.menuBox__UserBtnBox}>
             <ButtonRound
               btnId="user"
@@ -45,7 +59,9 @@ const Menu = props => {
             />
             <div>
               <p>Logged In:</p>
-              <p>{props.userData.user}</p>
+              <p className={classes['menuBox__UserBox--userName']}>
+                {props.userData.user}
+              </p>
             </div>
           </div>
           <p>{props.userData.email}</p>

@@ -17,7 +17,7 @@ export function useDataUpdate() {
 
 //==================================================================
 const dataReducer = (stateReducer, action) => {
-  // input new recipe
+  // // input new recipe
   if (action.type === 'INPUT') {
     stateReducer.recipeList = [
       ...stateReducer.recipeList,
@@ -27,15 +27,14 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   //==================================================================
-  // update existing recipe
+  // // update existing recipe
   if (action.type === UPDATERECIPE) {
     onRecipeListChangeUpdatePlanAndList(
-      action.dataUpdate.recipe,
+      action.dataUpdate.recipeUpdate,
       stateReducer.weeklyPlan
     );
-    console.log(stateReducer.weeklyPlan);
     // replace existing recipe with updated version
-    if (action.dataUpdate.recipeUpdate) {
+    if (action.dataUpdate.updateExisting) {
       const index = stateReducer.recipeList
         .map(e => e.id)
         .indexOf(action.dataUpdate.recipeUpdate.id);
@@ -44,11 +43,11 @@ const dataReducer = (stateReducer, action) => {
       return stateReducer;
     }
     //++++++++++++++++++++++++++++++++++++++++
-    // update recipe fav state and update recipePage
+    // // update recipe fav state and update recipePage
     if (action.dataUpdate.favUpdate) {
       let currentFavState;
       stateReducer.recipeList = stateReducer.recipeList.map(el => {
-        if (el.id === action.dataUpdate.recipe.id) {
+        if (el.id === action.dataUpdate.recipeUpdate.id) {
           el.fav = !el.fav;
           currentFavState = el.fav;
         }
@@ -58,23 +57,24 @@ const dataReducer = (stateReducer, action) => {
       return stateReducer;
     }
     //++++++++++++++++++++++++++++++++++++++++
-    // update plan onClick recipePage
+    // // update plan onClick recipePage
     if (action.dataUpdate.planUpdate) {
-      // remove from plan
+      // // remove from plan
+      console.log(action.dataUpdate.currentPlanState);
       if (action.dataUpdate.currentPlanState) {
-        stateReducer.weeklyPlan = removeFromlist(
+        stateReducer.weeklyPlan = removeFromList(
           stateReducer.weeklyPlan,
-          action.dataUpdate.recipe.id
+          action.dataUpdate.recipeUpdate.id
         );
         // action.dataUpdate.setPlanStateFromOutSide();
         action.dataUpdate.planUpdate('plan', false);
         return stateReducer;
       }
-      // add to plan
+      // // // add to plan
       if (action.dataUpdate.currentPlanState === false) {
         stateReducer.weeklyPlan = addToList(
           stateReducer.weeklyPlan,
-          action.dataUpdate.recipe
+          action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.planUpdate('plan', true);
         return stateReducer;
@@ -103,14 +103,14 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'PLAN') {
-    // add to plan => replace the plan with updated version
+    // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
       return stateReducer;
     }
-    // remove from plan
+    // // remove from plan
     if (action.dataUpdate.itemId) {
-      stateReducer.weeklyPlan = removeFromlist(
+      stateReducer.weeklyPlan = removeFromList(
         stateReducer.weeklyPlan,
         action.dataUpdate.itemId
       );
@@ -119,15 +119,15 @@ const dataReducer = (stateReducer, action) => {
     }
   }
   if (action.type === 'SHOP') {
-    // add to plan => replace the plan with updated version
+    // // add to plan => replace the plan with updated version
     if (action.dataUpdate.shoppingListState) {
       stateReducer.shoppingList = [...action.dataUpdate.shoppingListState];
       return stateReducer;
     }
-    // remove from plan
+    // // remove from plan
     if (action.dataUpdate.itemId) {
       console.log(action.dataUpdate.itemId);
-      stateReducer.shoppingList = removeFromlist(
+      stateReducer.shoppingList = removeFromList(
         stateReducer.shoppingList,
         action.dataUpdate.itemId
       );
@@ -145,8 +145,9 @@ const dataReducer = (stateReducer, action) => {
   return stateReducer;
 };
 //==================================================================
-// manipulate weeklyPlan and shoppingList
-const removeFromlist = (currentList, idToRemove) => {
+// // manipulate weeklyPlan and shoppingList
+const removeFromList = (currentList, idToRemove) => {
+  console.log(currentList);
   currentList = currentList.filter(el => {
     if (el.id !== idToRemove) return el;
   });
@@ -163,7 +164,6 @@ const sortArray = array => {
 };
 //==================================================================
 const onRecipeListChangeUpdatePlanAndList = (recipeUpdate, array) => {
-  console.log(recipeUpdate, array);
   const index = array.findIndex(recipe => recipe.id === recipeUpdate.id);
   return [...array.splice(index, 1, recipeUpdate)];
 };
@@ -251,15 +251,6 @@ const dataInit = {
   menuState: {
     userData: { loggedIn: false, userName: 'Sascha', email: '', password: '' },
     hide: true,
-    // menuNavigation: {
-    //   menuItemList: [
-    //     'Einstellungen',
-    //     'Einkausliste',
-    //     'Exportieren',
-    //     'Importieren',
-    //     'Rezept teilen',
-    //   ],
-    // },
     shoppingListSettings: { avoidList: 'Salz ,Pfeffer ' },
   },
   weeklyPlan: [

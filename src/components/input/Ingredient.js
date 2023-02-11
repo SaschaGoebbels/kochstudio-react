@@ -92,7 +92,9 @@ const Ingredient = props => {
           <p className={classes.ingredient__box__grid_text}>
             {ingredientNameState}
           </p>
-          <p className={classes.ingredient__box__grid_text}>
+          <p
+            className={`${classes.ingredient__box__grid_text} ${classes['ingredient__box__grid_text--quantity']}`}
+          >
             {ingredientQuantityState}
           </p>
           <p className={classes.ingredient__box__grid_text}>

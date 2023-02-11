@@ -149,6 +149,7 @@ function App() {
             user: menuState.userData.userName,
             email: 'goebbels.sascha@gmail.com',
           }}
+          setMessage={onSetMessage}
         ></Menu>
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input

@@ -65,7 +65,7 @@ const Input = props => {
     recipeUpdate.ingredients = JSON.parse(JSON.stringify(ingredientsState));
     recipeUpdate.preparation = preparationState;
     state.currentRecipe = JSON.parse(JSON.stringify(recipeUpdate));
-    updateData(UPDATERECIPE, { recipeUpdate });
+    updateData(UPDATERECIPE, { recipeUpdate, updateExisting: true });
     props.hideInputCheckPageChangeHeaderText(snap.navigation, recipeUpdate);
   };
 
@@ -232,6 +232,8 @@ const Input = props => {
         />
       </li>
     ));
+  const toggleNewItem =
+    ingredientsState && !ingredientsState.some(el => el.editMode === true);
   //==================================================================
   const onSubmitHandler = event => {
     event.preventDefault();
@@ -271,19 +273,21 @@ const Input = props => {
               ></InputField>
               <ul>
                 {ingredientsListItems}
-                <li
-                  key={'newItem'}
-                  id={'newItem'}
-                  className={classes.input__listItem}
-                >
-                  <Ingredient
-                    editMode={true}
-                    name=""
-                    quantity=""
-                    unit=""
-                    onRecipeIngredientsHandler={recipeIngredientsHandler}
-                  />
-                </li>
+                {toggleNewItem && (
+                  <li
+                    key={'newItem'}
+                    id={'newItem'}
+                    className={classes.input__listItem}
+                  >
+                    <Ingredient
+                      editMode={true}
+                      name=""
+                      quantity=""
+                      unit=""
+                      onRecipeIngredientsHandler={recipeIngredientsHandler}
+                    />
+                  </li>
+                )}
               </ul>
             </div>
             <div className={classes.inputForm__flexBox}>

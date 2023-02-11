@@ -246,7 +246,6 @@ const ShoppingList = props => {
       <h2 className={classes.settingsHeading}>
         Folgende Zutaten habe ich immer zuhause:
       </h2>
-      <p>Zutaten mit Komma als Trennzeichen hier eintragen</p>
       <textarea
         id="avidList"
         name="avidList"
@@ -255,6 +254,9 @@ const ShoppingList = props => {
         value={avoidListState.list}
         onChange={avoidListUpdate}
       ></textarea>
+      <p>
+        Zutaten mit Komma als Trennzeichen eintragen ! z.B Salz, Pfeffer, Chili
+      </p>
     </div>
   );
   const onCheckButtonHandler = nameKey => {
@@ -338,7 +340,7 @@ const ShoppingList = props => {
         >
           <WeeklyPlanItem
             day={'Die Einkaufsliste ist aktuell leer !'}
-            recipe={'auf + drücken zum hinzufügen ...'}
+            recipe={'jetzt hinzufügen ?'}
             checkButtonHide={true}
           ></WeeklyPlanItem>
         </div>
@@ -346,16 +348,18 @@ const ShoppingList = props => {
       <ul className={classes.contentListBox__ul}>
         {liItemChecked(false)}
         {liItemChecked(true)}
-        <ButtonRound
-          btnId="trash"
-          key={'trashAll'}
-          className={classes.buttonTrash}
-          buttonName={'trash'}
-          color={'#20c99740'}
-          iconColor={'#97150b'}
-          buttonSize={'large'}
-          onClickHandler={onTrashClickHandler}
-        />
+        {shoppingListState.length > 0 && (
+          <ButtonRound
+            btnId="trash"
+            key={'trashAll'}
+            className={classes.buttonTrash}
+            buttonName={'trash'}
+            color={'#20c99740'}
+            iconColor={'#97150b'}
+            buttonSize={'large'}
+            onClickHandler={onTrashClickHandler}
+          />
+        )}
       </ul>
       <ButtonBoxContent
         onRoundButtonHandler={onRoundButtonHandler}
