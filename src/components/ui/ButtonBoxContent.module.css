@@ -1,3 +1,6 @@
+.buttonBox {
+  border: red solid 2px;
+}
 .buttonRight {
   position: absolute;
   right: 1.5rem;

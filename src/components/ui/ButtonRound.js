@@ -92,7 +92,7 @@ const ButtonRound = props => {
         border: `${buttonBorderColor} solid 3px`,
         boxShadow: `${buttonShadow}`,
       }}
-      className={`${classes.buttonRound} ${buttonSize} ${buttonClassName}`}
+      className={`${classes.buttonRound} ${buttonSize} ${buttonClassName} ${classes.button}`}
       //  ${
       //   buttonSize === 'small' && classes.buttonRound_small
       // }  ${

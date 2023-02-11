@@ -9,7 +9,7 @@ const ButtonBoxContent = props => {
   const gearShow = props.gearShow || false;
   return (
     <div>
-      <div>
+      <div className={classes.buttonBox}>
         <ButtonRound
           btnId="add"
           className={`${classes.buttonAddEdit} ${classes.buttonRight}`}

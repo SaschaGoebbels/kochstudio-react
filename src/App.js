@@ -137,7 +137,7 @@ function App() {
   //==================================================================
   return (
     <DataProvider>
-      <div className={classes.App}>
+      <div className={`${classes.App} ${classes.background}`}>
         <Login message={onSetMessage} hide={true} />
         <SettingsPage
           settingsPageShow={settingsState.show}
