@@ -74,6 +74,7 @@ function App() {
   };
   const [settingsState, setSettingsState] = useState(settingsInitialValue);
   const onSettingsShowHandler = settings => {
+    if (!menuState.hide) toggleMenuHide();
     setSettingsState({ ...settings });
   };
   const onSettingsButtonHandler = btnId => {
@@ -174,7 +175,6 @@ function App() {
               recipeListButton={recipeListButtonHandler}
               setHideInput={setHideInput}
               onSettingsShowHandler={onSettingsShowHandler}
-              avoidList={false}
             ></ContentSwipe>
           }
         ></Content>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import classes from './Menu.module.css';
 import ButtonRound from './ButtonRound';
 import MenuItem from './MenuItem';
 import DataProvider, { DataContext } from '../store/DataProvider';
-import { useContext } from 'react';
 import { useDataUpdate } from '../store/DataProvider';
 
 const Menu = props => {
@@ -33,7 +32,7 @@ const Menu = props => {
   };
   //==================================================================
   //==================================================================
-  // // // settings
+  // // // settingsPage avoidList
   const [avoidListState, setAvoidListState] = useState({
     show: false,
     list: dataCtx.menuState.shoppingListSettings.avoidList,
@@ -41,10 +40,9 @@ const Menu = props => {
   const avoidListUpdate = el => {
     setAvoidListState({ show: true, list: el.target.value });
   };
-  // useEffect(() => {
-  //   settingsPageCall(avoidListState.show, avoidListState.list);
-  //   console.log('change');
-  // }, []);
+  useEffect(() => {
+    settingsPageCall(avoidListState.show, avoidListState.list);
+  }, [avoidListState]);
 
   const settingsPageCall = (show, currentState) => {
     props.onSettingsShowHandler({
@@ -56,6 +54,7 @@ const Menu = props => {
     });
   };
   const onConfirmSettings = () => {
+    console.log('confirm');
     updateData('SETTINGS', { avoidList: avoidListState.list });
   };
 
