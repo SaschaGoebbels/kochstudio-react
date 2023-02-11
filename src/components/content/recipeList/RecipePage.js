@@ -20,10 +20,6 @@ const RecipePage = props => {
   const [favState, setFavState] = useState();
   const [planState, setPlanState] = useState();
   const [listState, setListState] = useState();
-  // const [currentRecipe, setCurrentRecipe] = useState();
-  // useEffect(() => {
-  //   setCurrentRecipe(snap.recipeObject);
-  // }, []);
   useEffect(() => {
     setFavState(props.recipeObject.fav || false);
     setPlanState(
@@ -58,6 +54,7 @@ const RecipePage = props => {
     if (btnId === 'list') {
       dataUpdate(UPDATERECIPE, {
         listUpdate: useEffectStartUpdate,
+        currentListState: listState,
         recipeUpdate: props.recipeObject,
       });
     }

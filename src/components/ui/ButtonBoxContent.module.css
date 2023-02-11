@@ -6,7 +6,8 @@
   bottom: 2rem;
 }
 .buttonGear {
-  top: 0;
+  top: -0.5rem;
+  left: 1rem;
 }
 .buttonList {
   bottom: 9rem;

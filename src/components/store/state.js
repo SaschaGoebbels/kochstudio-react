@@ -10,7 +10,7 @@ const state = proxy({
   buttonBoxContent: { coin: true, add: true, list: true, plan: true },
   weeklyPlan: { editMode: false },
   listEditHide: true,
-  shoppingList: { editMode: true },
+  shoppingList: { editMode: true, updateList: '' },
 });
 
 export { state };

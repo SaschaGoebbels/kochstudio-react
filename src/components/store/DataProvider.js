@@ -27,14 +27,20 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   //==================================================================
-  // // update existing recipe
+  // // on change recipe - update existing by replacing recipe
   if (action.type === UPDATERECIPE) {
-    onRecipeListChangeUpdatePlanAndList(
-      action.dataUpdate.recipeUpdate,
-      stateReducer.weeklyPlan
-    );
     // replace existing recipe with updated version
     if (action.dataUpdate.updateExisting) {
+      onRecipeListChangeUpdatePlanAndList(
+        action.dataUpdate.recipeUpdate,
+        stateReducer.weeklyPlan
+      );
+      onRecipeListChangeUpdatePlanAndList(
+        action.dataUpdate.recipeUpdate,
+        stateReducer.shoppingList
+      );
+      //DELETE
+      // state.shoppingList.updateList = state.shoppingList.updateList + 1;
       const index = stateReducer.recipeList
         .map(e => e.id)
         .indexOf(action.dataUpdate.recipeUpdate.id);
@@ -60,29 +66,48 @@ const dataReducer = (stateReducer, action) => {
     // // update plan onClick recipePage
     if (action.dataUpdate.planUpdate) {
       // // remove from plan
-      console.log(action.dataUpdate.currentPlanState);
+      // why chili already
+      console.log(stateReducer.weeklyPlan);
       if (action.dataUpdate.currentPlanState) {
         stateReducer.weeklyPlan = removeFromList(
           stateReducer.weeklyPlan,
           action.dataUpdate.recipeUpdate.id
         );
-        // action.dataUpdate.setPlanStateFromOutSide();
         action.dataUpdate.planUpdate('plan', false);
         return stateReducer;
       }
       // // // add to plan
       if (action.dataUpdate.currentPlanState === false) {
+        console.log(stateReducer.weeklyPlan);
         stateReducer.weeklyPlan = addToList(
           stateReducer.weeklyPlan,
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.planUpdate('plan', true);
+        console.log(stateReducer.weeklyPlan);
         return stateReducer;
       }
     }
     //++++++++++++++++++++++++++++++++++++++++
     if (action.dataUpdate.listUpdate) {
       console.log('listUpdate');
+      if (action.dataUpdate.currentListState) {
+        stateReducer.shoppingList = removeFromList(
+          stateReducer.shoppingList,
+          action.dataUpdate.recipeUpdate.id
+        );
+        action.dataUpdate.listUpdate('list', false);
+        return stateReducer;
+      }
+      // // // add to plan
+      if (action.dataUpdate.currentListState === false) {
+        stateReducer.shoppingList = addToList(
+          stateReducer.shoppingList,
+          action.dataUpdate.recipeUpdate
+        );
+        action.dataUpdate.listUpdate('list', true);
+        return stateReducer;
+      }
     }
   }
   //==================================================================
@@ -114,6 +139,7 @@ const dataReducer = (stateReducer, action) => {
         stateReducer.weeklyPlan,
         action.dataUpdate.itemId
       );
+      console.log(stateReducer.weeklyPlan);
       action.dataUpdate.setPlanStateFromOutSide();
       return stateReducer;
     }
@@ -251,52 +277,52 @@ const dataInit = {
   menuState: {
     userData: { loggedIn: false, userName: 'Sascha', email: '', password: '' },
     hide: true,
-    shoppingListSettings: { avoidList: 'Salz ,Pfeffer ' },
+    shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
   },
   weeklyPlan: [
-    {
-      name: 'Aus nix irgend was',
-      fav: true,
-      ingredients: [
-        {
-          ingredientName: 'Nudel',
-          quantity: '2',
-          unit: 'Tasse',
-          id: '08c31d35-54f9-9d31-7be4-412f5049973f',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Paprika',
-          quantity: '1',
-          unit: 'Stk.',
-          id: '7b73f90c-ad8d-7b1e-9699-10e68f7b03dd',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Eier',
-          quantity: '2',
-          unit: 'Stk.',
-          id: '95b2cdeb-ed2f-6297-a4e4-2531c009c843',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Würstchen',
-          quantity: '4',
-          unit: 'Stk.',
-          id: '127940b8-166a-e01c-c3a5-f6406be96471',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Sucuk',
-          quantity: '100',
-          unit: 'g',
-          id: '82fddd2d-e8fa-b064-1ae1-3b3e041e9646',
-          editMode: false,
-        },
-      ],
-      preparation: '',
-      id: 'e3ab4a12-bcb5-b13e-fd64-d2f156d7de3e',
-    },
+    // {
+    //   name: 'Aus nix irgend was',
+    //   fav: true,
+    //   ingredients: [
+    //     {
+    //       ingredientName: 'Nudel',
+    //       quantity: '2',
+    //       unit: 'Tasse',
+    //       id: '08c31d35-54f9-9d31-7be4-412f5049973f',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Paprika',
+    //       quantity: '1',
+    //       unit: 'Stk.',
+    //       id: '7b73f90c-ad8d-7b1e-9699-10e68f7b03dd',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Eier',
+    //       quantity: '2',
+    //       unit: 'Stk.',
+    //       id: '95b2cdeb-ed2f-6297-a4e4-2531c009c843',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Würstchen',
+    //       quantity: '4',
+    //       unit: 'Stk.',
+    //       id: '127940b8-166a-e01c-c3a5-f6406be96471',
+    //       editMode: false,
+    //     },
+    //     {
+    //       ingredientName: 'Sucuk',
+    //       quantity: '100',
+    //       unit: 'g',
+    //       id: '82fddd2d-e8fa-b064-1ae1-3b3e041e9646',
+    //       editMode: false,
+    //     },
+    //   ],
+    //   preparation: '',
+    //   id: 'e3ab4a12-bcb5-b13e-fd64-dxx156d7de3e',
+    // },
     {
       name: 'Bratwurst',
       fav: false,
@@ -1584,50 +1610,6 @@ const dataInit = {
     //   preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
     //   id: '759e69c2-9ab5-231b-0d59-e153b60270',
     // },
-    {
-      name: 'Arme Ritter',
-      fav: false,
-      weeklyPlan: true,
-      ingredients: [
-        {
-          ingredientName: 'Lauch',
-          quantity: '300',
-          unit: 'g',
-          id: 'c2b1602f-e6f7-7597-82be-600a740b6bef',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Eier',
-          quantity: '5',
-          unit: 'Stk.',
-          id: 'c643a35b-efdb-0952-6dd8-6a5b46228d5a',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Milch',
-          quantity: '300',
-          unit: 'ml',
-          id: 'e261f15d-7c42-e2b8-3295-c170e6b38f04',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Toastbrot ',
-          quantity: '0.5',
-          unit: 'Stk.',
-          id: '402f316c-60d7-274e-cf27-4ea68e75e6ca',
-          editMode: false,
-        },
-        {
-          ingredientName: 'Salz',
-          quantity: '1',
-          unit: 'TL-gestr.',
-          id: '643a6fa8-722d-d2ca-78b1-81ecbe780ec7',
-          editMode: false,
-        },
-      ],
-      preparation: 'Mittlere Stufe am Herd \nBeidseitig ca 3 Minuten',
-      id: '759e69c2-9ab5-231b-0d59-e15339b60270',
-    },
   ],
 };
 

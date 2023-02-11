@@ -46,7 +46,9 @@ const Input = props => {
       snap.navigation,
       snap.currentRecipe
     );
-    resetAllInputValues();
+    if (snap.currentRecipe.name === '') {
+      resetAllInputValues();
+    }
   };
 
   const createNewRecipe = () => {

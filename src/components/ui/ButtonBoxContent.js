@@ -19,7 +19,7 @@ const ButtonBoxContent = props => {
           isFav={''}
           onClickHandler={props.onRoundButtonHandler}
         />
-        {gearShow && (
+        {/* {gearShow && (
           <ButtonRound
             btnId="gear"
             className={`${classes.buttonRight} ${classes.buttonGear}`}
@@ -31,7 +31,7 @@ const ButtonBoxContent = props => {
             isFav={''}
             onClickHandler={props.onRoundButtonHandler}
           />
-        )}
+        )} */}
       </div>
       {!props.coinHide && (
         <ButtonRound

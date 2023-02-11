@@ -95,11 +95,7 @@ const ShoppingList = props => {
   const sortAlphabetically = array => {
     return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
   };
-  const setListStateFromOutSide = () => {
-    setTimeout(() => {
-      setShoppingListState(dataCtx.shoppingList);
-    }, 50);
-  };
+
   //==================================================================
   const createSumList = recipeList => {
     for (const i in recipeList) {
@@ -188,14 +184,16 @@ const ShoppingList = props => {
       return ['--', quantity];
     }
   };
-
+  //==================================================================
   useEffect(() => {
     setShoppingListState(dataCtx.shoppingList);
-  }, [snap.headerText === 'Einkaufsliste', snap.listEditHide]);
-
-  useEffect(() => {
     createSumList(shoppingListState);
-  }, [shoppingListState]);
+  }, [
+    snap.headerText === 'Einkaufsliste',
+    snap.listEditHide,
+    dataCtx.shoppingList,
+    shoppingListState,
+  ]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
     if (btnId === 'add') {
@@ -313,6 +311,7 @@ const ShoppingList = props => {
     //////////////////// FIXME //////////////////
     // better from outside callback !!
     setShoppingListState([]);
+    console.log(dataCtx.shoppingList);
   };
   //==================================================================
   //==================================================================

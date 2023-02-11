@@ -46,6 +46,9 @@ const RecipeListBox = props => {
                   onClick={() => listClickHandler(item)}
                 >
                   {item.name}
+                  <div
+                    className={classes['contentListBox__item--effect']}
+                  ></div>
                 </li>
               );
             }
