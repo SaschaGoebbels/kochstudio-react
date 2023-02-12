@@ -47,10 +47,29 @@ const messageReducer = (state, action) => {
   }
 };
 
+const menuStateInit = {
+  userData: {
+    loggedIn: false,
+    hideLogin: false,
+    userName: 'Demo_User',
+    email: 'demo-email@gmail.com',
+    password: '',
+  },
+  hide: true,
+  shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
+};
+
 function App() {
   const dataCtx = useContext(DataContext);
+
   //==================================================================
-  const [menuState, setMenuState] = useState(dataCtx.menuState);
+  const [menuState, setMenuState] = useState(
+    dataCtx.menuState || menuStateInit
+  );
+  const onLoginHandler = userData => {
+    console.log(userData);
+    setMenuState(userData);
+  };
   const changeMenuState = menuStateObj => {
     toggleMenuHide(menuStateObj);
   };
@@ -130,15 +149,22 @@ function App() {
     }
   };
   //==================================================================
+  const [flipState, setFlipState] = useState(false);
   const coincidenceRecipe = (currentRecipe, recipeList) => {
     const randomRecipe =
       recipeList[randomNumberOfArrayLength(recipeList.length)];
     state.currentRecipe = randomRecipe;
-    state.recipePageHide = false;
-    state.headerText = randomRecipe.name;
+    setFlipState(true);
+    setTimeout(() => {
+      setFlipState(false);
+    }, 700);
     if (currentRecipe.name === randomRecipe.name) {
       coincidenceRecipe(currentRecipe, recipeList);
     }
+    setTimeout(() => {
+      state.recipePageHide = false;
+      state.headerText = randomRecipe.name;
+    }, 100);
   };
   const randomNumberOfArrayLength = arrayLength => {
     return Math.trunc(Math.random() * arrayLength);
@@ -159,52 +185,59 @@ function App() {
   //==================================================================
   return (
     <DataProvider>
-      <div className={`${classes.App} ${classes.background}`}>
-        <Login message={onSetMessage} hide={true} />
-        <SettingsPage
-          settingsPageShow={settingsState.show}
-          headerText={settingsState.headerText}
-          content={settingsState.content || ''}
-          onArrowButtonHandler={onSettingsButtonHandler}
-          hideTrash={true}
-          hideXBtn={settingsState.hideXBtn || false}
-        ></SettingsPage>
-        <Menu
-          menuState={menuState}
-          changeMenuState={changeMenuState}
-          userData={{
-            user: menuState.userData.userName,
-            email: 'goebbels.sascha@gmail.com',
-          }}
-          setMessage={onSetMessage}
-          onSettingsShowHandler={onSettingsShowHandler}
-          menuClick={onMenuElementClick}
-        ></Menu>
-        <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
-        <Input
-          hideInput={hideInput}
-          hideInputCheckPageChangeHeaderText={
-            hideInputCheckPageChangeHeaderText
-          }
-          setMessage={onSetMessage}
-          recipeNameId={snap.inputCurrentValue}
-        ></Input>
-        <Header onMenuButton={onMenuButtonHandler} />
-        <Content
-          content={
-            <ContentSwipe
-              message={onSetMessage}
-              changePage={snap.navigation}
-              recipeListButton={recipeListButtonHandler}
-              setHideInput={setHideInput}
-              onSettingsShowHandler={onSettingsShowHandler}
-            ></ContentSwipe>
-          }
-        ></Content>
+      <div className={`${classes.App} ${classes.background} `}>
+        <div className={`${flipState && classes.fadeIn}`}>
+          <Login
+            message={onSetMessage}
+            onLoginHandler={onLoginHandler}
+            hide={menuState.userData.hideLogin}
+          />
+          <SettingsPage
+            settingsPageShow={settingsState.show}
+            headerText={settingsState.headerText}
+            content={settingsState.content || ''}
+            onArrowButtonHandler={onSettingsButtonHandler}
+            hideTrash={true}
+            hideXBtn={settingsState.hideXBtn || false}
+          ></SettingsPage>
+          <Menu
+            menuState={menuState}
+            changeMenuState={changeMenuState}
+            userData={{
+              user: menuState.userData.userName || '',
+              email: menuState.userData.email || '',
+            }}
+            setMessage={onSetMessage}
+            onSettingsShowHandler={onSettingsShowHandler}
+            menuClick={onMenuElementClick}
+            onLoginHandler={onLoginHandler}
+          ></Menu>
+          <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
+          <Input
+            hideInput={hideInput}
+            hideInputCheckPageChangeHeaderText={
+              hideInputCheckPageChangeHeaderText
+            }
+            setMessage={onSetMessage}
+            recipeNameId={snap.inputCurrentValue}
+          ></Input>
+          <Header onMenuButton={onMenuButtonHandler} />
+          <Content
+            content={
+              <ContentSwipe
+                message={onSetMessage}
+                changePage={snap.navigation}
+                recipeListButton={recipeListButtonHandler}
+                setHideInput={setHideInput}
+                onSettingsShowHandler={onSettingsShowHandler}
+              ></ContentSwipe>
+            }
+          ></Content>
 
-        <Footer
-          footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
-        ></Footer>
+          <Footer
+            footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
+          ></Footer>
+        </div>
       </div>
     </DataProvider>
   );

@@ -91,6 +91,37 @@ const ShoppingList = props => {
   );
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
+  const currentLocalSumList = dataCtx.ingredientsSumListState;
+  ////////////////// FIXME //////////////////
+  // console.log(
+  //   currentLocalSumList.filter(
+  //     el => el.id === '4766e5d6-9bdb-d93f-c461-4e0cc750d378'
+  //   )
+  // );
+  // console.log(
+  //   ingredientsSumListState.map(el => {
+  //     console.log(el.id);
+  //   })
+  // );
+  // useEffect(() => {
+  //   setIngredientsSumListState(prev => {
+  //     console.log('ok');
+  //     const temp = prev.map(mapEl => {
+  //       const [recipeLocal] = currentLocalSumList.filter(
+  //         el => el.id === mapEl.id
+  //       );
+  //       console.log(recipeLocal);
+  //       // if (recipeLocal.checked === true) {
+  //       //   mapEl.checked = true;
+  //       //   console.log('true', mapEl);
+  //       // }
+  //       console.log(mapEl);
+  //       return mapEl;
+  //     });
+  //     console.log(temp);
+  //     return;
+  //   });
+  // }, []);
   let tempSumState = [];
   const sortAlphabetically = array => {
     return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
@@ -272,6 +303,7 @@ const ShoppingList = props => {
         );
       });
   };
+  //==================================================================
   const listArray = [...liItemChecked(false), ...liItemChecked(true)];
   const onTrashClickHandler = () => {
     props.message({
@@ -302,7 +334,16 @@ const ShoppingList = props => {
         onUpdateList={updateShoppingList}
       ></ListEdit>
       {/* //fallback for empty List */}
-      {shoppingListState.length === 0 && (
+      {shoppingListState.length === 0 && dataCtx.recipeList.length === 0 && (
+        <div className={classes.contentListBox__emptyList}>
+          <WeeklyPlanItem
+            day={'Die Rezeptliste ist leer !'}
+            recipe={'Bitte erst Rezepte hinzufügen'}
+            checkButtonHide={true}
+          ></WeeklyPlanItem>
+        </div>
+      )}
+      {shoppingListState.length === 0 && dataCtx.recipeList.length !== 0 && (
         <div
           className={classes.contentListBox__emptyList}
           onClick={() => {

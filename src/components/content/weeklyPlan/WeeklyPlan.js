@@ -76,7 +76,16 @@ const WeeklyPlan = props => {
       ></SearchBar>
       <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit>
       {/* //fallback for empty List */}
-      {planState.length === 0 && (
+      {planState.length === 0 && dataCtx.recipeList.length === 0 && (
+        <div className={classes.contentListBox__emptyList}>
+          <WeeklyPlanItem
+            day={'Die Rezeptliste ist leer !'}
+            recipe={'Bitte erst Rezepte hinzufügen'}
+            checkButtonHide={true}
+          ></WeeklyPlanItem>
+        </div>
+      )}
+      {planState.length === 0 && dataCtx.recipeList.length !== 0 && (
         <div
           className={classes.contentListBox__emptyList}
           onClick={() => {
@@ -94,8 +103,8 @@ const WeeklyPlan = props => {
         {planState.map((item, i) => {
           let day = dayOutput(dayNumb);
           if (i === 0) day = dayOutput(dayNumb);
-          // if (i === 0) day = dayOutput(dayNumb);
           if (i > 0) day = dayOutput(dayNumb + i);
+          if (!day) day = dayOutput(7); //fallback sunday
           return (
             <li key={item.id}>
               <WeeklyPlanItem

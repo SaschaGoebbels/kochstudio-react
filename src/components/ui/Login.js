@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
+import { DataContext } from '../store/DataProvider';
 
 const Login = props => {
+  const dataCtx = useContext(DataContext);
   //==================================================================
   const {
     value: nameValue,
@@ -39,11 +41,47 @@ const Login = props => {
 
   const [createAccount, setCreateAccount] = useState(false);
 
+  // create account
   const onClickHandler = el => {
     if (el === 'x') {
-      // el.preventDefault();
       setCreateAccount(false);
-      console.log('ok');
+    }
+    if (el === 'check') {
+      if (!emailIsValid) {
+        props.message({
+          title: `Error`,
+          message: 'Bitte eine richtige Emailadresse eingeben!',
+          showBtnX: false,
+        });
+        return;
+      }
+      if (!passwordIsValid) {
+        props.message({
+          title: `Error`,
+          message: 'Mindestens 4 Zeichen eingeben !',
+          showBtnX: false,
+        });
+        return;
+      }
+      if (emailIsValid && passwordIsValid) {
+        const user = {
+          loggedIn: true,
+          hideLogin: true,
+          userName: nameValue,
+          email: emailValue,
+          password: passwordValue,
+        };
+        const data = dataCtx;
+        data.menuState.userData = user;
+        localStorage.setItem('localData', JSON.stringify(data));
+        props.onLoginHandler({ userData: user });
+        setCreateAccount(false);
+        props.message({
+          title: `Anmeldung erfolgreich`,
+          message: 'Viel Spaß mit der App!',
+          showBtnX: false,
+        });
+      }
     }
   };
 
@@ -52,6 +90,11 @@ const Login = props => {
     setCreateAccount(true);
   };
   const onLoginHandler = el => {
+    props.message({
+      title: `Error`,
+      message: 'Bitte Anmeldedaten eingeben oder Demo-Login verwenden !',
+      showBtnX: false,
+    });
     el.preventDefault();
   };
   const isValidClass = (isValid, hasError) => {
@@ -64,7 +107,7 @@ const Login = props => {
     props.message({
       title: 'Demo Modus aktivieren ?',
       message:
-        'Im Demo-Modus ist speichern nicht möglich, alle Daten gehen nach dem APP Neustart verloren !',
+        'Im Demo-Modus werden die Daten nicht gespeichert, alle Daten gehen nach dem APP Neustart verloren !',
       showBtnX: true,
       dismiss: cancelDemo,
       confirm: startDemo,
@@ -78,7 +121,23 @@ const Login = props => {
     console.log('cancel');
   };
   const startDemo = el => {
-    console.log('start');
+    const user = {
+      loggedIn: true,
+      hideLogin: true,
+      userName: 'Demo-User',
+      email: 'demo-email@gmail.com',
+      password: '12345678',
+    };
+    const data = dataCtx;
+    data.menuState.userData = user;
+    localStorage.setItem('localData', JSON.stringify(data));
+    props.onLoginHandler({ userData: user });
+    setCreateAccount(false);
+    props.message({
+      title: `Demo-Modus`,
+      message: 'Viel Spaß beim testen der App!',
+      showBtnX: false,
+    });
   };
   //==================================================================
   return (

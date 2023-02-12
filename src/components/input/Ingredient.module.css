@@ -23,7 +23,7 @@
   grid-template-columns: 1fr minmax(min-content, 20%) minmax(min-content, 20%);
 }
 .ingredient__box__grid_text {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   padding: 0.6rem 0 0.6rem 0.2rem;
   color: var(--clr_main_ff);
 }

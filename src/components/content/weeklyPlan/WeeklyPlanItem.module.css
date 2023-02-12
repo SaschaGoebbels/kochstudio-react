@@ -14,6 +14,8 @@
   text-align: center;
 }
 .itemBox__day {
+  background-color: var(--clr_main_background);
+  border-radius: 1.4rem 1.4rem 0 0;
   color: var(--clr_main_ff);
 }
 .itemBox__day__btnBox {
