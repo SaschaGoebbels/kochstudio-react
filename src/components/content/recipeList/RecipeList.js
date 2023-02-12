@@ -11,19 +11,12 @@ import SearchBar from '../../ui/SearchBar';
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 import { useEffect } from 'react';
-import useCoin from '../../../hooks/useCoin';
 
 //==================================================================
 const RecipeList = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const [searchInput, setSearchInput] = useState('');
-
-  ////////////////// CHECK //////////////////
-  const { recipe, randomNumber } = useCoin({
-    inputArray: dataCtx.recipeList,
-    favList: props.showFavList,
-  });
 
   const listClickHandler = recipe => {
     state.headerText = recipe.name;
@@ -41,8 +34,8 @@ const RecipeList = props => {
   }, [snap.currentRecipe, dataCtx.recipeList]);
   //==================================================================
 
-  const onRoundButtonHandler = item => {
-    props.recipeListButton(item);
+  const onRoundButtonHandler = btnId => {
+    props.recipeListButton(btnId);
   };
   //==================================================================
   //SearchBar
@@ -63,6 +56,7 @@ const RecipeList = props => {
         setHideInput={props.setHideInput}
         showRecipePage={snap.recipePageHide}
         recipeObject={recipePageState.recipe}
+        onCoinHandler={onRoundButtonHandler}
       ></RecipePage>
       <Content
         content={
@@ -73,6 +67,7 @@ const RecipeList = props => {
               showFavList={props.showFavList}
               listClickHandler={listClickHandler}
               searchInput={searchInput}
+              onAddHandler={onRoundButtonHandler}
               // optional styling
               // // // listItemDefaultStyle={{
               // // //   backgroundColor: '#93f9d7',

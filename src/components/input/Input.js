@@ -253,7 +253,7 @@ const Input = props => {
             <div className={classes.inputForm__flexBox}>
               <InputField
                 label={true}
-                labelText={'Gericht:'}
+                labelText={'Rezept:'}
                 properties={{ htmlFor: '' }}
               ></InputField>
               <InputField

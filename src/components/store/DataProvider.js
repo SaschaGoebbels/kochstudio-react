@@ -801,7 +801,7 @@ const dataInit = {
           editMode: false,
         },
       ],
-      preparation: 'Rrrr\nR\nR\nR\nR\nR\n\nGgg\nF\n\nF\n\n\n',
+      preparation: '',
       id: '79e8b3d5-cfb4-d371-2f43-ef7c45beba04',
     },
     {
@@ -978,21 +978,6 @@ const dataInit = {
       id: '0638cee2-4b4b-75a7-d6b5-aaa641aac1d5',
     },
     {
-      name: 'Reis-Spezial',
-      fav: false,
-      ingredients: [
-        {
-          ingredientName: 'Reis',
-          quantity: '300',
-          unit: 'g',
-          id: '27402a71-044e-110c-92f0-da39a60a6ab4',
-          editMode: false,
-        },
-      ],
-      preparation: '',
-      id: '23f25675-323f-bb0f-be96-25296f864ce3',
-    },
-    {
       name: 'Rennfahrersuppe',
       fav: false,
       ingredients: [
@@ -1111,7 +1096,7 @@ const dataInit = {
         },
       ],
       preparation:
-        'Fleisch abbrausen trocken würfeln in heißen Öl anbraten.\nSalz Knobi Pfeffer Papierpulver. \nZwiebeln wÃ¼rfeln und mit anbraten Paprikamarkt zufÃ¼gen \nAlles anschwitzen \n1,5 Liter rinderbrÃ¼he dazu\n90 Minuten kochen kleingestÃ¤nde Paprika und Karotten dazu mit 0,5 Liter RinderbrÃ¼he nochmals weiterkochen lassen zum Schluss abschmecken und etwas Zucker dazu.',
+        'Fleisch abbrausen trocken würfeln in heißen Öl anbraten.\nSalz Knobi Pfeffer Papierpulver. \nZwiebeln würfeln und mit anbraten Paprikamarkt zufügen \nAlles anschwitzen \n1,5 Liter rinderbrühe dazu\n90 Minuten kochen kleingeschnittene Paprika und Karotten dazu mit 0,5 Liter Rinderbrühe nochmals weiterkochen lassen zum Schluss abschmecken und etwas Zucker dazu.',
       id: '952be5dd-79f6-0924-b6bf-3920bbb436a1',
     },
     {

@@ -12,7 +12,6 @@ const SettingsPage = props => {
     props.onArrowButtonHandler(item);
   };
   //==================================================================
-
   return (
     <div
       className={`${classes.settingsPage} ${
@@ -32,6 +31,7 @@ const SettingsPage = props => {
             <ButtonBox
               onClickHandler={onButtonBoxHandler}
               hideTrash={props.hideTrash}
+              hideXBtn={props.hideXBtn}
             />
           )
         }

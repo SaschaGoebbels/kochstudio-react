@@ -1,0 +1,32 @@
+.settingsBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  color: var(--clr_main_ff);
+}
+.settingsBox--h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.settingsBox--p {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+/* .settingsBox--textarea {
+  color: var(--clr_main_ff);
+  background-color: var(--clr_main_background);
+  border: var(--clr_border) solid 2px;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-family: inherit;
+  font-size: inherit;
+  resize: none;
+  width: 80%;
+  max-width: 35rem;
+} */

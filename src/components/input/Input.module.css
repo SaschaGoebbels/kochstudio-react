@@ -12,13 +12,6 @@
   z-index: 100;
 }
 /* ================================================================== */
-/* .app__input {
-  position: absolute;
-  transform: translate(0%, 0%) scale(1);
-  opacity: 1;
-  transition: all ease-in-out 200ms;
-  z-index: 100;
-} */
 
 .input--hide {
   transform: translate(40%, 27%) scale(0);
@@ -39,9 +32,6 @@
   align-items: center;
   padding: 1.5rem 1rem;
   margin-bottom: 1rem;
-  /* border-color: var(--clr_border);
-  border-style: solid;
-  border-width: 2px; */
   border-top: var(--clr_border) solid 2px;
 }
 .inputForm__border {

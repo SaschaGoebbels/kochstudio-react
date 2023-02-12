@@ -20,15 +20,17 @@ const ButtonBox = props => {
           onClickHandler={onClickHandler}
         />
       )}
-      <ButtonRound
-        btnId="x"
-        className={classes.buttonAddEdit}
-        buttonName={'x'}
-        color={'#ffa94d'}
-        iconColor={''}
-        isFav={''}
-        onClickHandler={onClickHandler}
-      />
+      {!props.hideXBtn && (
+        <ButtonRound
+          btnId="x"
+          className={classes.buttonAddEdit}
+          buttonName={'x'}
+          color={'#ffa94d'}
+          iconColor={''}
+          isFav={''}
+          onClickHandler={onClickHandler}
+        />
+      )}
       <ButtonRound
         btnId="check"
         className={classes.buttonAddEdit}

@@ -7,11 +7,15 @@
 }
 .label {
   padding: 0.4rem 2rem;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 .classes.input__textarea {
   font-family: var(--ff_main);
   font-family: inherit;
+}
+textarea {
+  font-family: inherit;
+  font-size: 1.4rem;
 }

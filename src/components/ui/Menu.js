@@ -4,14 +4,24 @@ import ButtonRound from './ButtonRound';
 import MenuItem from './MenuItem';
 import DataProvider, { DataContext } from '../store/DataProvider';
 import { useDataUpdate } from '../store/DataProvider';
+import settingsBox from './SettingsBox.module.css';
 
 const Menu = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   const onMenuClickHandler = btnId => {
     if (btnId === 'list') {
-      settingsPageCall(true, avoidListState.list);
+      settingsPageCallAvoidList(true, avoidListState.list);
       return props.menuClick(btnId);
+    }
+    if (btnId === 'quest') {
+      props.onSettingsShowHandler({
+        show: true,
+        headerText: 'About',
+        content: aboutContent,
+        hideXBtn: true,
+      });
+      return;
     }
     props.setMessage({
       title: 'Wir arbeiten daran',
@@ -41,24 +51,23 @@ const Menu = props => {
     setAvoidListState({ show: true, list: el.target.value });
   };
   useEffect(() => {
-    settingsPageCall(avoidListState.show, avoidListState.list);
+    settingsPageCallAvoidList(avoidListState.show, avoidListState.list);
   }, [avoidListState]);
 
-  const settingsPageCall = (show, currentState) => {
+  const settingsPageCallAvoidList = (show, currentState) => {
     props.onSettingsShowHandler({
       show,
       headerText: 'Einstellungen',
       value: currentState,
-      content: settingsPageContent,
-      confirm: onConfirmSettings,
+      content: settingsPageAvoidContent,
+      confirm: onConfirmAvoidList,
     });
   };
-  const onConfirmSettings = () => {
-    console.log('confirm');
+  const onConfirmAvoidList = () => {
     updateData('SETTINGS', { avoidList: avoidListState.list });
   };
 
-  const settingsPageContent = (
+  const settingsPageAvoidContent = (
     <div className={classes.settingsBox}>
       <h2 className={classes.settingsHeading}>
         Folgende Zutaten habe ich immer zuhause:
@@ -76,6 +85,20 @@ const Menu = props => {
       </p>
     </div>
   );
+  //==================================================================
+  const aboutContent = (
+    <div className={settingsBox.settingsBox}>
+      <h2 className={settingsBox['settingsBox--h2']}>APP-Entwickler:</h2>
+      <p
+        className={settingsBox['settingsBox--p']}
+        style={{ letterSpacing: '.1rem' }}
+      >
+        Sascha Göbbels
+      </p>
+      <p className={settingsBox['settingsBox--p']}>goebbels.sascha@gmail.com</p>
+    </div>
+  );
+
   //==================================================================
   return (
     <div
@@ -146,6 +169,12 @@ const Menu = props => {
             text={'Rezept teilen'}
             icon={'share'}
             id={'share'}
+            onBtnClick={onMenuClickHandler}
+          ></MenuItem>
+          <MenuItem
+            text={'About'}
+            icon={'quest'}
+            id={'quest'}
             onBtnClick={onMenuClickHandler}
           ></MenuItem>
         </div>

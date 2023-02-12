@@ -62,6 +62,9 @@ const RecipePage = props => {
       props.setHideInput(false);
       state.inputCurrentValue = { ...props.recipeObject };
     }
+    if (btnId === 'coin') {
+      props.onCoinHandler(btnId);
+    }
   };
   const btnCheckedColor = '#E5BE35';
 

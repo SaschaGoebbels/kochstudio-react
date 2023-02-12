@@ -10,6 +10,7 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const MenuItem = props => {
   const buttonColor = props.color || '#20c997';
@@ -30,6 +31,9 @@ const MenuItem = props => {
       break;
     case 'share':
       buttonName = faShareNodes;
+      break;
+    case 'quest':
+      buttonName = faCircleQuestion;
       break;
   }
   return (

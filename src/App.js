@@ -60,7 +60,7 @@ function App() {
       return { ...prev };
     });
   };
-  const onMenuClick = btnId => {
+  const onMenuElementClick = btnId => {
     console.log(btnId);
   };
   // header
@@ -88,7 +88,7 @@ function App() {
   const hideInputCheckPageChangeHeaderText = (navigation, recipe) => {
     setHideInput(true);
     if (navigation === 'delete') {
-      state.headerText = 'Gerichte';
+      state.headerText = 'Rezepte';
       state.navigation = 'btn1';
       return;
     }
@@ -97,7 +97,7 @@ function App() {
       return;
     }
     if (navigation === 'btn1') {
-      state.headerText = 'Gerichte';
+      state.headerText = 'Rezepte';
     }
     if (navigation === 'btn2') {
       state.headerText = 'Wochenplan';
@@ -113,13 +113,35 @@ function App() {
   const snap = useSnapshot(state);
   //==================================================================
 
-  const recipeListButtonHandler = item => {
-    if (item === 'add') {
+  const recipeListButtonHandler = btnId => {
+    if (btnId === 'add') {
       setHideInput(false);
       setTimeout(() => {
         state.headerText = 'Neuer Eintrag';
       }, 150);
     }
+    if (btnId === 'coin') {
+      const recipeList = dataCtx.recipeList;
+      const favList = recipeList.filter(el => el.fav === true);
+      if (snap.navigation === 'btn1')
+        coincidenceRecipe(snap.currentRecipe, recipeList);
+      if (snap.navigation === 'btn3')
+        coincidenceRecipe(snap.currentRecipe, favList);
+    }
+  };
+  //==================================================================
+  const coincidenceRecipe = (currentRecipe, recipeList) => {
+    const randomRecipe =
+      recipeList[randomNumberOfArrayLength(recipeList.length)];
+    state.currentRecipe = randomRecipe;
+    state.recipePageHide = false;
+    state.headerText = randomRecipe.name;
+    if (currentRecipe.name === randomRecipe.name) {
+      coincidenceRecipe(currentRecipe, recipeList);
+    }
+  };
+  const randomNumberOfArrayLength = arrayLength => {
+    return Math.trunc(Math.random() * arrayLength);
   };
   //==================================================================
   //infoBox
@@ -145,6 +167,7 @@ function App() {
           content={settingsState.content || ''}
           onArrowButtonHandler={onSettingsButtonHandler}
           hideTrash={true}
+          hideXBtn={settingsState.hideXBtn || false}
         ></SettingsPage>
         <Menu
           menuState={menuState}
@@ -155,7 +178,7 @@ function App() {
           }}
           setMessage={onSetMessage}
           onSettingsShowHandler={onSettingsShowHandler}
-          menuClick={onMenuClick}
+          menuClick={onMenuElementClick}
         ></Menu>
         <InfoBox clickInfoBox={onClickInfoBox} messageState={messageState} />
         <Input

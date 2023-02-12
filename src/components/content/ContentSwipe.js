@@ -12,6 +12,7 @@ const ContentSwipe = props => {
   const recipeListButtonHandler = item => {
     props.recipeListButton(item);
   };
+
   return (
     <div
       className={`${classes.content_swipe} ${
@@ -32,6 +33,7 @@ const ContentSwipe = props => {
         recipeListButton={recipeListButtonHandler}
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
+        // onAddHandler={props.onAddHandler}
       />
       <WeeklyPlan message={props.message}></WeeklyPlan>
       <RecipeList
@@ -39,6 +41,7 @@ const ContentSwipe = props => {
         recipeListButton={recipeListButtonHandler}
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
+        // onAddHandler={props.onAddHandler}
       />
       <ShoppingList
         message={props.message}

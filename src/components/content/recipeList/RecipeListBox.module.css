@@ -31,7 +31,9 @@
   -webkit-transition-duration: 0.3s;
   position: relative;
 }
-
+.contentListBox__emptyList {
+  margin-top: 2rem;
+}
 /* list click animation */
 
 /* .contentListBox__item--effect::after {

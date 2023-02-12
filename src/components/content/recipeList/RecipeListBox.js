@@ -1,13 +1,34 @@
 import React, { useContext, useState, useEffect } from 'react';
 import classes from './RecipeListBox.module.css';
+import WeeklyPlanItem from '../weeklyPlan/WeeklyPlanItem';
 
 const RecipeListBox = props => {
   const listClickHandler = itemId => {
     props.listClickHandler(itemId);
   };
+  // const add = () => {
+  //   props.onRoundButtonHandler('add');
+  //   console.log('add');
+  // };
   return (
     <div className={classes.contentListBox}>
       <ul className={classes.contentListBox__ul}>
+        {/* //fallback for empty List */}
+        {props.recipeList.length === 0 && (
+          <div
+            key={'fallbackIfEmpty'}
+            className={classes.contentListBox__emptyList}
+            onClick={() => {
+              props.onAddHandler('add');
+            }}
+          >
+            <WeeklyPlanItem
+              day={'Die Rezeptliste ist aktuell leer !'}
+              recipe={'jetzt hinzufügen ?'}
+              checkButtonHide={true}
+            ></WeeklyPlanItem>
+          </div>
+        )}
         {props.recipeList
           .filter(el => {
             if (props.showFavList === false) return el;
@@ -26,7 +47,7 @@ const RecipeListBox = props => {
               props.recipeEditList.some(el => el.id === item.id)
             ) {
               return (
-                ////////////////// CHECK //////////////////
+                ////////////////// FIXME //////////////////
                 //change to props to listEdit to change button style !
                 <li
                   style={props.listItemCheckedStyle}
