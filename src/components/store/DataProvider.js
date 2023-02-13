@@ -167,10 +167,11 @@ const dataReducer = (stateReducer, action) => {
     }
   }
   if (action.type === 'SHOPSUM') {
-    console.log('data', action.dataUpdate);
+    // console.log('data', action.dataUpdate);
     stateReducer.ingredientsSumListState = [
       ...action.dataUpdate.ingredientsSumListState,
     ];
+    updateLocalStorage(stateReducer);
     return stateReducer;
   }
   if (action.type === 'SETTINGS') {

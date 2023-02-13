@@ -12,7 +12,26 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 const Menu = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
+  const isNotYetReady = () => {
+    props.setMessage({
+      title: 'Wir arbeiten daran',
+      message: 'Diese Funktion steht schon bald zur Verfügung',
+      value: '',
+      confirm: '',
+      showBtnX: false,
+    });
+  };
   const onMenuClickHandler = btnId => {
+    if (btnId === 'gear') {
+      props.onSettingsShowHandler({
+        show: true,
+        headerText: 'Einstellungen',
+        content: settingsPageContent,
+        hideButtonBox: true,
+        // confirm: 'confirm',
+      });
+      return;
+    }
     if (btnId === 'list') {
       settingsPageCallAvoidList(true, avoidListState.list);
       return props.menuClick(btnId);
@@ -40,22 +59,26 @@ const Menu = props => {
       exportTxtFileToDownloads(dataCtx, 'Kochstudio');
       return;
     }
-    props.setMessage({
-      title: 'Wir arbeiten daran',
-      message: 'Diese Funktion steht schon bald zur Verfügung',
-      value: '',
-      confirm: '',
-      showBtnX: false,
-    });
+    isNotYetReady();
   };
-  const onLoginHandler = () => {
-    console.log('OK');
-    // const temp = dataCtx.menuState;
-    // temp.userData.hideLogin = false;
-    // console.log(temp.userData);
-    // props.onLoginHandler({ userData: temp.userData });
-    //show loginPage
+  const onLogoutConfirmHandler = () => {
+    const temp = dataCtx.menuState;
+    temp.userData.hideLogin = false;
+    props.onLoginHandler({ userData: temp.userData });
   };
+  const onLogoutHandler = () => {
+    console.log(dataCtx.menuState.userData.loggedIn);
+    if (dataCtx.menuState.userData.loggedIn) {
+      props.setMessage({
+        title: 'Logout',
+        message: 'Wollen Sie sich ausloggend ?',
+        value: '',
+        confirm: onLogoutConfirmHandler,
+        showBtnX: true,
+      });
+    }
+  };
+
   //==================================================================
   // //  Export File
   let dateNow = new Date();
@@ -95,7 +118,7 @@ const Menu = props => {
   const settingsPageCallAvoidList = (show, currentState) => {
     props.onSettingsShowHandler({
       show,
-      headerText: 'Einstellungen',
+      headerText: 'Einkaufsliste',
       value: currentState,
       content: settingsPageAvoidContent,
       confirm: onConfirmAvoidList,
@@ -124,6 +147,7 @@ const Menu = props => {
     </div>
   );
   //==================================================================
+  // import
   const onConfirmImport = () => {
     if (dataCtx.recipeList.length > 0) {
       props.setMessage({
@@ -139,27 +163,7 @@ const Menu = props => {
     const data = (dataCtx.recipeList = exampleList);
     localStorage.setItem('localData', JSON.stringify(data));
   };
-  const aboutContent = (
-    <div className={settingsBox.settingsBox}>
-      <h2 className={settingsBox['settingsBox--h2']}>APP-Entwickler:</h2>
-      <p
-        className={settingsBox['settingsBox--p']}
-        style={{ letterSpacing: '.1rem' }}
-      >
-        Sascha Göbbels
-      </p>
-      <p className={settingsBox['settingsBox--p']}>goebbels.sascha@gmail.com</p>
-      <div className={classes.aboutIconBox}>
-        <FontAwesomeIcon
-          icon={faRocket}
-          id={'rocket'}
-          className={classes.aboutIcon}
-          color={''}
-        />
-      </div>
-    </div>
-  );
-  //==############==============================================================
+
   const importListContent = (
     <div className={settingsBox.settingsBox}>
       <h2 className={settingsBox['settingsBox--h2']}>
@@ -182,7 +186,157 @@ const Menu = props => {
       </div>
     </div>
   );
+  //==================================================================
+  // Einstellungen delete
+  const onDeleteHandler = () => {
+    props.onSettingsShowHandler({
+      show: true,
+      headerText: 'Löschen',
+      content: settingsPageDeleteContent,
+      hideButtonBox: true,
+    });
+  };
+  const deleteConfirmHandler = btnId => {
+    console.log(btnId);
+    ////////////////// TODO //////////////////
+    // add update dataCtx delete list
+  };
+  const onDeleteData = btnId => {
+    props.setMessage({
+      title: `Achtung`,
+      message:
+        'Die Daten werden unwiderruflich gelöscht ! Trotzdem fortfahren ?',
+      showBtnX: true,
+      value: btnId,
+      confirm: deleteConfirmHandler,
+    });
+  };
+  const settingsPageDeleteContent = (
+    <div className={settingsBox.settingsBox}>
+      {/* <h2 className={settingsBox['settingsBox--h2']}>Löschen:</h2> */}
+      <div>
+        <MenuItem
+          text={'Rezeptliste löschen'}
+          icon={'trash'}
+          id={'trashRecipeList'}
+          iconColor={'#f54242'}
+          onBtnClick={onDeleteData}
+        ></MenuItem>
+        <MenuItem
+          text={'User-Daten löschen'}
+          icon={'trash'}
+          id={'trashUser'}
+          iconColor={'#f54242'}
+          onBtnClick={onDeleteData}
+        ></MenuItem>
+        <MenuItem
+          text={'Alles löschen'}
+          icon={'trash'}
+          id={'trashAll'}
+          iconColor={'#f54242'}
+          onBtnClick={onDeleteData}
+        ></MenuItem>
+      </div>
+    </div>
+  );
 
+  //==================================================================
+  // Color Theme
+  const colorTheme = () => {
+    props.onSettingsShowHandler({
+      show: true,
+      headerText: 'Color-Theme',
+      content: settingsPageColorContent,
+      hideButtonBox: true,
+    });
+  };
+  const settingsPageColorContent = (
+    <div className={settingsBox.settingsBox}>
+      <div>
+        <MenuItem
+          text={'Teal'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#20C997'}
+          onBtnClick={isNotYetReady}
+        ></MenuItem>
+        <MenuItem
+          text={'Orange'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#f5a142'}
+          onBtnClick={isNotYetReady}
+        ></MenuItem>
+        <MenuItem
+          text={'Yellow'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#f2f542'}
+          onBtnClick={isNotYetReady}
+        ></MenuItem>
+        <MenuItem
+          text={'Green'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#32cf47'}
+          onBtnClick={isNotYetReady}
+        ></MenuItem>
+        <MenuItem
+          text={'Blue'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#3288cf'}
+          onBtnClick={isNotYetReady}
+        ></MenuItem>
+      </div>
+    </div>
+  );
+
+  //==================================================================
+  // Einstellungen
+  const settingsPageContent = (
+    <div className={settingsBox.settingsBox}>
+      {/* <h2 className={settingsBox['settingsBox--h2']}>Löschen:</h2> */}
+      <div>
+        <MenuItem
+          text={'Color Theme'}
+          icon={'brush'}
+          id={'brush'}
+          iconColor={'#fff'}
+          onBtnClick={colorTheme}
+        ></MenuItem>
+        <MenuItem
+          text={'Daten löschen'}
+          icon={'trash'}
+          id={'trash'}
+          iconColor={'#fff'}
+          onBtnClick={onDeleteHandler}
+        ></MenuItem>
+      </div>
+    </div>
+  );
+  //==================================================================
+  // about
+  const aboutContent = (
+    <div className={settingsBox.settingsBox}>
+      <h2 className={settingsBox['settingsBox--h2']}>APP-Entwickler:</h2>
+      <p
+        className={settingsBox['settingsBox--p']}
+        style={{ letterSpacing: '.1rem' }}
+      >
+        Sascha Göbbels
+      </p>
+      <p className={settingsBox['settingsBox--p']}>goebbels.sascha@gmail.com</p>
+      <div className={classes.aboutIconBox}>
+        <FontAwesomeIcon
+          icon={faRocket}
+          id={'rocket'}
+          className={classes.aboutIcon}
+          color={''}
+        />
+      </div>
+    </div>
+  );
   //==================================================================
   return (
     <div
@@ -201,7 +355,7 @@ const Menu = props => {
           props.menuState.hide && classes['menuBox__dropInBox--hide']
         }`}
       >
-        <div className={classes.menuBox__UserBox} onClick={onLoginHandler}>
+        <div className={classes.menuBox__UserBox} onClick={onLogoutHandler}>
           <div className={classes.menuBox__UserBtnBox}>
             <ButtonRound
               btnId="user"
@@ -213,7 +367,7 @@ const Menu = props => {
               shadow={'none'}
               iconColor={''}
               isFav={''}
-              onClickHandler={onLoginHandler}
+              onClickHandler={onLogoutHandler}
             />
             <div>
               <p>Logged In:</p>

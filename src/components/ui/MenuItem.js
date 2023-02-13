@@ -11,6 +11,8 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBrush } from '@fortawesome/free-solid-svg-icons';
 
 const MenuItem = props => {
   const buttonColor = props.color || '#20c997';
@@ -34,6 +36,12 @@ const MenuItem = props => {
       break;
     case 'quest':
       buttonName = faCircleQuestion;
+      break;
+    case 'trash':
+      buttonName = faTrash;
+      break;
+    case 'brush':
+      buttonName = faBrush;
       break;
   }
   return (

@@ -52,13 +52,13 @@ const setUnitMulti = inputUnit => {
 };
 
 class ingredientSumItem {
-  constructor(name, nameKey, quantity, unit) {
+  constructor(name, nameKey, quantity, unit, id) {
     this.nameKey = nameKey;
     this.name = name;
     this.unit = unit;
     this.quantity = [quantity];
     this.checked = false;
-    this.id = uuid();
+    this.id = id;
   }
   add(value) {
     this.quantity = [...this.quantity, value];
@@ -91,37 +91,42 @@ const ShoppingList = props => {
   );
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
+  //==================================================================
   const currentLocalSumList = dataCtx.ingredientsSumListState;
-  ////////////////// FIXME //////////////////
-  // console.log(
-  //   currentLocalSumList.filter(
-  //     el => el.id === '4766e5d6-9bdb-d93f-c461-4e0cc750d378'
-  //   )
-  // );
-  // console.log(
-  //   ingredientsSumListState.map(el => {
-  //     console.log(el.id);
-  //   })
-  // );
-  // useEffect(() => {
-  //   setIngredientsSumListState(prev => {
-  //     console.log('ok');
-  //     const temp = prev.map(mapEl => {
-  //       const [recipeLocal] = currentLocalSumList.filter(
-  //         el => el.id === mapEl.id
-  //       );
-  //       console.log(recipeLocal);
-  //       // if (recipeLocal.checked === true) {
-  //       //   mapEl.checked = true;
-  //       //   console.log('true', mapEl);
-  //       // }
-  //       console.log(mapEl);
-  //       return mapEl;
-  //     });
-  //     console.log(temp);
-  //     return;
-  //   });
-  // }, []);
+  // // // save check state
+  const currentLocalNameKeyList = ingredientsSumListState => {
+    return ingredientsSumListState
+      .filter(el => el.checked === true)
+      .map(el => {
+        return { id: el.id, name: el.name, nameKey: el.nameKey };
+      });
+  };
+  // // // on sumList change save checked to local to remember on reload
+  useEffect(() => {
+    if (ingredientsSumListState.length === 0) return;
+    setTimeout(() => {
+      const temp = currentLocalNameKeyList(ingredientsSumListState);
+      updateData('SHOPSUM', { ingredientsSumListState: temp });
+    }, 50);
+  }, [ingredientsSumListState]);
+  // // // on start up update check state by local file
+  useEffect(() => {
+    // // // timeout because localStorage loading
+    setTimeout(() => {
+      setIngredientsSumListState(prev => {
+        return prev.map(mapEl => {
+          const [recipeLocal] = currentLocalSumList.filter(
+            el => mapEl.nameKey == el.nameKey
+          );
+          if (recipeLocal) {
+            mapEl.checked = true;
+          }
+          return mapEl;
+        });
+      });
+    }, 50);
+  }, []);
+  //==================================================================
   let tempSumState = [];
   const sortAlphabetically = array => {
     return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
@@ -192,7 +197,13 @@ const ShoppingList = props => {
     }
   };
   const newSumItem = (ingredientName, nameKey, quantity, unit) => {
-    return new ingredientSumItem(ingredientName, nameKey, +quantity, unit);
+    return new ingredientSumItem(
+      ingredientName,
+      nameKey,
+      +quantity,
+      unit,
+      uuid()
+    );
     tempSumState = [...tempSumState, newSumItem];
   };
   const evaluateQuantityUnit = (quantityInput, inputUnit) => {
@@ -268,7 +279,7 @@ const ShoppingList = props => {
   };
   const toggleIngredientCheck = nameKey => {
     setIngredientsSumListState(prev => {
-      return [
+      const temp = [
         ...prev.map(el => {
           if (el.nameKey === nameKey) {
             el.checked = !el.checked;
@@ -276,6 +287,7 @@ const ShoppingList = props => {
           return el;
         }),
       ];
+      return temp;
     });
   };
   const updateShoppingList = listState => {

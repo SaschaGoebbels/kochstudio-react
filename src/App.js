@@ -67,8 +67,8 @@ function App() {
     dataCtx.menuState || menuStateInit
   );
   const onLoginHandler = userData => {
-    console.log(userData);
     setMenuState(userData);
+    toggleMenuHide();
   };
   const changeMenuState = menuStateObj => {
     toggleMenuHide(menuStateObj);
@@ -80,7 +80,7 @@ function App() {
     });
   };
   const onMenuElementClick = btnId => {
-    console.log(btnId);
+    // console.log(btnId);
   };
   // header
   const onMenuButtonHandler = btnId => {
@@ -158,9 +158,12 @@ function App() {
     setTimeout(() => {
       setFlipState(false);
     }, 700);
+    // if recipe is same callback random
     if (currentRecipe.name === randomRecipe.name) {
       coincidenceRecipe(currentRecipe, recipeList);
+      return;
     }
+    // delay for transition
     setTimeout(() => {
       state.recipePageHide = false;
       state.headerText = randomRecipe.name;
@@ -199,6 +202,7 @@ function App() {
             onArrowButtonHandler={onSettingsButtonHandler}
             hideTrash={true}
             hideXBtn={settingsState.hideXBtn || false}
+            hideButtonBox={settingsState.hideButtonBox || false}
           ></SettingsPage>
           <Menu
             menuState={menuState}
