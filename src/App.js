@@ -140,6 +140,15 @@ function App() {
       }, 150);
     }
     if (btnId === 'coin') {
+      if (dataCtx.recipeList.length === 0 || dataCtx.recipeList === undefined) {
+        onSetMessage({
+          title: `Zufallsgenerator`,
+          message:
+            'Keine Daten gefunden ! \n \n Erst eine Rezeptliste anlegen !',
+          showBtnX: false,
+        });
+        return;
+      }
       const recipeList = dataCtx.recipeList;
       const favList = recipeList.filter(el => el.fav === true);
       if (snap.navigation === 'btn1')

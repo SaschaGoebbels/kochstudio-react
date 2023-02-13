@@ -179,6 +179,7 @@ const dataReducer = (stateReducer, action) => {
       stateReducer.menuState.shoppingListSettings.avoidList =
         action.dataUpdate.avoidList;
     }
+    console.log('sett end', stateReducer);
     updateLocalStorage(stateReducer);
     return stateReducer;
   }
@@ -216,7 +217,6 @@ const onRecipeDelete = (recipe, array) => {
 const DataProvider = props => {
   const localData = JSON.parse(localStorage.getItem('localData'));
   if (localData === null) {
-    console.log('create');
     localStorage.setItem('localData', JSON.stringify(dataInit));
   }
   const { isLoading, error, sendRequest } = useFetch(

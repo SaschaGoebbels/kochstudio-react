@@ -162,6 +162,11 @@ const Menu = props => {
   const importList = exampleList => {
     const data = (dataCtx.recipeList = exampleList);
     localStorage.setItem('localData', JSON.stringify(data));
+    updateData('SETTINGS', { empty: 'skipToEndOfReducer' });
+    setTimeout(() => {
+      console.log('reload');
+      window.location.reload();
+    }, 100);
   };
 
   const importListContent = (
