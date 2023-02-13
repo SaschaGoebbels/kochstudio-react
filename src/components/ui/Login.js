@@ -164,6 +164,14 @@ const Login = props => {
       message: 'Viel Spaß beim testen der App!',
       showBtnX: false,
     });
+    reloadNow();
+  };
+
+  const reloadNow = () => {
+    console.log('Reload');
+    setTimeout(() => {
+      window.location.reload();
+    }, 50);
   };
   //==================================================================
   return (
