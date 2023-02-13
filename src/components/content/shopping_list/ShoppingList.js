@@ -241,6 +241,7 @@ const ShoppingList = props => {
       return ['--', quantity];
     }
   };
+
   //==================================================================
   useEffect(() => {
     setShoppingListState(dataCtx.shoppingList);
@@ -305,7 +306,7 @@ const ShoppingList = props => {
           <li key={item.id}>
             <ShoppingListItem
               name={item.name}
-              quantity={item.sum()}
+              quantity={Math.round((item.sum() + Number.EPSILON) * 100) / 100}
               unit={item.unit}
               checkButtonHandler={onCheckButtonHandler}
               id={item.nameKey}

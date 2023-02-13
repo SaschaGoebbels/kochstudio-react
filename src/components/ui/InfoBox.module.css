@@ -45,6 +45,7 @@
 }
 .infoBox__messageBox p {
   font-size: 1.5rem;
+  white-space: pre-wrap;
 }
 .infoBox__footer {
   display: flex;

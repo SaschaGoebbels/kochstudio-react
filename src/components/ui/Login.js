@@ -90,9 +90,29 @@ const Login = props => {
     setCreateAccount(true);
   };
   const onLoginHandler = el => {
+    if (
+      emailValue === dataCtx.menuState.userData.email &&
+      passwordValue === dataCtx.menuState.userData.password
+    ) {
+      const user = {
+        loggedIn: true,
+        hideLogin: true,
+        userName: dataCtx.menuState.userData.userName,
+        email: emailValue,
+        password: passwordValue,
+      };
+      const data = dataCtx;
+      data.menuState.userData = user;
+      localStorage.setItem('localData', JSON.stringify(data));
+      props.onLoginHandler({ userData: user });
+      passwordReset();
+      emailReset();
+      nameReset();
+      return;
+    }
     props.message({
       title: `Error`,
-      message: 'Bitte Anmeldedaten eingeben oder Demo-Login verwenden !',
+      message: 'Die Anmeldedaten sind nicht korrekt !',
       showBtnX: false,
     });
     el.preventDefault();
@@ -115,10 +135,15 @@ const Login = props => {
   };
   const onPasswordForgotten = el => {
     el.preventDefault();
-    console.log('Password forgotten');
+    props.message({
+      title: `Error`,
+      message:
+        'In der Demo-Version ist noch keine Backend-Verbindung hergestellt. \n \nDemo-Login verwenden oder neuen Account anlegen.',
+      showBtnX: false,
+    });
   };
   const cancelDemo = el => {
-    console.log('cancel');
+    console.log('cancel demo');
   };
   const startDemo = el => {
     const user = {
