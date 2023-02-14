@@ -5,6 +5,7 @@ const state = proxy({
   headerText: 'Rezepte',
   searchBarHide: true,
   recipePageHide: true,
+  recipeEdit: false,
   currentRecipe: { name: '', ingredients: [], preparation: '' },
   initialState: { name: '', ingredients: [], preparation: '' },
   buttonBoxContent: { coin: true, add: true, list: true, plan: true },

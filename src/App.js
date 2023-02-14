@@ -195,6 +195,128 @@ function App() {
     dispatchMessage({ type: 'HIDEINFOBOX', btnId });
   };
   //==================================================================
+  //////////////////////////////////////////////////////////////////////////////////
+  // // // Swipe Event = Touchmove
+  //////////////////////////////////////////////////////////////////////////////////
+  let touchstartX = 0;
+  let touchendX = 0;
+  let touchstartY = 0;
+  let touchendY = 0;
+
+  const checkDirection = () => {
+    const min_distance = 80;
+    const min_distance_le_ri = 50;
+    // // // Left ? Right
+    // // // go right
+    if (
+      touchendX < touchstartX &&
+      touchstartX - touchendX > min_distance_le_ri
+    ) {
+      menuGoRight();
+      // swipe_prev_recipe(recipe.recipe_list, actual_recipe_i);
+    }
+    // // // go left
+    if (
+      touchendX > touchstartX &&
+      touchendX - touchstartX > min_distance_le_ri
+    ) {
+      menuGoLeft();
+      // swipe_next_recipe(recipe.recipe_list, actual_recipe_i);
+    }
+    // // // Up ? Down
+    // // // go down (swipe up)
+    if (touchendY < touchstartY && touchstartY - touchendY > min_distance) {
+      // swipe_prev_recipe(recipe.recipe_list, actual_recipe_i);
+    }
+    // // // go up (swipe up)
+    if (touchendY > touchstartY && touchendY - touchstartY > min_distance) {
+      // swipe_next_recipe(recipe.recipe_list, actual_recipe_i);
+    }
+  };
+
+  document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+    touchstartY = e.changedTouches[0].screenY;
+    // console.log('Y:', touchstartY);
+  });
+  document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    touchendY = e.changedTouches[0].screenY;
+    // console.log('X end:', touchendX);
+    checkDirection();
+  });
+  //////////////////////////////////////////////////////////////////////////////////
+  // // // Swipe function go up or down
+  //////////////////////////////////////////////////////////////////////////////////
+  const swipeNextRecipe = (arr, i) => {
+    if (!snap.recipePageHide && !snap.recipeEdit) {
+      console.log('Li');
+      // Swipe
+      // 1 <= i ? f_recipe_page_fill_content(arr, i - 1) : console.log('stop');
+    }
+  };
+  const swipePrevRecipe = (arr, i) => {
+    if (!snap.recipePageHide && !snap.recipeEdit) {
+      console.log('Re');
+      // arr.length - 1 > i
+      //   ? f_recipe_page_fill_content(arr, i + 1)
+      //   : console.log('Ende');
+    }
+  };
+  const menuGoRight = () => {
+    if (snap.recipePageHide && !snap.recipeEdit) {
+      let page;
+      if (snap.navigation === 'btn1') {
+        page = 'btn2';
+      }
+      if (snap.navigation === 'btn2') {
+        page = 'btn3';
+      }
+      if (snap.navigation === 'btn3') {
+        page = 'btn4';
+      }
+      state.navigation = page;
+      changeHeaderIfSwipe(page);
+    }
+  };
+  const menuGoLeft = () => {
+    if (snap.recipePageHide && !snap.recipeEdit) {
+      let page;
+      if (snap.navigation === 'btn2') {
+        page = 'btn1';
+      }
+      if (snap.navigation === 'btn3') {
+        page = 'btn2';
+      }
+      if (snap.navigation === 'btn4') {
+        page = 'btn3';
+      }
+      state.navigation = page;
+      changeHeaderIfSwipe(page);
+    }
+  };
+  const changeHeaderIfSwipe = page => {
+    // setTimeout(() => {
+    console.log(page);
+    switch (page) {
+      case 'btn1':
+        state.headerText = 'Rezepte';
+        break;
+      case 'btn2':
+        state.headerText = 'Wochenplan';
+        break;
+      case 'btn3':
+        state.headerText = 'Favoriten';
+        break;
+      case 'btn4':
+        state.headerText = 'Einkaufsliste';
+        break;
+    }
+    // }, 100);
+  };
+
+  //////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////
   return (
     <DataProvider>
       <div className={`${classes.App} ${classes.background} `}>
