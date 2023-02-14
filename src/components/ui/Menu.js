@@ -102,7 +102,6 @@ const Menu = props => {
         type: 'text/plain',
       })
     );
-    // a.setAttribute('download', `${filename}_${dateNow}.txt`);
     a.setAttribute('download', `${obj.filename}`);
     document.body.appendChild(a);
     a.click();
