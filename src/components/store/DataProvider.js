@@ -309,6 +309,5 @@ const dataInit = {
   },
   weeklyPlan: [],
   recipeList: [],
-
   shoppingList: [],
 };
