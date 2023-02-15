@@ -198,69 +198,66 @@ function App() {
   //////////////////////////////////////////////////////////////////////////////////
   // // // Swipe Event = Touchmove
   //////////////////////////////////////////////////////////////////////////////////
-  let touchstartX = 0;
-  let touchendX = 0;
-  let touchstartY = 0;
-  let touchendY = 0;
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50;
+  const onTouchStart = e => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const onTouchMove = e => setTouchEnd(e.targetTouches[0].clientX);
 
-  const checkDirection = () => {
-    const min_distance = 80;
-    const min_distance_le_ri = 50;
-    // // // Left ? Right
-    // // // go right
-    if (
-      touchendX < touchstartX &&
-      touchstartX - touchendX > min_distance_le_ri
-    ) {
-      menuGoRight();
-      // swipe_prev_recipe(recipe.recipe_list, actual_recipe_i);
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isLeftSwipe) {
+      if (snap.recipePageHide) {
+        menuGoRight();
+        return;
+      }
+      swipeRecipePage(
+        dataCtx.recipeList,
+        snap.navigation,
+        snap.currentRecipe,
+        'goRight'
+      );
     }
-    // // // go left
-    if (
-      touchendX > touchstartX &&
-      touchendX - touchstartX > min_distance_le_ri
-    ) {
-      menuGoLeft();
-      // swipe_next_recipe(recipe.recipe_list, actual_recipe_i);
-    }
-    // // // Up ? Down
-    // // // go down (swipe up)
-    if (touchendY < touchstartY && touchstartY - touchendY > min_distance) {
-      // swipe_prev_recipe(recipe.recipe_list, actual_recipe_i);
-    }
-    // // // go up (swipe up)
-    if (touchendY > touchstartY && touchendY - touchstartY > min_distance) {
-      // swipe_next_recipe(recipe.recipe_list, actual_recipe_i);
+    if (isRightSwipe) {
+      if (snap.recipePageHide) {
+        menuGoLeft();
+        return;
+      }
+      console.log('left');
     }
   };
 
-  document.addEventListener('touchstart', e => {
-    touchstartX = e.changedTouches[0].screenX;
-    touchstartY = e.changedTouches[0].screenY;
-    // console.log('Y:', touchstartY);
-  });
-  document.addEventListener('touchend', e => {
-    touchendX = e.changedTouches[0].screenX;
-    touchendY = e.changedTouches[0].screenY;
-    // console.log('X end:', touchendX);
-    checkDirection();
-  });
   //////////////////////////////////////////////////////////////////////////////////
   // // // Swipe function go up or down
   //////////////////////////////////////////////////////////////////////////////////
-  const swipeNextRecipe = (arr, i) => {
+
+  const swipeRecipePage = (recipeList, fav, currentRecipe, direction) => {
     if (!snap.recipePageHide && !snap.recipeEdit) {
-      console.log('Li');
-      // Swipe
-      // 1 <= i ? f_recipe_page_fill_content(arr, i - 1) : console.log('stop');
+      const favList = recipeList.filter(el => el.fav === true);
+      const list = fav === 'btn3' ? favList : recipeList;
+      const index = list.findIndex(el => el.id === currentRecipe.id);
+      if (direction === 'goRight') {
+        changeCurrentRecipeAndHeader(list[index + 1]);
+      }
+      if (direction === 'goLeft') {
+        changeCurrentRecipeAndHeader(list[index + 1]);
+      }
     }
+  };
+  const changeCurrentRecipeAndHeader = recipe => {
+    state.currentRecipe = recipe;
+    state.headerText = recipe.name;
   };
   const swipePrevRecipe = (arr, i) => {
     if (!snap.recipePageHide && !snap.recipeEdit) {
-      console.log('Re');
-      // arr.length - 1 > i
-      //   ? f_recipe_page_fill_content(arr, i + 1)
-      //   : console.log('Ende');
+      //
     }
   };
   const menuGoRight = () => {
@@ -275,6 +272,7 @@ function App() {
       if (snap.navigation === 'btn3') {
         page = 'btn4';
       }
+      if (page === undefined) return;
       state.navigation = page;
       changeHeaderIfSwipe(page);
     }
@@ -291,13 +289,12 @@ function App() {
       if (snap.navigation === 'btn4') {
         page = 'btn3';
       }
+      if (page === undefined) return;
       state.navigation = page;
       changeHeaderIfSwipe(page);
     }
   };
   const changeHeaderIfSwipe = page => {
-    // setTimeout(() => {
-    console.log(page);
     switch (page) {
       case 'btn1':
         state.headerText = 'Rezepte';
@@ -312,14 +309,18 @@ function App() {
         state.headerText = 'Einkaufsliste';
         break;
     }
-    // }, 100);
   };
 
   //////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////
   return (
     <DataProvider>
-      <div className={`${classes.App} ${classes.background} `}>
+      <div
+        className={`${classes.App} ${classes.background} `}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div className={`${flipState && classes.fadeIn}`}>
           <Login
             message={onSetMessage}
@@ -370,7 +371,12 @@ function App() {
           ></Content>
 
           <Footer
-            footerContent={<Navbar iconColor={'#20c997'}></Navbar>}
+            footerContent={
+              <Navbar
+                iconColor={'#20c997'}
+                setNavigation={snap.navigation}
+              ></Navbar>
+            }
           ></Footer>
         </div>
       </div>

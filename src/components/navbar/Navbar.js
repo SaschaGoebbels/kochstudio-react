@@ -3,6 +3,7 @@ import classes from './Navbar.module.css';
 import NavbarButton from './NavbarButton';
 import { state } from '../store/state';
 import { useSnapshot } from 'valtio';
+import { useEffect } from 'react';
 
 const Navbar = props => {
   // const navbarCtx = useContext(NavbarContext);
@@ -10,6 +11,10 @@ const Navbar = props => {
   let iconColor = props.iconColor;
   const currentIcon = '#fa8719';
   const [btnNav, setBtnNav] = useState('btn1');
+
+  useEffect(() => {
+    setBtnNav(props.setNavigation);
+  }, [props.setNavigation]);
 
   const navChangeFunction = btnId => {
     if (btnId === 'btn1') {
