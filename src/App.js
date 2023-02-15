@@ -200,6 +200,7 @@ function App() {
   //////////////////////////////////////////////////////////////////////////////////
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+
   // the required distance between touchStart and touchEnd to be detected as a swipe
   const minSwipeDistance = 50;
   const onTouchStart = e => {
@@ -243,35 +244,38 @@ function App() {
   // // // Swipe switch Pages
   //////////////////////////////////////////////////////////////////////////////////
   const [bounceEffect, setBounceEffect] = useState(false);
+  const [swipeMoveRecipePage, setSwipeMoveRecipePage] = useState({});
 
   const swipeRecipePage = (recipeList, fav, currentRecipe, direction) => {
     if (!snap.recipePageHide && !snap.recipeEdit) {
+      // // // swipeMoveRecipePage goes via props to recipePage and toggles moving
+      setSwipeMoveRecipePage({ currentRecipe, direction });
       const favList = recipeList.filter(el => el.fav === true);
       const list = fav === 'btn3' ? favList : recipeList;
       const index = list.findIndex(el => el.id === currentRecipe.id);
-      setBounceEffect(true);
+      if (index + 1 === list.length) setBounceEffect({ right: true });
+      if (index === 0) setBounceEffect({ left: true });
       setTimeout(() => {
-        setBounceEffect(false);
-      }, 500);
-      if (direction === 'goRight') {
-        const i = index === list.length ? index : index + 1;
-        changeCurrentRecipeAndHeader(list[i]);
-      }
-      if (direction === 'goLeft') {
-        const i = index === 0 ? index : index - 1;
-        changeCurrentRecipeAndHeader(list[i]);
+        setBounceEffect({ left: false, right: false });
+        return;
+      }, 400);
+      if (bounceEffect.left === false && bounceEffect.right === false) {
+        if (direction === 'goRight') {
+          const i = index + 1 === list.length ? index : index + 1;
+          changeCurrentRecipeAndHeader(list[i]);
+        }
+        if (direction === 'goLeft') {
+          const i = index === 0 ? index : index - 1;
+          changeCurrentRecipeAndHeader(list[i]);
+        }
       }
     }
   };
   const changeCurrentRecipeAndHeader = recipe => {
-    state.currentRecipe = recipe;
     state.headerText = recipe.name;
+    state.currentRecipe = recipe;
   };
-  const swipePrevRecipe = (arr, i) => {
-    if (!snap.recipePageHide && !snap.recipeEdit) {
-      //
-    }
-  };
+
   const menuGoRight = () => {
     if (snap.recipePageHide && !snap.recipeEdit) {
       let page;
@@ -284,7 +288,14 @@ function App() {
       if (snap.navigation === 'btn3') {
         page = 'btn4';
       }
-      if (page === undefined) return;
+      if (page === undefined) {
+        setBounceEffect({ right: true });
+        setTimeout(() => {
+          setBounceEffect({ left: false, right: false });
+          return;
+        }, 400);
+        return;
+      }
       state.navigation = page;
       changeHeaderIfSwipe(page);
     }
@@ -302,7 +313,14 @@ function App() {
       if (snap.navigation === 'btn4') {
         page = 'btn3';
       }
-      if (page === undefined) return;
+      if (page === undefined) {
+        setBounceEffect({ left: true });
+        setTimeout(() => {
+          setBounceEffect({ left: false, right: false });
+          return;
+        }, 400);
+        return;
+      }
       state.navigation = page;
       changeHeaderIfSwipe(page);
     }
@@ -336,8 +354,8 @@ function App() {
       >
         <div
           className={`${flipState && classes.fadeIn} ${
-            bounceEffect && classes.bounce
-          }`}
+            bounceEffect.right && classes.bounce
+          } ${bounceEffect.left && classes.bounceLeft}`}
         >
           <Login
             message={onSetMessage}
@@ -374,6 +392,7 @@ function App() {
             setMessage={onSetMessage}
             recipeNameId={snap.inputCurrentValue}
           ></Input>
+
           <Header onMenuButton={onMenuButtonHandler} />
           <Content
             content={
@@ -383,6 +402,7 @@ function App() {
                 recipeListButton={recipeListButtonHandler}
                 setHideInput={setHideInput}
                 onSettingsShowHandler={onSettingsShowHandler}
+                swipeMoveRecipePage={swipeMoveRecipePage}
               ></ContentSwipe>
             }
           ></Content>

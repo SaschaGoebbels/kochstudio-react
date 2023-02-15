@@ -29,6 +29,14 @@ const RecipePage = props => {
       dataCtx.shoppingList.some(el => el.id === props.recipeObject.id) || false
     );
   }, [props.recipeObject]);
+  //==================================================================
+  // // const [swipeRecipePage, setSwipeRecipePage] = useState({
+  // //   leftOut: false,
+  // //   rightIn: false,
+  // //   leftIN: false,
+  // //   rightOut: false,
+  // // });
+  //==================================================================
   const useEffectStartUpdate = (state, action) => {
     // console.log(state, action);
     setTimeout(() => {
@@ -67,12 +75,47 @@ const RecipePage = props => {
     }
   };
   const btnCheckedColor = '#E5BE35';
+  //==================================================================
+  // // useEffect(() => {
+  // //   slideMove(props.swipeMoveRecipePage);
+  // //   console.log(props.swipeMoveRecipePage);
+  // // }, [props.swipeMoveRecipePage]);
 
+  // // const slideMove = obj => {
+  // //   if (typeof obj == 'undefined') {
+  // //     return;
+  // //   }
+  // //   console.log('goRight');
+  // //   if (obj.direction === 'goRight') {
+  // //     setSwipeRecipePage({
+  // //       leftOut: true,
+  // //     });
+  // //     // setTimeout(() => {
+  // //     //   setSwipeRecipePage({
+  // //     //     // leftOut: false,
+  // //     //     rightIn: true,
+  // //     //   });
+  // //     // }, 500);
+  // //   }
+  // //   setTimeout(() => {
+  // //     console.log(swipeRecipePage);
+  // //     setSwipeRecipePage({
+  // //       leftOut: false,
+  // //       rightIn: false,
+  // //       leftIn: false,
+  // //       rightOut: false,
+  // //     });
+  // //   }, 1000);
+  // // };
   return (
     <div
-      className={`${classes.recipePage} ${
-        props.showRecipePage && classes['recipePage--hide']
-      }`}
+      className={
+        `${classes.recipePage} ${
+          props.showRecipePage && classes['recipePage--hide']
+        }`
+        // ${props.className} ${swipeRecipePage.leftOut && classes.slideOutLeft} ${
+        //   swipeRecipePage.rightIn && classes.slideInRight
+      }
     >
       <div className={classes.recipePage__box}>
         <div className={classes.recipePage__box__btn}>

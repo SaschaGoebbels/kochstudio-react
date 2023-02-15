@@ -45,6 +45,7 @@ const RecipeList = props => {
   const searchChangeHandler = value => {
     setSearchInput(value.target.value);
   };
+
   //==================================================================
   return (
     <div className={`${classes.contentListBox} `}>
@@ -57,6 +58,7 @@ const RecipeList = props => {
         showRecipePage={snap.recipePageHide}
         recipeObject={recipePageState.recipe}
         onCoinHandler={onRoundButtonHandler}
+        swipeMoveRecipePage={props.swipeMoveRecipePage}
       ></RecipePage>
       <Content
         content={
@@ -68,6 +70,7 @@ const RecipeList = props => {
               listClickHandler={listClickHandler}
               searchInput={searchInput}
               onAddHandler={onRoundButtonHandler}
+
               // optional styling
               // // // listItemDefaultStyle={{
               // // //   backgroundColor: '#93f9d7',

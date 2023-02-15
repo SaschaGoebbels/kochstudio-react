@@ -41,6 +41,7 @@ const ContentSwipe = props => {
         recipeListButton={recipeListButtonHandler}
         headerTextHandler={props.headerTextHandler}
         setHideInput={props.setHideInput}
+        swipeMoveRecipePage={props.swipeMoveRecipePage}
         // onAddHandler={props.onAddHandler}
       />
       <ShoppingList
