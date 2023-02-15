@@ -230,24 +230,36 @@ function App() {
         menuGoLeft();
         return;
       }
-      console.log('left');
+      swipeRecipePage(
+        dataCtx.recipeList,
+        snap.navigation,
+        snap.currentRecipe,
+        'goLeft'
+      );
     }
   };
 
   //////////////////////////////////////////////////////////////////////////////////
-  // // // Swipe function go up or down
+  // // // Swipe switch Pages
   //////////////////////////////////////////////////////////////////////////////////
+  const [bounceEffect, setBounceEffect] = useState(false);
 
   const swipeRecipePage = (recipeList, fav, currentRecipe, direction) => {
     if (!snap.recipePageHide && !snap.recipeEdit) {
       const favList = recipeList.filter(el => el.fav === true);
       const list = fav === 'btn3' ? favList : recipeList;
       const index = list.findIndex(el => el.id === currentRecipe.id);
+      setBounceEffect(true);
+      setTimeout(() => {
+        setBounceEffect(false);
+      }, 500);
       if (direction === 'goRight') {
-        changeCurrentRecipeAndHeader(list[index + 1]);
+        const i = index === list.length ? index : index + 1;
+        changeCurrentRecipeAndHeader(list[i]);
       }
       if (direction === 'goLeft') {
-        changeCurrentRecipeAndHeader(list[index + 1]);
+        const i = index === 0 ? index : index - 1;
+        changeCurrentRecipeAndHeader(list[i]);
       }
     }
   };
@@ -277,6 +289,7 @@ function App() {
       changeHeaderIfSwipe(page);
     }
   };
+
   const menuGoLeft = () => {
     if (snap.recipePageHide && !snap.recipeEdit) {
       let page;
@@ -321,7 +334,11 @@ function App() {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        <div className={`${flipState && classes.fadeIn}`}>
+        <div
+          className={`${flipState && classes.fadeIn} ${
+            bounceEffect && classes.bounce
+          }`}
+        >
           <Login
             message={onSetMessage}
             onLoginHandler={onLoginHandler}
