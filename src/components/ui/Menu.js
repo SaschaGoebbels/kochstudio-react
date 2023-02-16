@@ -206,10 +206,12 @@ const Menu = props => {
       hideButtonBox: true,
     });
   };
+  const closeSettingsPage = () => {
+    props.closeSettingsPage();
+  };
   const deleteConfirmHandler = btnId => {
-    console.log(btnId);
-    ////////////////// TODO //////////////////
-    // add update dataCtx delete list
+    updateData('DELETEALL', { btnId: btnId });
+    closeSettingsPage();
   };
   const onDeleteData = btnId => {
     props.setMessage({
@@ -219,6 +221,7 @@ const Menu = props => {
       showBtnX: true,
       value: btnId,
       confirm: deleteConfirmHandler,
+      dismiss: closeSettingsPage,
     });
   };
   const settingsPageDeleteContent = (

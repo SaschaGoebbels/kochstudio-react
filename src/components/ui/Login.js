@@ -90,7 +90,10 @@ const Login = props => {
     setCreateAccount(true);
   };
   const onLoginHandler = el => {
+    el.preventDefault();
+    console.log(dataCtx.menuState.userData);
     if (
+      emailValue !== '' &&
       emailValue === dataCtx.menuState.userData.email &&
       passwordValue === dataCtx.menuState.userData.password
     ) {
@@ -115,7 +118,6 @@ const Login = props => {
       message: 'Die Anmeldedaten sind nicht korrekt !',
       showBtnX: false,
     });
-    el.preventDefault();
   };
   const isValidClass = (isValid, hasError) => {
     if (!isValid && hasError) {
@@ -127,7 +129,7 @@ const Login = props => {
     props.message({
       title: 'Demo Modus aktivieren ?',
       message:
-        'Es wird ein Demo-User erstellt und eine Demo-Rezeptliste geladen !',
+        'Es wird ein Demo-User erstellt und eine Demo-Rezeptliste geladen !  \n Email: demo-email@gmail.com \n Passwort: 1234',
       showBtnX: true,
       dismiss: cancelDemo,
       confirm: startDemo,
@@ -145,13 +147,14 @@ const Login = props => {
   const cancelDemo = el => {
     console.log('cancel demo');
   };
+
   const startDemo = el => {
     const user = {
       loggedIn: true,
       hideLogin: true,
       userName: 'Demo-User',
       email: 'demo-email@gmail.com',
-      password: '12345678',
+      password: '1234',
     };
     const data = dataCtx;
     data.menuState.userData = user;
@@ -163,12 +166,11 @@ const Login = props => {
       title: `Demo-Modus`,
       message: 'Viel Spaß beim testen der App!',
       showBtnX: false,
+      confirm: reloadNow,
     });
-    reloadNow();
   };
 
   const reloadNow = () => {
-    console.log('Reload');
     setTimeout(() => {
       window.location.reload();
     }, 50);

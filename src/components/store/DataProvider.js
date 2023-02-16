@@ -179,7 +179,33 @@ const dataReducer = (stateReducer, action) => {
       stateReducer.menuState.shoppingListSettings.avoidList =
         action.dataUpdate.avoidList;
     }
-    console.log('sett end', stateReducer);
+    updateLocalStorage(stateReducer);
+    return stateReducer;
+  }
+  if (action.type === 'DELETEALL') {
+    let deleteAll = false;
+    if (action.dataUpdate.btnId === 'trashAll') {
+      deleteAll = true;
+    }
+    if (action.dataUpdate.btnId === 'trashRecipeList' || deleteAll) {
+      stateReducer.recipeList = [];
+      stateReducer.shoppingList = [];
+      stateReducer.weeklyPlan = [];
+    }
+    if (action.dataUpdate.btnId === 'trashUser' || deleteAll) {
+      stateReducer.menuState = {
+        userData: {
+          loggedIn: false,
+          userName: '',
+          email: '',
+          password: '',
+        },
+        hide: false,
+        shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
+      };
+      updateLocalStorage(stateReducer);
+      window.location.reload();
+    }
     updateLocalStorage(stateReducer);
     return stateReducer;
   }
@@ -264,7 +290,8 @@ const DataProvider = props => {
       type === 'PLAN' ||
       type === 'SHOP' ||
       type === 'SHOPSUM' ||
-      type === 'SETTINGS'
+      type === 'SETTINGS' ||
+      type === 'DELETEALL'
     ) {
       dispatchData({ type, dataUpdate });
     }
@@ -300,8 +327,8 @@ const dataInit = {
   menuState: {
     userData: {
       loggedIn: false,
-      userName: 'Demo_User',
-      email: 'demo-email@gmail.com',
+      userName: '',
+      email: '',
       password: '',
     },
     hide: true,

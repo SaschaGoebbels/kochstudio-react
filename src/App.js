@@ -380,6 +380,7 @@ function App() {
             }}
             setMessage={onSetMessage}
             onSettingsShowHandler={onSettingsShowHandler}
+            closeSettingsPage={onSettingsButtonHandler}
             menuClick={onMenuElementClick}
             onLoginHandler={onLoginHandler}
           ></Menu>
