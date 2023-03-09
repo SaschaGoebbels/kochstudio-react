@@ -1,4 +1,3 @@
-import React, { useState, useContext } from 'react';
 import classes from './InfoBox.module.css';
 import ButtonRound from './ButtonRound';
 

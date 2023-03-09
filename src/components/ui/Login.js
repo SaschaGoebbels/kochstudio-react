@@ -3,6 +3,8 @@ import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
 import { DataContext } from '../store/DataProvider';
+import { login } from '../../utils/loginLogic';
+// import { state } from '../store/state';
 
 const Login = props => {
   const dataCtx = useContext(DataContext);
@@ -148,25 +150,53 @@ const Login = props => {
     console.log('cancel demo');
   };
 
-  const startDemo = el => {
-    const user = {
-      loggedIn: true,
-      hideLogin: true,
-      userName: 'Demo-User',
-      email: 'demo-email@gmail.com',
-      password: '1234',
-    };
-    const data = dataCtx;
-    data.menuState.userData = user;
-    data.recipeList = demoList;
-    localStorage.setItem('localData', JSON.stringify(data));
-    props.onLoginHandler({ userData: user });
-    setCreateAccount(false);
+  const startDemo = async el => {
+    ////////////////// TODO //////////////////
+    // create props hide login function
+    const res = await login(
+      'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/login',
+      'demo-email@gmail.com',
+      '1234',
+      props.message
+    );
+    console.log(res);
+    if (res) {
+      if (res.status === 'success') {
+        const user = {
+          loggedIn: true,
+          hideLogin: true,
+          userName: 'Demo-User',
+          email: 'demo-email@gmail.com',
+          password: '1234',
+        };
+        const data = dataCtx;
+        data.menuState.userData = user;
+        data.recipeList = demoList;
+        localStorage.setItem('localData', JSON.stringify(data));
+        props.onLoginHandler({ userData: user });
+        setCreateAccount(false);
+        props.message({
+          title: `Demo-Modus`,
+          message: 'Viel Spaß beim testen der App!',
+          showBtnX: false,
+          confirm: reloadNow,
+        });
+      }
+      if (!res.status === 'fail') {
+        console.log('❌');
+        props.message({
+          title: `Login nicht möglich`,
+          message: res.message,
+          showBtnX: false,
+        });
+        setCreateAccount(true);
+      }
+      return;
+    }
     props.message({
-      title: `Demo-Modus`,
-      message: 'Viel Spaß beim testen der App!',
+      title: `Fehler`,
+      message: 'Bitte Netzwerkverbindung prüfen!',
       showBtnX: false,
-      confirm: reloadNow,
     });
   };
 
@@ -3409,3 +3439,16 @@ const demoList = [
     id: '7fcd7c46-20ef-b983-265c-8f7f3748153e',
   },
 ];
+
+// fetching recipeData
+// // // await fetch(
+// // //   'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
+// // //   {
+// // //     method: 'GET',
+// // //     headers: {
+// // //       accept: 'application/json',
+// // //     },
+// // //   }
+// // // )
+// // //   .then(response => response.json())
+// // //   .then(json => console.log('❌', json));

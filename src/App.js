@@ -12,11 +12,10 @@ import Content from './components/ui/Content';
 import ContentSwipe from './components/content/ContentSwipe';
 import Footer from './components/ui/Footer';
 import Navbar from './components/navbar/Navbar';
-import NavbarButton from './components/navbar/NavbarButton';
 import Input from './components/input/Input';
 import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
-import { useEffect } from 'react';
+import Loading from './utils/Loading';
 
 const messageInitialState = {
   hideInfoBox: true,
@@ -327,6 +326,9 @@ function App() {
   };
   const changeHeaderIfSwipe = page => {
     switch (page) {
+      default:
+        state.headerText = 'Rezepte';
+        break;
       case 'btn1':
         state.headerText = 'Rezepte';
         break;
@@ -357,6 +359,7 @@ function App() {
             bounceEffect.right && classes.bounce
           } ${bounceEffect.left && classes.bounceLeft}`}
         >
+          <Loading></Loading>
           <Login
             message={onSetMessage}
             onLoginHandler={onLoginHandler}

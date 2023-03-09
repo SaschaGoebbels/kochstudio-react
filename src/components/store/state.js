@@ -3,6 +3,7 @@ import { proxy } from 'valtio';
 const state = proxy({
   navigation: 'btn1',
   headerText: 'Rezepte',
+  loading: false,
   searchBarHide: true,
   recipePageHide: true,
   recipeEdit: false,

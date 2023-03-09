@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket } from '@fortawesome/free-solid-svg-icons';
 import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 
+import { logout } from '../../utils/loginLogic';
+
 const Menu = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
@@ -62,6 +64,7 @@ const Menu = props => {
     isNotYetReady();
   };
   const onLogoutConfirmHandler = () => {
+    logout('https://cyan-pleasant-chicken.cyclic.app/api/v1/users/logout');
     const temp = dataCtx.menuState;
     temp.userData.hideLogin = false;
     props.onLoginHandler({ userData: temp.userData });
