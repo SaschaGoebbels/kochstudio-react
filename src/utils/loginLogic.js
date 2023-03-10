@@ -3,6 +3,24 @@ import AppError from './appError';
 // import { useSnapshot } from 'valtio';
 import { state } from '../components/store/state';
 
+export const createAcc = async (url, user, infoBox) => {
+  let res;
+  state.loading = true;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify(user),
+    })
+      .then(response => response.json())
+      .then(json => (res = json));
+  } catch (err) {
+    console.log('❌', err);
+  }
+  state.loading = false;
+  return { ...res };
+};
+
 export const login = async (url, email, password, infoBox) => {
   state.loading = true;
   let res;

@@ -4,6 +4,7 @@ import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
 import { DataContext } from '../store/DataProvider';
 import { login } from '../../utils/loginLogic';
+import { createAcc } from '../../utils/loginLogic';
 // import { state } from '../store/state';
 
 const Login = props => {
@@ -39,12 +40,25 @@ const Login = props => {
     inputBlurHandler: passwordBlurHandler,
     reset: passwordReset,
   } = useInput(value => value.trim() !== '' && value.trim().length > 3);
+  const {
+    value: passwordConfirmValue,
+    isValid: passwordConfirmIsValid,
+    hasError: passwordConfirmInputHasError,
+    valueChangeHandler: passwordConfirmChangeHandler,
+    inputBlurHandler: passwordConfirmBlurHandler,
+    reset: passwordConfirmReset,
+  } = useInput(value => value.trim() !== '' && value.trim().length > 3);
   //==================================================================
-
+  const resetAllInputValues = () => {
+    nameReset();
+    emailReset();
+    passwordReset();
+    passwordConfirmReset();
+  };
   const [createAccount, setCreateAccount] = useState(false);
 
   // create account
-  const onClickHandler = el => {
+  const onClickHandler = async el => {
     if (el === 'x') {
       setCreateAccount(false);
     }
@@ -52,7 +66,7 @@ const Login = props => {
       if (!emailIsValid) {
         props.message({
           title: `Error`,
-          message: 'Bitte eine richtige Emailadresse eingeben!',
+          message: 'Bitte Emailadresse eingeben!',
           showBtnX: false,
         });
         return;
@@ -69,18 +83,37 @@ const Login = props => {
         const user = {
           loggedIn: true,
           hideLogin: true,
-          userName: nameValue,
+          name: nameValue,
           email: emailValue,
           password: passwordValue,
+          passwordConfirm: passwordConfirmValue,
         };
         const data = dataCtx;
+        const res = await createAcc(
+          'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/signup',
+          user,
+          props.message
+        );
+        if (
+          res === null ||
+          res === {} ||
+          res.status === 'error' ||
+          res.status === 'fail'
+        ) {
+          props.message({
+            title: `Fehler`,
+            message: res.message || 'Das hat leider nicht geklappt!',
+            showBtnX: false,
+          });
+          return;
+        }
         data.menuState.userData = user;
-        localStorage.setItem('localData', JSON.stringify(data));
         props.onLoginHandler({ userData: user });
         setCreateAccount(false);
+        resetAllInputValues();
         props.message({
           title: `Anmeldung erfolgreich`,
-          message: 'Viel Spaß mit der App!',
+          message: 'Viel Spaß und guten Appetit!',
           showBtnX: false,
         });
       }
@@ -91,47 +124,55 @@ const Login = props => {
     el.preventDefault();
     setCreateAccount(true);
   };
-  const onLoginHandler = el => {
+
+  const onLoginHandler = async el => {
     el.preventDefault();
-    console.log(dataCtx.menuState.userData);
-    if (
-      emailValue !== '' &&
-      emailValue === dataCtx.menuState.userData.email &&
-      passwordValue === dataCtx.menuState.userData.password
-    ) {
-      const user = {
-        loggedIn: true,
-        hideLogin: true,
-        userName: dataCtx.menuState.userData.userName,
-        email: emailValue,
-        password: passwordValue,
-      };
-      const data = dataCtx;
-      data.menuState.userData = user;
-      localStorage.setItem('localData', JSON.stringify(data));
-      props.onLoginHandler({ userData: user });
-      passwordReset();
-      emailReset();
-      nameReset();
-      return;
-    }
+    props.toggleLoginHide(true);
+    const res = await login(
+      'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/login',
+      emailValue,
+      passwordValue,
+      props.message
+    );
+    console.log('✅', res);
+    const user = {
+      loggedIn: true,
+      hideLogin: true,
+      name: res.data.user.name,
+      email: res.data.user.email,
+    };
+    const data = dataCtx;
+    data.menuState.userData = user;
+    data.appData = res.data.user.appData;
+    resetAllInputValues();
+    props.onLoginHandler({ userData: user });
+    //==================================================================
+    await fetch(
+      'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes'
+    )
+      .then(response => response.json())
+      .then(data => console.log(data));
+    //==================================================================
+    if (res.status === 'success') return;
     props.message({
       title: `Error`,
       message: 'Die Anmeldedaten sind nicht korrekt !',
       showBtnX: false,
     });
   };
+
   const isValidClass = (isValid, hasError) => {
     if (!isValid && hasError) {
       return classes['login__inputBox__input--invalid'];
     }
   };
+
   const onDemoHandler = el => {
     el.preventDefault();
     props.message({
-      title: 'Demo Modus aktivieren ?',
+      title: 'Demo Mode aktivieren ?',
       message:
-        'Es wird ein Demo-User erstellt und eine Demo-Rezeptliste geladen !  \n Email: demo-email@gmail.com \n Passwort: 1234',
+        'ACHTUNG ! \n\n Im Demo-Mode werden KEINE Daten gespeichert !\n Alle Eingaben sind nach einem Neustart gelöscht !\n\nEmail: demo-email@gmail.com \n Passwort: kochstudio',
       showBtnX: true,
       dismiss: cancelDemo,
       confirm: startDemo,
@@ -151,12 +192,12 @@ const Login = props => {
   };
 
   const startDemo = async el => {
-    ////////////////// TODO //////////////////
-    // create props hide login function
+    // props hide login
+    props.toggleLoginHide(true);
     const res = await login(
       'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/login',
       'demo-email@gmail.com',
-      '1234',
+      'kochstudio',
       props.message
     );
     console.log(res);
@@ -167,23 +208,25 @@ const Login = props => {
           hideLogin: true,
           userName: 'Demo-User',
           email: 'demo-email@gmail.com',
-          password: '1234',
+          password: 'kochstudio',
         };
         const data = dataCtx;
+        console.log(user);
         data.menuState.userData = user;
         data.recipeList = demoList;
-        localStorage.setItem('localData', JSON.stringify(data));
+        ////////////////// FIXME //////////////////
+        // localStorage.setItem('localData', JSON.stringify(data));
         props.onLoginHandler({ userData: user });
         setCreateAccount(false);
         props.message({
           title: `Demo-Modus`,
-          message: 'Viel Spaß beim testen der App!',
+          // message: 'Login erfolgreich. Viel Spaß beim testen der App!',
+          message: `Login erfolgreich. \n\n Viel Spaß beim testen der App!`,
           showBtnX: false,
           confirm: reloadNow,
         });
       }
       if (!res.status === 'fail') {
-        console.log('❌');
         props.message({
           title: `Login nicht möglich`,
           message: res.message,
@@ -198,6 +241,7 @@ const Login = props => {
       message: 'Bitte Netzwerkverbindung prüfen!',
       showBtnX: false,
     });
+    props.toggleLoginHide(false);
   };
 
   const reloadNow = () => {
@@ -251,6 +295,21 @@ const Login = props => {
               onBlur={passwordBlurHandler}
             ></input>
           </div>
+          {createAccount && (
+            <div className={`${classes.login__messageBox__inputBox}`}>
+              <label htmlFor="">Password:</label>
+              <input
+                type="password"
+                className={`${classes.login__inputBox__input} ${isValidClass(
+                  passwordIsValid,
+                  passwordInputHasError
+                )}`}
+                value={passwordConfirmValue}
+                onChange={passwordConfirmChangeHandler}
+                onBlur={passwordConfirmBlurHandler}
+              ></input>
+            </div>
+          )}
           {/* <p>{props.message}</p> */}
         </div>
         <footer className={classes.login__footer}>
@@ -264,8 +323,13 @@ const Login = props => {
           )}
           {!createAccount && (
             <button
+              // autoFocus
               className={classes.login__footer__loginBtn}
               onClick={onLoginHandler}
+
+              // onClick={() => {
+              //   onLoginHandler(emailValue, passwordValue);
+              // }}
             >
               LOGIN
             </button>

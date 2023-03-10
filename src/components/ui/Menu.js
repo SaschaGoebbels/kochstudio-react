@@ -65,16 +65,17 @@ const Menu = props => {
   };
   const onLogoutConfirmHandler = () => {
     logout('https://cyan-pleasant-chicken.cyclic.app/api/v1/users/logout');
-    const temp = dataCtx.menuState;
-    temp.userData.hideLogin = false;
-    props.onLoginHandler({ userData: temp.userData });
+    dataCtx.menuState.userData = {};
+    dataCtx.appData = {};
+    dataCtx.menuState.userData.hideLogin = false;
+    props.onLoginHandler({ userData: dataCtx.menuState.userData });
+    console.log('✅', dataCtx);
   };
   const onLogoutHandler = () => {
-    console.log(dataCtx.menuState.userData.loggedIn);
     if (dataCtx.menuState.userData.loggedIn) {
       props.setMessage({
         title: 'Logout',
-        message: 'Wollen Sie sich ausloggend ?',
+        message: 'Wollen Sie sich ausloggen ?',
         value: '',
         confirm: onLogoutConfirmHandler,
         showBtnX: true,
@@ -121,7 +122,8 @@ const Menu = props => {
   };
   useEffect(() => {
     settingsPageCallAvoidList(avoidListState.show, avoidListState.list);
-  }, [avoidListState]);
+  }, [avoidListState, dataCtx.menuState]);
+  //==================================================================
 
   const settingsPageCallAvoidList = (show, currentState) => {
     props.onSettingsShowHandler({
@@ -386,7 +388,7 @@ const Menu = props => {
               onClickHandler={onLogoutHandler}
             />
             <div>
-              <p>Logged In:</p>
+              {/* <p>Logged In:</p> */}
               <p className={classes['menuBox__UserBox--userName']}>
                 {props.userData.user}
               </p>

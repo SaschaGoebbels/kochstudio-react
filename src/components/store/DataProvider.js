@@ -13,9 +13,14 @@ const DataUpdate = React.createContext();
 export function useDataUpdate() {
   return useContext(DataUpdate);
 }
+// // const loadToken = () => {
+// //   const kochstudio = JSON.parse(localStorage.getItem('kochstudio'));
+// //   return kochstudio;
+// // };
 //==================================================================
 const updateLocalStorage = data => {
-  localStorage.setItem('localData', JSON.stringify(data));
+  console.log(data);
+  // localStorage.setItem('localData', JSON.stringify(data));
 };
 //==================================================================
 const dataReducer = (stateReducer, action) => {
@@ -240,7 +245,40 @@ const onRecipeDelete = (recipe, array) => {
   });
 };
 //==================================================================
+//==================================================================
 const DataProvider = props => {
+  ////////////////// TODO //////////////////
+  // const localData = JSON.parse(localStorage.getItem('kochstudio'));
+  //fetch data on startup
+  // // useEffect(() => {
+  // //   fetchData();
+  // // }, []);
+
+  // // const fetchData = async () => {
+  // //   console.log('✅');
+  // //   console.log();
+  // //   let res;
+  // //   try {
+  // //     await fetch(
+  // //       'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes'
+  // //     )
+  // //       .then(response => response.json())
+  // //       .then(data => console.log(data));
+  // //     // const res =
+  // //     // await fetch(
+  // //     //   'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/appData',
+  // //     //   {
+  // //     //     method: 'GET',
+  // //     //     headers: { 'Content-type': 'application/json; charset=UTF-8' },
+  // //     //   }
+  // //     // )
+  // //     //   .then(response => response.json())
+  // //     //   .then(json => (res = json));
+  // //   } catch (err) {
+  // //     console.log('❌', err);
+  // //   }
+  // // };
+  //==================================================================
   const localData = JSON.parse(localStorage.getItem('localData'));
   if (localData === null) {
     localStorage.setItem('localData', JSON.stringify(dataInit));
@@ -281,6 +319,8 @@ const DataProvider = props => {
   // // //   getDataHandler();
   // // // }, [getDataHandler]);
   //==================================================================
+  ////////////////// FIXME ////////////////// DATA
+  // const [dataState, dispatchData] = useReducer(dataReducer, localData);
   const [dataState, dispatchData] = useReducer(dataReducer, localData);
   const dataUpdateFunction = (type, dataUpdate) => {
     if (
@@ -327,12 +367,17 @@ const dataInit = {
   menuState: {
     userData: {
       loggedIn: false,
-      userName: '',
+      name: '',
       email: '',
-      password: '',
     },
     hide: true,
     shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
+  },
+  appData: {
+    weeklyPlan: [],
+    recipeList: [],
+    shoppingList: [],
+    settings: {},
   },
   weeklyPlan: [],
   recipeList: [],

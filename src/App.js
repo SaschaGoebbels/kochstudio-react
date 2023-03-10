@@ -16,6 +16,7 @@ import Input from './components/input/Input';
 import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
 import Loading from './utils/Loading';
+import { useEffect } from 'react';
 
 const messageInitialState = {
   hideInfoBox: true,
@@ -50,9 +51,8 @@ const menuStateInit = {
   userData: {
     loggedIn: false,
     hideLogin: false,
-    userName: 'Demo_User',
-    email: 'demo-email@gmail.com',
-    password: '',
+    name: '',
+    email: '',
   },
   hide: true,
   shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
@@ -60,6 +60,7 @@ const menuStateInit = {
 
 function App() {
   const dataCtx = useContext(DataContext);
+  //==================================================================
 
   //==================================================================
   const [menuState, setMenuState] = useState(
@@ -84,6 +85,17 @@ function App() {
   // header
   const onMenuButtonHandler = btnId => {
     toggleMenuHide();
+  };
+  //Login
+  const toggleLoginHide = input => {
+    setMenuState(prev => {
+      if (input === undefined) {
+        prev.userData.hideLogin = !prev.userData.hideLogin;
+        return prev;
+      }
+      prev.userData.hideLogin = input;
+      return prev;
+    });
   };
   //==================================================================
   const settingsInitialValue = {
@@ -364,6 +376,7 @@ function App() {
             message={onSetMessage}
             onLoginHandler={onLoginHandler}
             hide={menuState.userData.hideLogin}
+            toggleLoginHide={toggleLoginHide}
           />
           <SettingsPage
             settingsPageShow={settingsState.show}
@@ -378,7 +391,7 @@ function App() {
             menuState={menuState}
             changeMenuState={changeMenuState}
             userData={{
-              user: menuState.userData.userName || '',
+              user: menuState.userData.name || '',
               email: menuState.userData.email || '',
             }}
             setMessage={onSetMessage}
