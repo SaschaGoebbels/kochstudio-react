@@ -23,6 +23,36 @@ const Menu = props => {
       showBtnX: false,
     });
   };
+  //==================================================================
+  const fetchExampleList = async () => {
+    let res;
+    console.log(dataCtx.menuState.token);
+    try {
+      await fetch(
+        'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            // Authentication: `Bearer ${dataCtx.menuState.token}`,
+            // Authorization: `Bearer ${dataCtx.menuState.token}`,
+            // Authorization:
+            //   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGJhNzkyMGE0Mzg2MDAyYzgxMWQ0MiIsImlhdCI6MTY3ODUxODcyOH0.4WCETMbsxYXPH6CSmQ6zmiFHfarZQ3mrnCFgl2tLf3g',
+          },
+        }
+      )
+        .then(response => response.json())
+        // .then(json => (res = json));
+        .then(json => {
+          console.log('✅', json);
+          res = json;
+        });
+    } catch (err) {
+      console.log('❌', err);
+    }
+    return res;
+  };
+  //==================================================================
   const onMenuClickHandler = btnId => {
     if (btnId === 'gear') {
       props.onSettingsShowHandler({
@@ -48,14 +78,18 @@ const Menu = props => {
       return;
     }
     if (btnId === 'get') {
-      props.onSettingsShowHandler({
-        show: true,
-        headerText: 'Importieren',
-        content: importListContent,
-        confirm: onConfirmImport,
-        hideXBtn: false,
-      });
+      //temp
+      fetchExampleList();
       return;
+      //==================================================================
+      // // props.onSettingsShowHandler({
+      // //   show: true,
+      // //   headerText: 'Importieren',
+      // //   content: importListContent,
+      // //   confirm: onConfirmImport,
+      // //   hideXBtn: false,
+      // // });
+      // // return;
     }
     if (btnId === 'exp') {
       exportTxtFileToDownloads(dataCtx, 'Kochstudio');
@@ -69,7 +103,6 @@ const Menu = props => {
     dataCtx.appData = {};
     dataCtx.menuState.userData.hideLogin = false;
     props.onLoginHandler({ userData: dataCtx.menuState.userData });
-    console.log('✅', dataCtx);
   };
   const onLogoutHandler = () => {
     if (dataCtx.menuState.userData.loggedIn) {
@@ -157,6 +190,7 @@ const Menu = props => {
     </div>
   );
   //==================================================================
+
   // import
   const onConfirmImport = () => {
     if (dataCtx.recipeList.length > 0) {

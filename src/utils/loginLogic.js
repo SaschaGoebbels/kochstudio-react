@@ -27,8 +27,8 @@ export const login = async (url, email, password, infoBox) => {
   try {
     await fetch(url, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
-
       body: JSON.stringify({
         email,
         password,
@@ -39,9 +39,14 @@ export const login = async (url, email, password, infoBox) => {
   } catch (err) {
     ////////////////// TODO ////////////////// error handling no network
     console.log('❌', err);
-    AppError(err, infoBox);
+    // AppError(err, infoBox);
     return;
   }
+  console.log('😁', document.cookie);
+  // localStorage.setItem('kochstudio', res.token);
+  // document.cookie = 'Authorization=' + res.token;
+  // document.cookie = `Authorization=${res.token}`;
+  // console.log('🚩', document.cookie);
   state.loading = false;
   return { ...res };
 };
@@ -54,13 +59,11 @@ export const logout = async url => {
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
     })
       .then(response => response.json())
-      .then(json => {
-        console.log(json);
-        return json;
-      });
+      .then(json => json);
   } catch (err) {
     console.log('❌', err);
     // new AppError('Something went wrong', 404);
   }
+  localStorage.removeItem('kochstudio');
   state.loading = false;
 };

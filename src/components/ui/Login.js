@@ -211,19 +211,20 @@ const Login = props => {
           password: 'kochstudio',
         };
         const data = dataCtx;
-        console.log(user);
         data.menuState.userData = user;
-        data.recipeList = demoList;
+        data.menuState.token = res.token;
         ////////////////// FIXME //////////////////
-        // localStorage.setItem('localData', JSON.stringify(data));
+        console.log(user);
+        fetchExampleList();
+        // data.recipeList = fetchExampleList();
+        data.recipeList = [];
         props.onLoginHandler({ userData: user });
         setCreateAccount(false);
         props.message({
           title: `Demo-Modus`,
-          // message: 'Login erfolgreich. Viel Spaß beim testen der App!',
           message: `Login erfolgreich. \n\n Viel Spaß beim testen der App!`,
           showBtnX: false,
-          confirm: reloadNow,
+          // confirm: fetchExampleList,
         });
       }
       if (!res.status === 'fail') {
@@ -244,10 +245,33 @@ const Login = props => {
     props.toggleLoginHide(false);
   };
 
-  const reloadNow = () => {
-    setTimeout(() => {
-      window.location.reload();
-    }, 50);
+  const fetchExampleList = async () => {
+    let res;
+    console.log(dataCtx.menuState.token);
+    try {
+      await fetch(
+        'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            // Authentication: `Bearer ${dataCtx.menuState.token}`,
+            Authorization: `Bearer ${dataCtx.menuState.token}`,
+            // Authorization:
+            //   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGJhNzkyMGE0Mzg2MDAyYzgxMWQ0MiIsImlhdCI6MTY3ODUxNzkyNn0.xMvJC7ErwtP8pfVN86aMG2YFhxXKJDnQYwUiMfANjG4',
+          },
+        }
+      )
+        .then(response => response.json())
+        // .then(json => (res = json));
+        .then(json => {
+          console.log('✅', json);
+          res = json;
+        });
+    } catch (err) {
+      console.log('❌', err);
+    }
+    return res;
   };
   //==================================================================
   return (
