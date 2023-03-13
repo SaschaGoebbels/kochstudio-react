@@ -17,7 +17,9 @@ import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
 import Loading from './utils/Loading';
 import { useEffect } from 'react';
+//==================================================================
 
+//==================================================================
 const messageInitialState = {
   hideInfoBox: true,
   title: '',

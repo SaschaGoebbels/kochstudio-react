@@ -194,8 +194,9 @@ const Login = props => {
   const startDemo = async el => {
     // props hide login
     props.toggleLoginHide(true);
+    console.log(process.env.REACT_APP_URL);
     const res = await login(
-      'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/login',
+      `${process.env.REACT_APP_URL}/api/v1/users/login`,
       'demo-email@gmail.com',
       'kochstudio',
       props.message
