@@ -247,13 +247,15 @@ const Login = props => {
   };
 
   const fetchExampleList = async () => {
+    console.log(process.env.REACT_APP_URL);
     let res;
     console.log(dataCtx.menuState.token);
     try {
       await fetch(
-        'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
+        `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
         {
           method: 'GET',
+          credentials: 'include',
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
             // Authentication: `Bearer ${dataCtx.menuState.token}`,

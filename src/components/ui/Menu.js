@@ -26,10 +26,10 @@ const Menu = props => {
   //==================================================================
   const fetchExampleList = async () => {
     let res;
-    console.log(dataCtx.menuState.token);
+    console.log(process.env.REACT_APP_URL);
     try {
       await fetch(
-        'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
+        `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
         {
           method: 'GET',
           headers: {
