@@ -28,6 +28,7 @@ export const login = async (url, email, password, infoBox) => {
     await fetch(url, {
       method: 'POST',
       credentials: 'include',
+      mode: 'cors',
       headers: { 'Content-type': 'application/json; charset=UTF-8' },
       body: JSON.stringify({
         email,
