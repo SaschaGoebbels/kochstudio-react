@@ -255,6 +255,7 @@ const Login = props => {
         `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
         {
           method: 'GET',
+          mode: 'cors',
           credentials: 'include',
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
