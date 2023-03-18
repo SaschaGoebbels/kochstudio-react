@@ -10,7 +10,7 @@ import { faRocket } from '@fortawesome/free-solid-svg-icons';
 import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 import { logout } from '../../utils/loginLogic';
-
+import { fetchExampleList } from '../../utils/fetchData';
 const Menu = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
@@ -24,34 +24,7 @@ const Menu = props => {
     });
   };
   //==================================================================
-  const fetchExampleList = async () => {
-    let res;
-    console.log(process.env.REACT_APP_URL);
-    try {
-      await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            // Authentication: `Bearer ${dataCtx.menuState.token}`,
-            // Authorization: `Bearer ${dataCtx.menuState.token}`,
-            // Authorization:
-            //   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGJhNzkyMGE0Mzg2MDAyYzgxMWQ0MiIsImlhdCI6MTY3ODUxODcyOH0.4WCETMbsxYXPH6CSmQ6zmiFHfarZQ3mrnCFgl2tLf3g',
-          },
-        }
-      )
-        .then(response => response.json())
-        // .then(json => (res = json));
-        .then(json => {
-          console.log('✅', json);
-          res = json;
-        });
-    } catch (err) {
-      console.log('❌', err);
-    }
-    return res;
-  };
+  fetchExampleList();
   //==================================================================
   const onMenuClickHandler = btnId => {
     if (btnId === 'gear') {

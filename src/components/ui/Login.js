@@ -5,7 +5,11 @@ import useInput from '../../hooks/useInput';
 import { DataContext } from '../store/DataProvider';
 import { login } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
+import { fetchExampleList } from '../../utils/fetchData';
 // import { state } from '../store/state';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const Login = props => {
   const dataCtx = useContext(DataContext);
@@ -194,7 +198,7 @@ const Login = props => {
 
   const startDemo = async el => {
     // props hide login
-    console.log('❌❌❌❌❌❌❌');
+    console.log('❌❌❌❌❌❌❌', document.cookie);
     props.toggleLoginHide(true);
     console.log(process.env.REACT_APP_URL);
     const res = await login(
@@ -215,20 +219,9 @@ const Login = props => {
         };
         const data = dataCtx;
         data.menuState.userData = user;
-        data.menuState.token = res.token;
         ////////////////// FIXME //////////////////
         console.log(user);
-        // // fetchExampleList();TODO
-        // data.recipeList = fetchExampleList();
-        // // data.recipeList = [];
-        // // props.onLoginHandler({ userData: user });
-        // // setCreateAccount(false);
-        // // props.message({
-        // //   title: `Demo-Modus`,
-        // //   message: `Login erfolgreich. \n\n Viel Spaß beim testen der App!`,
-        // //   showBtnX: false,
-        // //   // confirm: fetchExampleList,
-        // // });
+        fetchExampleList();
       }
       if (!res.status === 'fail') {
         props.message({
@@ -248,37 +241,33 @@ const Login = props => {
     props.toggleLoginHide(false);
   };
 
-  const fetchExampleList = async () => {
-    console.log(process.env.REACT_APP_URL);
-    let res;
-    console.log(dataCtx.menuState.token);
-    try {
-      await fetch(
-        `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
-        {
-          method: 'GET',
-          mode: 'cors',
-          credentials: 'include',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            // Authentication: `Bearer ${dataCtx.menuState.token}`,
-            Authorization: `Bearer ${dataCtx.menuState.token}`,
-            // Authorization:
-            //   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGJhNzkyMGE0Mzg2MDAyYzgxMWQ0MiIsImlhdCI6MTY3ODUxNzkyNn0.xMvJC7ErwtP8pfVN86aMG2YFhxXKJDnQYwUiMfANjG4',
-          },
-        }
-      )
-        .then(response => response.json())
-        // .then(json => (res = json));
-        .then(json => {
-          console.log('✅', json);
-          res = json;
-        });
-    } catch (err) {
-      console.log('❌', err);
-    }
-    return res;
-  };
+  // const fetchExampleList = async () => {
+  //   console.log(process.env.REACT_APP_URL);
+  //   let res;
+  //   console.log(dataCtx.menuState.token);
+  //   try {
+  //     await fetch(
+  //       `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
+  //       {
+  //         method: 'GET',
+  //         mode: 'cors',
+  //         credentials: 'include',
+  //         headers: {
+  //           'Content-type': 'application/json; charset=UTF-8',
+  //         },
+  //       }
+  //     )
+  //       .then(response => response.json())
+  //       // .then(json => (res = json));
+  //       .then(json => {
+  //         console.log('✅', json);
+  //         res = json;
+  //       });
+  //   } catch (err) {
+  //     console.log('❌', err);
+  //   }
+  //   return res;
+  // };
   //==================================================================
   return (
     <form className={`${classes.login}  ${props.hide && classes.login__hide}`}>
