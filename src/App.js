@@ -68,6 +68,11 @@ function App() {
   const [menuState, setMenuState] = useState(
     dataCtx.menuState || menuStateInit
   );
+  useEffect(() => {
+    ////////////////// TODO //////////////////
+    setMenuState(dataCtx.menuState);
+    console.log('❌Effect', dataCtx.menuState.userData);
+  }, [dataCtx.menuState]);
   const onLoginHandler = userData => {
     setMenuState(userData);
     toggleMenuHide();
@@ -357,7 +362,6 @@ function App() {
         break;
     }
   };
-
   //////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////
   return (

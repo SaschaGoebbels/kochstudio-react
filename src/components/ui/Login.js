@@ -7,9 +7,6 @@ import { login } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { fetchExampleList } from '../../utils/fetchData';
 // import { state } from '../store/state';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
 
 const Login = props => {
   const dataCtx = useContext(DataContext);
@@ -198,9 +195,8 @@ const Login = props => {
 
   const startDemo = async el => {
     // props hide login
-    console.log('❌❌❌❌❌❌❌', document.cookie);
     props.toggleLoginHide(true);
-    console.log(process.env.REACT_APP_URL);
+    console.log('📌 fetch URL:', process.env.REACT_APP_URL);
     const res = await login(
       `${process.env.REACT_APP_URL}/api/v1/users/login`,
       'demo-email@gmail.com',
@@ -215,13 +211,10 @@ const Login = props => {
           hideLogin: true,
           name: 'Demo-User',
           email: 'demo-email@gmail.com',
-          password: 'kochstudio',
         };
-        const data = dataCtx;
-        data.menuState.userData = user;
-        ////////////////// FIXME //////////////////
-        console.log(user);
+        dataCtx.menuState.userData = user;
         fetchExampleList();
+        console.log(dataCtx.menuState);
       }
       if (!res.status === 'fail') {
         props.message({
@@ -241,33 +234,6 @@ const Login = props => {
     props.toggleLoginHide(false);
   };
 
-  // const fetchExampleList = async () => {
-  //   console.log(process.env.REACT_APP_URL);
-  //   let res;
-  //   console.log(dataCtx.menuState.token);
-  //   try {
-  //     await fetch(
-  //       `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
-  //       {
-  //         method: 'GET',
-  //         mode: 'cors',
-  //         credentials: 'include',
-  //         headers: {
-  //           'Content-type': 'application/json; charset=UTF-8',
-  //         },
-  //       }
-  //     )
-  //       .then(response => response.json())
-  //       // .then(json => (res = json));
-  //       .then(json => {
-  //         console.log('✅', json);
-  //         res = json;
-  //       });
-  //   } catch (err) {
-  //     console.log('❌', err);
-  //   }
-  //   return res;
-  // };
   //==================================================================
   return (
     <form className={`${classes.login}  ${props.hide && classes.login__hide}`}>
@@ -345,10 +311,6 @@ const Login = props => {
               // autoFocus
               className={classes.login__footer__loginBtn}
               onClick={onLoginHandler}
-
-              // onClick={() => {
-              //   onLoginHandler(emailValue, passwordValue);
-              // }}
             >
               LOGIN
             </button>

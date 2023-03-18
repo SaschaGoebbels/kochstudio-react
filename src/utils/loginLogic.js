@@ -23,7 +23,6 @@ export const createAcc = async (url, user, infoBox) => {
 
 export const login = async (url, email, password, infoBox) => {
   state.loading = true;
-  console.log('✅', url, email, password, infoBox);
   let res;
   try {
     await fetch(url, {

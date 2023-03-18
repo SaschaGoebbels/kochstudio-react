@@ -13,10 +13,7 @@ const DataUpdate = React.createContext();
 export function useDataUpdate() {
   return useContext(DataUpdate);
 }
-// // const loadToken = () => {
-// //   const kochstudio = JSON.parse(localStorage.getItem('kochstudio'));
-// //   return kochstudio;
-// // };
+
 //==================================================================
 const updateLocalStorage = data => {
   console.log(data);
@@ -249,14 +246,6 @@ const onRecipeDelete = (recipe, array) => {
 const DataProvider = props => {
   ////////////////// TODO //////////////////
 
-  // const jwtToken = localStorage.getItem('kochstudio');
-
-  // const localData = JSON.parse(localStorage.getItem('kochstudio'));
-  //fetch data on startup
-  // // useEffect(() => {
-  // //   fetchData();
-  // // }, []);
-
   // // const fetchData = async () => {
   // //   console.log('✅');
   // //   console.log();
@@ -373,7 +362,6 @@ const dataInit = {
       name: '',
       email: '',
     },
-    token: '',
     hide: true,
     shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
   },
