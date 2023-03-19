@@ -2,6 +2,7 @@ import classes from './App.module.css';
 import './variables.css';
 import React, { useState, useContext, useReducer } from 'react';
 import DataProvider, { DataContext } from './components/store/DataProvider';
+import { useDataUpdate } from './components/store/DataProvider';
 
 import InfoBox from './components/ui/InfoBox';
 import Login from './components/ui/Login';
@@ -63,17 +64,22 @@ const menuStateInit = {
 };
 
 function App() {
-  useEffect(() => {
-    console.log('❌ fetch on startup');
-    console.log(fetchAppData());
-  });
   //==================================================================
   const dataCtx = useContext(DataContext);
+  //==================================================================
+  const updateData = useDataUpdate();
+  useEffect(() => {
+    const fetchDataOnStartUp = async () => {
+      const appData = await fetchAppData();
+      updateData('LOGIN', appData.user);
+    };
+    fetchDataOnStartUp().catch(console.error);
+  }, []);
+  // const
   //==================================================================
   const [menuState, setMenuState] = useState(
     dataCtx.menuState || menuStateInit
   );
-  console.log(menuState);
   useEffect(() => {
     ////////////////// TODO //////////////////
     setMenuState(dataCtx.menuState);

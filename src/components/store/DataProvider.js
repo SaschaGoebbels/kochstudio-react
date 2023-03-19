@@ -20,11 +20,18 @@ const dataReducer = (stateReducer, action) => {
   // // Login
   if (action.type === 'LOGIN') {
     console.log('❌', action.dataUpdate);
-    // stateReducer.appData = {...action.dataUpdate}
-    // sortArray(stateReducer.recipeList);
-    // return stateReducer;
+    stateReducer.appData = { ...action.dataUpdate.appData };
+    stateReducer.menuState.userData.email = action.dataUpdate.email;
+    stateReducer.menuState.userData.name = action.dataUpdate.name;
+    stateReducer.menuState.loggedIn = true;
+    stateReducer.menuState.hide = true;
+    sortArray(stateReducer.appData.recipeList);
+    return stateReducer;
   }
-
+  if (action.type === 'LOGOUT') {
+    stateReducer = dataInit;
+    return stateReducer;
+  }
   // // input new recipe
   if (action.type === 'INPUT') {
     stateReducer.recipeList = [
@@ -266,6 +273,7 @@ const DataProvider = props => {
   const dataUpdateFunction = (type, dataUpdate) => {
     if (
       type === 'LOGIN' ||
+      type === 'LOGOUT' ||
       type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
       type === 'DELETE' ||

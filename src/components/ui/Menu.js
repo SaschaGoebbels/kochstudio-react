@@ -10,6 +10,7 @@ import { faRocket } from '@fortawesome/free-solid-svg-icons';
 import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 import { logout } from '../../utils/loginLogic';
+import { baseUrl } from '../../utils/env';
 import { fetchExampleList } from '../../utils/fetchData';
 
 const Menu = props => {
@@ -70,15 +71,18 @@ const Menu = props => {
     }
     isNotYetReady();
   };
+
+  ////////////////// TODO //////////////////
   const onLogoutConfirmHandler = () => {
-    logout('https://cyan-pleasant-chicken.cyclic.app/api/v1/users/logout');
-    dataCtx.menuState.userData = {};
-    dataCtx.appData = {};
+    logout(`${baseUrl()}/api/v1/users/logout`);
+    updateData('LOGOUT');
     dataCtx.menuState.userData.hideLogin = false;
     props.onLoginHandler({ userData: dataCtx.menuState.userData });
   };
+
   const onLogoutHandler = () => {
-    if (dataCtx.menuState.userData.loggedIn) {
+    console.log(dataCtx.menuState);
+    if (dataCtx.menuState.loggedIn) {
       props.setMessage({
         title: 'Logout',
         message: 'Wollen Sie sich ausloggen ?',

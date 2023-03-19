@@ -48,6 +48,7 @@ export const login = async (url, email, password, infoBox) => {
 };
 
 export const logout = async url => {
+  ////////////////// TODO //////////////////
   state.loading = true;
   try {
     await fetch(url, {

@@ -51,7 +51,7 @@ const RecipeListBox = props => {
                 //change to props to listEdit to change button style !
                 <li
                   style={props.listItemCheckedStyle}
-                  key={item.id}
+                  key={item._id}
                   className={`${classes.contentListBox__item} ${classes['contentListBox__item--effect']}`}
                   onClick={() => listClickHandler(item)}
                 >
@@ -62,7 +62,7 @@ const RecipeListBox = props => {
               return (
                 <li
                   style={props.listItemDefaultStyle}
-                  key={item.id}
+                  key={item._id}
                   className={`${classes.contentListBox__item}`}
                   onClick={() => listClickHandler(item)}
                 >
