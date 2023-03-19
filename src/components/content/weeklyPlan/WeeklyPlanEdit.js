@@ -16,9 +16,11 @@ const WeeklyPlanEdit = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
 
-  const [weeklyPlanState, setWeeklyPlanState] = useState(dataCtx.weeklyPlan);
+  const [weeklyPlanState, setWeeklyPlanState] = useState(
+    dataCtx.appData.weeklyPlan
+  );
   useEffect(() => {
-    setWeeklyPlanState(dataCtx.weeklyPlan);
+    setWeeklyPlanState(dataCtx.appData.weeklyPlan);
   }, [snap.weeklyPlan.editMode]);
 
   const listClickHandler = item => {
@@ -32,7 +34,7 @@ const WeeklyPlanEdit = props => {
       }
       return [
         ...prev,
-        ...dataCtx.recipeList.filter(el => {
+        ...dataCtx.appData.recipeList.filter(el => {
           if (el.id === item.id) return el;
         }),
       ];
@@ -54,7 +56,7 @@ const WeeklyPlanEdit = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={dataCtx.recipeList}
+              recipeList={dataCtx.appData.recipeList}
               recipeEditList={weeklyPlanState}
               listClickHandler={listClickHandler}
               showFavList={false}

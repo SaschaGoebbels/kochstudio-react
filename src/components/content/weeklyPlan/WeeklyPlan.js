@@ -18,14 +18,14 @@ const WeeklyPlan = props => {
   const updateData = useDataUpdate();
   //==================================================================
 
-  const [planState, setPlanState] = useState(dataCtx.weeklyPlan);
+  const [planState, setPlanState] = useState(dataCtx.appData.weeklyPlan);
   const setPlanStateFromOutSide = () => {
     setTimeout(() => {
-      setPlanState(dataCtx.weeklyPlan);
+      setPlanState(dataCtx.appData.weeklyPlan);
     }, 50);
   };
   useEffect(() => {
-    setPlanState(dataCtx.weeklyPlan);
+    setPlanState(dataCtx.appData.weeklyPlan);
   }, [snap.weeklyPlan.editMode, snap.headerText === 'Wochenplan']);
   //==================================================================
   // SearchBar
@@ -76,7 +76,7 @@ const WeeklyPlan = props => {
       ></SearchBar>
       <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit>
       {/* //fallback for empty List */}
-      {planState.length === 0 && dataCtx.recipeList.length === 0 && (
+      {planState.length === 0 && dataCtx.appData.recipeList.length === 0 && (
         <div className={classes.contentListBox__emptyList}>
           <WeeklyPlanItem
             day={'Die Rezeptliste ist leer !'}
@@ -85,7 +85,7 @@ const WeeklyPlan = props => {
           ></WeeklyPlanItem>
         </div>
       )}
-      {planState.length === 0 && dataCtx.recipeList.length !== 0 && (
+      {planState.length === 0 && dataCtx.appData.recipeList.length !== 0 && (
         <div
           className={classes.contentListBox__emptyList}
           onClick={() => {

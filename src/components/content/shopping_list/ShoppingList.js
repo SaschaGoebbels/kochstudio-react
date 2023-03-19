@@ -87,7 +87,7 @@ const ShoppingList = props => {
   };
   //==================================================================
   const [shoppingListState, setShoppingListState] = useState(
-    dataCtx.shoppingList
+    dataCtx.appData.shoppingList
   );
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
@@ -244,12 +244,12 @@ const ShoppingList = props => {
 
   //==================================================================
   useEffect(() => {
-    setShoppingListState(dataCtx.shoppingList);
+    setShoppingListState(dataCtx.appData.shoppingList);
     createSumList(shoppingListState);
   }, [
     snap.headerText === 'Einkaufsliste',
     snap.listEditHide,
-    dataCtx.shoppingList,
+    dataCtx.appData.shoppingList,
     shoppingListState,
   ]);
   //==================================================================
@@ -264,7 +264,8 @@ const ShoppingList = props => {
   };
   // // // //==================================================================
   // // // // // // avoidList
-  const avoidInitialState = dataCtx.menuState.shoppingListSettings.avoidList;
+  const avoidInitialState =
+    dataCtx.appData.settings.shoppingListSettings.avoidList;
   const [avoidListState, setAvoidListState] = useState(avoidInitialState);
   useEffect(() => {
     setAvoidListState(avoidInitialState);
@@ -341,35 +342,37 @@ const ShoppingList = props => {
       <ListEdit
         searchInput={searchInput}
         list={{
-          recipeList: dataCtx.recipeList,
+          recipeList: dataCtx.appData.recipeList,
           recipeEditList: shoppingListState,
         }}
         onUpdateList={updateShoppingList}
       ></ListEdit>
       {/* //fallback for empty List */}
-      {shoppingListState.length === 0 && dataCtx.recipeList.length === 0 && (
-        <div className={classes.contentListBox__emptyList}>
-          <WeeklyPlanItem
-            day={'Die Rezeptliste ist leer !'}
-            recipe={'Bitte erst Rezepte hinzufügen'}
-            checkButtonHide={true}
-          ></WeeklyPlanItem>
-        </div>
-      )}
-      {shoppingListState.length === 0 && dataCtx.recipeList.length !== 0 && (
-        <div
-          className={classes.contentListBox__emptyList}
-          onClick={() => {
-            onRoundButtonHandler('add');
-          }}
-        >
-          <WeeklyPlanItem
-            day={'Die Einkaufsliste ist aktuell leer !'}
-            recipe={'jetzt hinzufügen ?'}
-            checkButtonHide={true}
-          ></WeeklyPlanItem>
-        </div>
-      )}
+      {shoppingListState.length === 0 &&
+        dataCtx.appData.recipeList.length === 0 && (
+          <div className={classes.contentListBox__emptyList}>
+            <WeeklyPlanItem
+              day={'Die Rezeptliste ist leer !'}
+              recipe={'Bitte erst Rezepte hinzufügen'}
+              checkButtonHide={true}
+            ></WeeklyPlanItem>
+          </div>
+        )}
+      {shoppingListState.length === 0 &&
+        dataCtx.appData.recipeList.length !== 0 && (
+          <div
+            className={classes.contentListBox__emptyList}
+            onClick={() => {
+              onRoundButtonHandler('add');
+            }}
+          >
+            <WeeklyPlanItem
+              day={'Die Einkaufsliste ist aktuell leer !'}
+              recipe={'jetzt hinzufügen ?'}
+              checkButtonHide={true}
+            ></WeeklyPlanItem>
+          </div>
+        )}
       <ul className={classes.contentListBox__ul}>
         {listArray}
         {/* {liItemChecked(false)}

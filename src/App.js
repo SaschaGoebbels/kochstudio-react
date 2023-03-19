@@ -157,7 +157,10 @@ function App() {
       }, 150);
     }
     if (btnId === 'coin') {
-      if (dataCtx.recipeList.length === 0 || dataCtx.recipeList === undefined) {
+      if (
+        dataCtx.appData.recipeList.length === 0 ||
+        dataCtx.appData.recipeList === undefined
+      ) {
         onSetMessage({
           title: `Zufallsgenerator`,
           message:
@@ -166,7 +169,7 @@ function App() {
         });
         return;
       }
-      const recipeList = dataCtx.recipeList;
+      const recipeList = dataCtx.appData.recipeList;
       const favList = recipeList.filter(el => el.fav === true);
       if (snap.navigation === 'btn1')
         coincidenceRecipe(snap.currentRecipe, recipeList);
@@ -237,7 +240,7 @@ function App() {
         return;
       }
       swipeRecipePage(
-        dataCtx.recipeList,
+        dataCtx.appData.recipeList,
         snap.navigation,
         snap.currentRecipe,
         'goRight'
@@ -249,7 +252,7 @@ function App() {
         return;
       }
       swipeRecipePage(
-        dataCtx.recipeList,
+        dataCtx.appData.recipeList,
         snap.navigation,
         snap.currentRecipe,
         'goLeft'

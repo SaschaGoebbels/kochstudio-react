@@ -31,7 +31,7 @@ const RecipeList = props => {
   });
   useEffect(() => {
     setRecipePageState({ hide: false, recipe: snap.currentRecipe });
-  }, [snap.currentRecipe, dataCtx.recipeList]);
+  }, [snap.currentRecipe, dataCtx.appData.recipeList]);
   //==================================================================
 
   const onRoundButtonHandler = btnId => {
@@ -64,7 +64,7 @@ const RecipeList = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={dataCtx.recipeList}
+              recipeList={dataCtx.appData.recipeList}
               weeklyPlan={false}
               showFavList={props.showFavList}
               listClickHandler={listClickHandler}

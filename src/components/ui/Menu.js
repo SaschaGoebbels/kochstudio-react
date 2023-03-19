@@ -121,7 +121,7 @@ const Menu = props => {
   // // // settingsPage avoidList
   const [avoidListState, setAvoidListState] = useState({
     show: false,
-    list: dataCtx.menuState.shoppingListSettings.avoidList,
+    list: dataCtx.appData.settings.shoppingListSettings.avoidList,
   });
   const avoidListUpdate = el => {
     setAvoidListState({ show: true, list: el.target.value });
@@ -166,7 +166,7 @@ const Menu = props => {
 
   // import
   const onConfirmImport = () => {
-    if (dataCtx.recipeList.length > 0) {
+    if (dataCtx.appData.recipeList.length > 0) {
       props.setMessage({
         title: `Error`,
         message:
@@ -177,7 +177,7 @@ const Menu = props => {
     } else importList(exampleList);
   };
   const importList = exampleList => {
-    const data = (dataCtx.recipeList = exampleList);
+    const data = (dataCtx.appData.recipeList = exampleList);
     localStorage.setItem('localData', JSON.stringify(data));
     updateData('SETTINGS', { empty: 'skipToEndOfReducer' });
     setTimeout(() => {
@@ -363,7 +363,6 @@ const Menu = props => {
     </div>
   );
   //==================================================================
-  // console.log('📌📌📌', dataCtx.menuState);
   //==================================================================
   return (
     <div

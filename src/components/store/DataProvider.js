@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { state } from '../store/state';
 import { snapshot, useSnapshot } from 'valtio';
-import LocalStorage from './LocalStorage';
 
 export const UPDATERECIPE = 'UPDATERECIPE';
 
@@ -15,10 +14,7 @@ export function useDataUpdate() {
 }
 
 //==================================================================
-const updateLocalStorage = data => {
-  // console.log(data);
-  // localStorage.setItem('localData', JSON.stringify(data));
-};
+
 //==================================================================
 const dataReducer = (stateReducer, action) => {
   // // Login
@@ -36,7 +32,6 @@ const dataReducer = (stateReducer, action) => {
       action.dataUpdate.recipeInput,
     ];
     sortArray(stateReducer.recipeList);
-    updateLocalStorage(stateReducer);
     return stateReducer;
   }
   //==================================================================
@@ -57,7 +52,6 @@ const dataReducer = (stateReducer, action) => {
         .indexOf(action.dataUpdate.recipeUpdate.id);
       stateReducer.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
       sortArray(stateReducer.recipeList);
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
     //++++++++++++++++++++++++++++++++++++++++
@@ -72,7 +66,6 @@ const dataReducer = (stateReducer, action) => {
         return el;
       });
       action.dataUpdate.favUpdate('fav', currentFavState);
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
     //++++++++++++++++++++++++++++++++++++++++
@@ -85,7 +78,6 @@ const dataReducer = (stateReducer, action) => {
           action.dataUpdate.recipeUpdate.id
         );
         action.dataUpdate.planUpdate('plan', false);
-        updateLocalStorage(stateReducer);
         return stateReducer;
       }
       // // // add to plan
@@ -95,7 +87,6 @@ const dataReducer = (stateReducer, action) => {
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.planUpdate('plan', true);
-        updateLocalStorage(stateReducer);
         return stateReducer;
       }
     }
@@ -116,7 +107,6 @@ const dataReducer = (stateReducer, action) => {
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.listUpdate('list', true);
-        updateLocalStorage(stateReducer);
         return stateReducer;
       }
     }
@@ -136,14 +126,12 @@ const dataReducer = (stateReducer, action) => {
       stateReducer.recipeList
     );
     state.currentRecipe = { ...state.initialState };
-    updateLocalStorage(stateReducer);
     return stateReducer;
   }
   if (action.type === 'PLAN') {
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
     // // remove from plan
@@ -153,7 +141,6 @@ const dataReducer = (stateReducer, action) => {
         action.dataUpdate.itemId
       );
       action.dataUpdate.setPlanStateFromOutSide();
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
   }
@@ -161,7 +148,6 @@ const dataReducer = (stateReducer, action) => {
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.shoppingListState) {
       stateReducer.shoppingList = [...action.dataUpdate.shoppingListState];
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
     // // remove from plan
@@ -172,7 +158,6 @@ const dataReducer = (stateReducer, action) => {
         action.dataUpdate.itemId
       );
       action.dataUpdate.setPlanStateFromOutSide();
-      updateLocalStorage(stateReducer);
       return stateReducer;
     }
   }
@@ -181,7 +166,6 @@ const dataReducer = (stateReducer, action) => {
     stateReducer.ingredientsSumListState = [
       ...action.dataUpdate.ingredientsSumListState,
     ];
-    updateLocalStorage(stateReducer);
     return stateReducer;
   }
   if (action.type === 'SETTINGS') {
@@ -189,7 +173,6 @@ const dataReducer = (stateReducer, action) => {
       stateReducer.menuState.shoppingListSettings.avoidList =
         action.dataUpdate.avoidList;
     }
-    updateLocalStorage(stateReducer);
     return stateReducer;
   }
   if (action.type === 'DELETEALL') {
@@ -213,13 +196,10 @@ const dataReducer = (stateReducer, action) => {
         hide: false,
         shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
       };
-      updateLocalStorage(stateReducer);
       window.location.reload();
     }
-    updateLocalStorage(stateReducer);
     return stateReducer;
   }
-  updateLocalStorage(stateReducer);
   return stateReducer;
 };
 //==================================================================
@@ -279,49 +259,10 @@ const DataProvider = props => {
   // //   }
   // // };
   //==================================================================
-  const localData = JSON.parse(localStorage.getItem('localData'));
-  if (localData === null) {
-    localStorage.setItem('localData', JSON.stringify(dataInit));
-  }
-  const { isLoading, error, sendRequest } = useFetch(
-    {
-      url: 'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
-    },
-    data => console.log('fetch', data)
-  );
-  // useFetch(
-  //   {
-  //     url: 'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json',
-  //   },
-  //   data => console.log('fetch', data)
-  // );
-  //==================================================================
-  // // // const [isLoading, setIsLoading] = useState(false);
-  // // // const [error, setError] = useState(false);
-  // // // const getDataHandler = useCallback(async () => {
-  // // //   setIsLoading(true);
-  // // //   setError(null);
-  // // //   try {
-  // // //     const response = await fetch(
-  // // //       'https://react-app-c8bf3-default-rtdb.europe-west1.firebasedatabase.app/data.json'
-  // // //     );
-  // // //     const data = await response.json();
-  // // //     if (!response.ok) {
-  // // //       throw new Error('Der Server ist nicht erreichbar !');
-  // // //     }
-  // // //   } catch (error) {
-  // // //     console.log('Error');
-  // // //     setError(error.message);
-  // // //   }
-  // // //   setIsLoading(false);
-  // // // }, []);
-  // // // useEffect(() => {
-  // // //   getDataHandler();
-  // // // }, [getDataHandler]);
+
   //==================================================================
   ////////////////// FIXME ////////////////// DATA
-  // const [dataState, dispatchData] = useReducer(dataReducer, localData);
-  const [dataState, dispatchData] = useReducer(dataReducer, localData);
+  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   const dataUpdateFunction = (type, dataUpdate) => {
     if (
       type === 'LOGIN' ||
@@ -340,7 +281,7 @@ const DataProvider = props => {
       // sendData(dataUpdate);
     }
     if (type === 'getFetch') {
-      sendRequest();
+      // sendRequest();
       // getDataHandler();
       console.log('provider');
     }
@@ -367,20 +308,16 @@ export default DataProvider;
 const dataInit = {
   menuState: {
     userData: {
-      loggedIn: false,
       name: '',
       email: '',
     },
+    loggedIn: false,
     hide: true,
-    shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
   },
   appData: {
     weeklyPlan: [],
     recipeList: [],
     shoppingList: [],
-    settings: {},
+    settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
   },
-  weeklyPlan: [],
-  recipeList: [],
-  shoppingList: [],
 };

@@ -23,10 +23,13 @@ const RecipePage = props => {
   useEffect(() => {
     setFavState(props.recipeObject.fav || false);
     setPlanState(
-      dataCtx.weeklyPlan.some(el => el.id === props.recipeObject.id) || false
+      dataCtx.appData.weeklyPlan.some(el => el.id === props.recipeObject.id) ||
+        false
     );
     setListState(
-      dataCtx.shoppingList.some(el => el.id === props.recipeObject.id) || false
+      dataCtx.appData.shoppingList.some(
+        el => el.id === props.recipeObject.id
+      ) || false
     );
   }, [props.recipeObject]);
   //==================================================================
