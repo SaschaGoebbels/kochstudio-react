@@ -63,7 +63,6 @@ const menuStateInit = {
 function App() {
   const dataCtx = useContext(DataContext);
   //==================================================================
-
   //==================================================================
   const [menuState, setMenuState] = useState(
     dataCtx.menuState || menuStateInit

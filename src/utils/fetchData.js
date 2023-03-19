@@ -1,5 +1,6 @@
 //
 import { state } from '../components/store/state';
+import { baseUrl } from './env';
 
 export const fetchExampleList = async () => {
   let res;

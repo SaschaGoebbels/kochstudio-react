@@ -21,6 +21,14 @@ const updateLocalStorage = data => {
 };
 //==================================================================
 const dataReducer = (stateReducer, action) => {
+  // // Login
+  if (action.type === 'LOGIN') {
+    console.log('❌', action.dataUpdate);
+    // stateReducer.appData = {...action.dataUpdate}
+    // sortArray(stateReducer.recipeList);
+    // return stateReducer;
+  }
+
   // // input new recipe
   if (action.type === 'INPUT') {
     stateReducer.recipeList = [
@@ -316,6 +324,7 @@ const DataProvider = props => {
   const [dataState, dispatchData] = useReducer(dataReducer, localData);
   const dataUpdateFunction = (type, dataUpdate) => {
     if (
+      type === 'LOGIN' ||
       type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
       type === 'DELETE' ||

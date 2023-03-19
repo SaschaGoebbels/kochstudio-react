@@ -363,8 +363,7 @@ const Menu = props => {
     </div>
   );
   //==================================================================
-  console.log('⚡⚡⚡', props.userData.user);
-  console.log('📌📌📌', dataCtx.menuState);
+  // console.log('📌📌📌', dataCtx.menuState);
   //==================================================================
   return (
     <div

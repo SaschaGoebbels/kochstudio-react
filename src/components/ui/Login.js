@@ -3,13 +3,16 @@ import classes from './Login.module.css';
 import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
 import { DataContext } from '../store/DataProvider';
+import { useDataUpdate } from '../store/DataProvider';
 import { login } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { fetchExampleList } from '../../utils/fetchData';
+import { baseUrl } from '../../utils/env';
 // import { state } from '../store/state';
 
 const Login = props => {
   const dataCtx = useContext(DataContext);
+  const updateData = useDataUpdate();
   //==================================================================
   const {
     value: nameValue,
@@ -126,6 +129,9 @@ const Login = props => {
     setCreateAccount(true);
   };
 
+  const loginFunction = (email, password) => {
+    //
+  };
   const onLoginHandler = async el => {
     el.preventDefault();
     props.toggleLoginHide(true);
@@ -196,9 +202,8 @@ const Login = props => {
   const startDemo = async el => {
     // props hide login
     props.toggleLoginHide(true);
-    console.log('📌 fetch URL:', process.env.REACT_APP_URL);
     const res = await login(
-      `${process.env.REACT_APP_URL}/api/v1/users/login`,
+      `${baseUrl()}/api/v1/users/login`,
       'demo-email@gmail.com',
       'kochstudio',
       props.message
@@ -212,9 +217,7 @@ const Login = props => {
           name: 'Demo-User',
           email: 'demo-email@gmail.com',
         };
-        dataCtx.menuState.userData = user;
-        fetchExampleList();
-        console.log(dataCtx.menuState);
+        updateData('LOGIN', user);
       }
       if (!res.status === 'fail') {
         props.message({
