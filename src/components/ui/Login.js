@@ -129,44 +129,57 @@ const Login = props => {
     setCreateAccount(true);
   };
 
-  const loginFunction = (email, password) => {
-    //
-  };
-  const onLoginHandler = async el => {
-    el.preventDefault();
+  const loginFunction = async (email, password) => {
+    // props hide login
     props.toggleLoginHide(true);
-
     const res = await login(
-      'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/login',
-      emailValue,
-      passwordValue,
+      `${baseUrl()}/api/v1/users/login`,
+      email,
+      password,
       props.message
     );
-    console.log('✅', res);
-    const user = {
-      loggedIn: true,
-      hideLogin: true,
-      name: res.data.user.name,
-      email: res.data.user.email,
-    };
-    const data = dataCtx;
-    data.menuState.userData = user;
-    data.appData = res.data.user.appData;
-    resetAllInputValues();
-    props.onLoginHandler({ userData: user });
-    //==================================================================
-    await fetch(
-      'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes'
-    )
-      .then(response => response.json())
-      .then(data => console.log(data));
-    //==================================================================
-    if (res.status === 'success') return;
+    if (res) {
+      if (res.status === 'success') {
+        const user = {
+          loggedIn: true,
+          hideLogin: true,
+          name: res.data.user.name,
+          email: res.data.user.email,
+        };
+        resetAllInputValues();
+        updateData('LOGIN', res.data.user);
+      }
+      console.log('✅', res.data);
+      if (!res.status === 'fail') {
+        props.message({
+          title: `Login nicht möglich`,
+          message: res.message,
+          showBtnX: false,
+        });
+        setCreateAccount(true);
+      }
+      if (res.status === 'success') return;
+      props.message({
+        title: `Error`,
+        message: 'Die Anmeldedaten sind nicht korrekt !',
+        showBtnX: false,
+      });
+      props.toggleLoginHide(false);
+      return;
+    }
     props.message({
-      title: `Error`,
-      message: 'Die Anmeldedaten sind nicht korrekt !',
+      title: `Fehler`,
+      message: 'Bitte Netzwerkverbindung prüfen!',
       showBtnX: false,
     });
+    props.toggleLoginHide(false);
+  };
+
+  const onLoginHandler = async el => {
+    el.preventDefault();
+    loginFunction('goebbels.sascha@gmail.com', '1234');
+    ///////////////// BOOKMARK ///////////////// BChange
+    // loginFunction(emailValue, passwordValue);
   };
 
   const isValidClass = (isValid, hasError) => {
@@ -200,41 +213,7 @@ const Login = props => {
   };
 
   const startDemo = async el => {
-    // props hide login
-    props.toggleLoginHide(true);
-    const res = await login(
-      `${baseUrl()}/api/v1/users/login`,
-      'demo-email@gmail.com',
-      'kochstudio',
-      props.message
-    );
-    console.log('❌❌', res);
-    if (res) {
-      if (res.status === 'success') {
-        const user = {
-          loggedIn: true,
-          hideLogin: true,
-          name: 'Demo-User',
-          email: 'demo-email@gmail.com',
-        };
-        updateData('LOGIN', user);
-      }
-      if (!res.status === 'fail') {
-        props.message({
-          title: `Login nicht möglich`,
-          message: res.message,
-          showBtnX: false,
-        });
-        setCreateAccount(true);
-      }
-      return;
-    }
-    props.message({
-      title: `Fehler`,
-      message: 'Bitte Netzwerkverbindung prüfen!',
-      showBtnX: false,
-    });
-    props.toggleLoginHide(false);
+    loginFunction('demo-email@gmail.com', 'kochstudio');
   };
 
   //==================================================================

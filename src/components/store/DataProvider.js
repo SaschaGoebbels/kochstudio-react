@@ -16,7 +16,7 @@ export function useDataUpdate() {
 
 //==================================================================
 const updateLocalStorage = data => {
-  console.log(data);
+  // console.log(data);
   // localStorage.setItem('localData', JSON.stringify(data));
 };
 //==================================================================
