@@ -76,12 +76,11 @@ const Menu = props => {
   const onLogoutConfirmHandler = () => {
     logout(`${baseUrl()}/api/v1/users/logout`);
     updateData('LOGOUT');
-    dataCtx.menuState.userData.hideLogin = false;
+    // dataCtx.menuState.hideLogin = false;
     props.onLoginHandler({ userData: dataCtx.menuState.userData });
   };
 
   const onLogoutHandler = () => {
-    console.log(dataCtx.menuState);
     if (dataCtx.menuState.loggedIn) {
       props.setMessage({
         title: 'Logout',
@@ -91,8 +90,8 @@ const Menu = props => {
         showBtnX: true,
       });
     }
+    updateData('OPENLOGIN');
   };
-
   //==================================================================
   // //  Export File
   let dateNow = new Date();

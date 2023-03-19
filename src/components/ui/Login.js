@@ -8,6 +8,7 @@ import { login } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { fetchExampleList } from '../../utils/fetchData';
 import { baseUrl } from '../../utils/env';
+import { useEffect } from 'react';
 // import { state } from '../store/state';
 
 const Login = props => {
@@ -111,6 +112,7 @@ const Login = props => {
           });
           return;
         }
+        ////////////////// CHECK ////////////////// BUG ???
         data.menuState.userData = user;
         props.onLoginHandler({ userData: user });
         setCreateAccount(false);
@@ -149,7 +151,6 @@ const Login = props => {
         resetAllInputValues();
         updateData('LOGIN', res.data.user);
       }
-      console.log('✅', res.data);
       if (!res.status === 'fail') {
         props.message({
           title: `Login nicht möglich`,
@@ -215,7 +216,6 @@ const Login = props => {
   const startDemo = async el => {
     loginFunction('demo-email@gmail.com', 'kochstudio');
   };
-
   //==================================================================
   return (
     <form className={`${classes.login}  ${props.hide && classes.login__hide}`}>

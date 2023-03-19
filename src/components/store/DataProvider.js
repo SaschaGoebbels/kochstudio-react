@@ -19,14 +19,18 @@ export function useDataUpdate() {
 const dataReducer = (stateReducer, action) => {
   // // Login
   if (action.type === 'LOGIN') {
-    console.log('❌', action.dataUpdate);
     stateReducer.appData = { ...action.dataUpdate.appData };
     stateReducer.menuState.userData.email = action.dataUpdate.email;
     stateReducer.menuState.userData.name = action.dataUpdate.name;
     stateReducer.menuState.loggedIn = true;
     stateReducer.menuState.hide = true;
+    stateReducer.menuState.hideLogin = true;
     sortArray(stateReducer.appData.recipeList);
-    return stateReducer;
+    return { ...stateReducer };
+  }
+  if (action.type === 'OPENLOGIN') {
+    stateReducer.menuState.hideLogin = false;
+    return { ...stateReducer };
   }
   if (action.type === 'LOGOUT') {
     stateReducer = dataInit;
@@ -273,6 +277,7 @@ const DataProvider = props => {
   const dataUpdateFunction = (type, dataUpdate) => {
     if (
       type === 'LOGIN' ||
+      type === 'OPENLOGIN' ||
       type === 'LOGOUT' ||
       type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
@@ -321,6 +326,7 @@ const dataInit = {
     },
     loggedIn: false,
     hide: true,
+    hideLogin: true,
   },
   appData: {
     weeklyPlan: [],

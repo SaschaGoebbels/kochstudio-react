@@ -32,7 +32,7 @@ export const fetchExampleList = async () => {
 export const fetchAppData = async () => {
   state.loading = true;
   let res;
-  console.log(process.env.REACT_APP_URL);
+  // console.log(process.env.REACT_APP_URL); //DELETE
   try {
     await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
       method: 'GET',
@@ -44,7 +44,7 @@ export const fetchAppData = async () => {
     })
       .then(response => response.json())
       .then(json => {
-        console.log('✅', json);
+        // console.log('✅', json); //DELETE
         res = json;
       });
   } catch (err) {

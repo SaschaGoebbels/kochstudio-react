@@ -51,40 +51,37 @@ const messageReducer = (state, action) => {
   }
 };
 
-//DELETE add error handling ! for dataCtx undefined
-const menuStateInit = {
-  // userData: {
-  //   name: '',
-  //   email: '',
-  // },
-  // hideLogin: false,
-  // loggedIn: false,
-  // hide: true,
-  // shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
-};
-
 function App() {
   //==================================================================
   const dataCtx = useContext(DataContext);
+
   //==================================================================
   const updateData = useDataUpdate();
   useEffect(() => {
+    state.loading = true;
     const fetchDataOnStartUp = async () => {
       const appData = await fetchAppData();
-      updateData('LOGIN', appData.user);
+      if (appData.user && appData.status !== 'fail') {
+        updateData('LOGIN', appData.user);
+        setMenuState(pre => {
+          pre.hideLogin = true;
+          pre.loggedIn = true;
+          return { ...pre };
+        });
+      }
+      if (appData === undefined || appData.status === 'fail')
+        toggleLoginHide(false);
+      state.loading = false;
     };
     fetchDataOnStartUp().catch(console.error);
   }, []);
-  // const
-  //==================================================================
-  const [menuState, setMenuState] = useState(
-    dataCtx.menuState || menuStateInit
-  );
+
   useEffect(() => {
-    ////////////////// TODO //////////////////
-    setMenuState(dataCtx.menuState);
-    // console.log('❌Effect', dataCtx.menuState.userData);
-  }, [dataCtx.menuState]);
+    toggleLoginHide(dataCtx.menuState.hideLogin);
+  }, [dataCtx.menuState.hideLogin]);
+  //==================================================================
+  const [menuState, setMenuState] = useState(dataCtx.menuState);
+
   const onLoginHandler = userData => {
     setMenuState(userData);
     toggleMenuHide();
@@ -109,13 +106,14 @@ function App() {
   const toggleLoginHide = input => {
     setMenuState(prev => {
       if (input === undefined) {
-        prev.userData.hideLogin = !prev.userData.hideLogin;
-        return prev;
+        prev.hideLogin = !prev.hideLogin;
+        return { ...prev };
       }
-      prev.userData.hideLogin = input;
-      return prev;
+      prev.hideLogin = input;
+      return { ...prev };
     });
   };
+
   //==================================================================
   const settingsInitialValue = {
     show: false,
@@ -396,7 +394,7 @@ function App() {
           <Login
             message={onSetMessage}
             onLoginHandler={onLoginHandler}
-            hide={menuState.userData.hideLogin}
+            hide={menuState.hideLogin}
             toggleLoginHide={toggleLoginHide}
           />
           <SettingsPage
