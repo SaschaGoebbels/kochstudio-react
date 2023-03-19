@@ -34,7 +34,7 @@ export const fetchAppData = async () => {
   let res;
   console.log(process.env.REACT_APP_URL);
   try {
-    await fetch(`${process.env.REACT_APP_URL}/api/v1/recipe/getAppData`, {
+    await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',

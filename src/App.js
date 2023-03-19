@@ -17,6 +17,7 @@ import { useSnapshot } from 'valtio';
 import { state } from './components/store/state';
 import Loading from './utils/Loading';
 import { useEffect } from 'react';
+import { fetchAppData } from './utils/fetchData';
 //==================================================================
 
 //==================================================================
@@ -49,28 +50,34 @@ const messageReducer = (state, action) => {
   }
 };
 
+//DELETE add error handling ! for dataCtx undefined
 const menuStateInit = {
-  userData: {
-    loggedIn: false,
-    hideLogin: false,
-    name: '',
-    email: '',
-  },
-  hide: true,
-  shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
+  // userData: {
+  //   name: '',
+  //   email: '',
+  // },
+  // hideLogin: false,
+  // loggedIn: false,
+  // hide: true,
+  // shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
 };
 
 function App() {
-  const dataCtx = useContext(DataContext);
+  useEffect(() => {
+    console.log('❌ fetch on startup');
+    console.log(fetchAppData());
+  });
   //==================================================================
+  const dataCtx = useContext(DataContext);
   //==================================================================
   const [menuState, setMenuState] = useState(
     dataCtx.menuState || menuStateInit
   );
+  console.log(menuState);
   useEffect(() => {
     ////////////////// TODO //////////////////
     setMenuState(dataCtx.menuState);
-    console.log('❌Effect', dataCtx.menuState.userData);
+    // console.log('❌Effect', dataCtx.menuState.userData);
   }, [dataCtx.menuState]);
   const onLoginHandler = userData => {
     setMenuState(userData);
