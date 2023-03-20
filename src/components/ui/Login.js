@@ -94,8 +94,9 @@ const Login = props => {
           passwordConfirm: passwordConfirmValue,
         };
         const data = dataCtx;
+
         const res = await createAcc(
-          'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/signup',
+          `${baseUrl()}/api/v1/users/signup`,
           user,
           props.message
         );
@@ -114,14 +115,17 @@ const Login = props => {
         }
         ////////////////// CHECK ////////////////// BUG ???
         data.menuState.userData = user;
-        props.onLoginHandler({ userData: user });
+        if (res.status === 'success') {
+          loginResUserUpdateCtx(res);
+        }
+        // props.onLoginHandler({ userData: user });
         setCreateAccount(false);
-        resetAllInputValues();
         props.message({
           title: `Anmeldung erfolgreich`,
           message: 'Viel Spaß und guten Appetit!',
           showBtnX: false,
         });
+        props.toggleLoginHide(true);
       }
     }
   };
@@ -129,6 +133,12 @@ const Login = props => {
   const onCreateAccount = el => {
     el.preventDefault();
     setCreateAccount(true);
+  };
+
+  const loginResUserUpdateCtx = res => {
+    console.log(res);
+    resetAllInputValues();
+    updateData('LOGIN', res.data.user);
   };
 
   const loginFunction = async (email, password) => {
@@ -142,14 +152,7 @@ const Login = props => {
     );
     if (res) {
       if (res.status === 'success') {
-        const user = {
-          loggedIn: true,
-          hideLogin: true,
-          name: res.data.user.name,
-          email: res.data.user.email,
-        };
-        resetAllInputValues();
-        updateData('LOGIN', res.data.user);
+        loginResUserUpdateCtx(res);
       }
       if (!res.status === 'fail') {
         props.message({
