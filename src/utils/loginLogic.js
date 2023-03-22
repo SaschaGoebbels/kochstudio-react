@@ -63,6 +63,6 @@ export const logout = async url => {
     console.log('❌', err);
     // new AppError('Something went wrong', 404);
   }
-  localStorage.removeItem('kochstudio');
   state.loading = false;
+  // window.location.reload();
 };

@@ -76,7 +76,6 @@ const Menu = props => {
   const onLogoutConfirmHandler = () => {
     logout(`${baseUrl()}/api/v1/users/logout`);
     updateData('LOGOUT');
-    // dataCtx.menuState.hideLogin = false;
     props.onLoginHandler({ userData: dataCtx.menuState.userData });
   };
 

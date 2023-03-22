@@ -54,7 +54,6 @@ const messageReducer = (state, action) => {
 function App() {
   //==================================================================
   const dataCtx = useContext(DataContext);
-
   //==================================================================
   const updateData = useDataUpdate();
   useEffect(() => {

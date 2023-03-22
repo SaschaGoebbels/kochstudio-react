@@ -181,7 +181,8 @@ const Login = props => {
 
   const onLoginHandler = async el => {
     el.preventDefault();
-    loginFunction('goebbels.sascha@gmail.com', '1234');
+    loginFunction(emailValue, passwordValue);
+    // loginFunction('goebbels.sascha@gmail.com', '1234'); //debugging
     ///////////////// BOOKMARK ///////////////// BChange
     // loginFunction(emailValue, passwordValue);
   };
