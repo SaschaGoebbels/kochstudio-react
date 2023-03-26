@@ -6,6 +6,7 @@ import { DataContext } from '../store/DataProvider';
 import { useDataUpdate } from '../store/DataProvider';
 import { login } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
+import { passwordResetFetch } from '../../utils/loginLogic';
 import { fetchExampleList } from '../../utils/fetchData';
 import { baseUrl } from '../../utils/env';
 import { useEffect } from 'react';
@@ -61,17 +62,47 @@ const Login = props => {
     passwordConfirmReset();
   };
   const [createAccount, setCreateAccount] = useState(false);
+  const [passwordForgotten, setPasswordForgotten] = useState(false);
+  const [login, setLogin] = useState(true);
+
+  const switchLoginBox = (create, password, login) => {
+    setCreateAccount(create);
+    setPasswordForgotten(password);
+    setLogin(login);
+  };
 
   // create account
   const onClickHandler = async el => {
     if (el === 'x') {
-      setCreateAccount(false);
+      switchLoginBox(false, false, true);
+      resetAllInputValues();
     }
     if (el === 'check') {
       if (!emailIsValid) {
         props.message({
           title: `Error`,
           message: 'Bitte Emailadresse eingeben!',
+          showBtnX: false,
+        });
+        return;
+      }
+      if (passwordForgotten === true && login === false) {
+        const url = `${baseUrl()}/api/v1/users/forgotPassword`;
+        const res = await passwordResetFetch(url, emailValue);
+        if (!res.status !== 'success') {
+          props.message({
+            title: `Fehler`,
+            message: 'Die Emailadresse wurde nicht gefunden !',
+            showBtnX: false,
+          });
+          return;
+        }
+        switchLoginBox(false, false, true);
+        resetAllInputValues();
+        props.message({
+          title: `Passwort zurücksetzen`,
+          message:
+            'Bitte gehen sie in Ihren Emailaccount und folgen dort den Schritten zum zurücksetzen.',
           showBtnX: false,
         });
         return;
@@ -119,7 +150,7 @@ const Login = props => {
           loginResUserUpdateCtx(res);
         }
         // props.onLoginHandler({ userData: user });
-        setCreateAccount(false);
+        switchLoginBox(false, false, true);
         props.message({
           title: `Anmeldung erfolgreich`,
           message: 'Viel Spaß und guten Appetit!',
@@ -132,7 +163,7 @@ const Login = props => {
 
   const onCreateAccount = el => {
     el.preventDefault();
-    setCreateAccount(true);
+    switchLoginBox(true, false, false);
   };
 
   const loginResUserUpdateCtx = res => {
@@ -206,12 +237,7 @@ const Login = props => {
   };
   const onPasswordForgotten = el => {
     el.preventDefault();
-    props.message({
-      title: `Error`,
-      message:
-        'In der Demo-Version ist noch keine Backend-Verbindung hergestellt. \n \nDemo-Login verwenden oder neuen Account anlegen.',
-      showBtnX: false,
-    });
+    switchLoginBox(false, true, false);
   };
   const cancelDemo = el => {
     console.log('cancel demo');
@@ -220,12 +246,18 @@ const Login = props => {
   const startDemo = async el => {
     loginFunction('demo-email@gmail.com', 'kochstudio');
   };
+  const headerText = (createAccount, passwordForgotten) => {
+    if (createAccount === true) return 'Account anlegen';
+    if (passwordForgotten === true) return 'Passwort zurücksetzen';
+    return 'Login';
+  };
   //==================================================================
   return (
     <form className={`${classes.login}  ${props.hide && classes.login__hide}`}>
       <div className={classes.login__card}>
         <header className={classes.login__header}>
-          <h2>{createAccount ? 'Account anlegen' : 'Login'}</h2>
+          <h2>{headerText(createAccount, passwordForgotten)}</h2>
+          {/* <h2>{createAccount ? 'Account anlegen' : 'Login'}</h2> */}
         </header>
         <div className={classes.login__messageBox}>
           {createAccount && (
@@ -253,22 +285,25 @@ const Login = props => {
               onBlur={emailBlurHandler}
             ></input>
           </div>
-          <div className={classes.login__messageBox__inputBox}>
-            <label htmlFor="">Password:</label>
-            <input
-              type="password"
-              className={`${classes.login__inputBox__input} ${isValidClass(
-                passwordIsValid,
-                passwordInputHasError
-              )}`}
-              value={passwordValue}
-              onChange={passwordChangeHandler}
-              onBlur={passwordBlurHandler}
-            ></input>
-          </div>
+          {passwordForgotten && <p>Bitte geben Sie ihre Emailadresse ein.</p>}
+          {!passwordForgotten && (
+            <div className={classes.login__messageBox__inputBox}>
+              <label htmlFor="">Passwort:</label>
+              <input
+                type="password"
+                className={`${classes.login__inputBox__input} ${isValidClass(
+                  passwordIsValid,
+                  passwordInputHasError
+                )}`}
+                value={passwordValue}
+                onChange={passwordChangeHandler}
+                onBlur={passwordBlurHandler}
+              ></input>
+            </div>
+          )}
           {createAccount && (
             <div className={`${classes.login__messageBox__inputBox}`}>
-              <label htmlFor="">Password:</label>
+              <label htmlFor="">Passwort:</label>
               <input
                 type="password"
                 className={`${classes.login__inputBox__input} ${isValidClass(
@@ -284,7 +319,7 @@ const Login = props => {
           {/* <p>{props.message}</p> */}
         </div>
         <footer className={classes.login__footer}>
-          {!createAccount && (
+          {login && (
             <button
               className={classes.login__footer__loginBtn}
               onClick={onDemoHandler}
@@ -292,7 +327,7 @@ const Login = props => {
               DEMO-Login
             </button>
           )}
-          {!createAccount && (
+          {login && (
             <button
               // autoFocus
               className={classes.login__footer__loginBtn}
@@ -301,7 +336,7 @@ const Login = props => {
               LOGIN
             </button>
           )}
-          {createAccount && (
+          {!login && (
             <ButtonRound
               btnId="x"
               className={classes.buttonAddEdit}
@@ -312,7 +347,7 @@ const Login = props => {
               onClickHandler={onClickHandler}
             />
           )}
-          {createAccount && (
+          {!login && (
             <ButtonRound
               btnId="check"
               className={classes.buttonAddEdit}
@@ -324,20 +359,22 @@ const Login = props => {
             />
           )}
         </footer>
-        <div className={classes.login__secondFooterBox}>
-          <button
-            className={classes.login__secondFooterBox__textBtn}
-            onClick={onPasswordForgotten}
-          >
-            Password vergessen
-          </button>
-          <button
-            onClick={onCreateAccount}
-            className={classes.login__secondFooterBox__textBtn}
-          >
-            Account anlegen
-          </button>
-        </div>
+        {login && (
+          <div className={classes.login__secondFooterBox}>
+            <button
+              className={classes.login__secondFooterBox__textBtn}
+              onClick={onPasswordForgotten}
+            >
+              Passwort vergessen
+            </button>
+            <button
+              onClick={onCreateAccount}
+              className={classes.login__secondFooterBox__textBtn}
+            >
+              Account anlegen
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

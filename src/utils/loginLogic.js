@@ -66,3 +66,22 @@ export const logout = async url => {
   state.loading = false;
   // window.location.reload();
 };
+
+export const passwordResetFetch = async (url, email) => {
+  console.log('✅✅✅ logic');
+  state.loading = true;
+  let res;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify({ email: email }),
+    })
+      .then(response => response.json())
+      .then(json => (res = json));
+  } catch (err) {
+    console.log('❌', err);
+  }
+  state.loading = false;
+  return res;
+};
