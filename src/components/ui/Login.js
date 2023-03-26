@@ -4,7 +4,7 @@ import ButtonRound from './ButtonRound';
 import useInput from '../../hooks/useInput';
 import { DataContext } from '../store/DataProvider';
 import { useDataUpdate } from '../store/DataProvider';
-import { login } from '../../utils/loginLogic';
+import { loginFetch } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { passwordResetFetch } from '../../utils/loginLogic';
 import { fetchExampleList } from '../../utils/fetchData';
@@ -175,7 +175,7 @@ const Login = props => {
   const loginFunction = async (email, password) => {
     // props hide login
     props.toggleLoginHide(true);
-    const res = await login(
+    const res = await loginFetch(
       `${baseUrl()}/api/v1/users/login`,
       email,
       password,

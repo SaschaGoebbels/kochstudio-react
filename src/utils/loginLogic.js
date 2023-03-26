@@ -21,7 +21,7 @@ export const createAcc = async (url, user, infoBox) => {
   return { ...res };
 };
 
-export const login = async (url, email, password, infoBox) => {
+export const loginFetch = async (url, email, password, infoBox) => {
   state.loading = true;
   let res;
   try {
