@@ -1,5 +1,5 @@
 // import AppError from './appError';
-
+////////////////// TODO ////////////////// error handling no network
 // import { useSnapshot } from 'valtio';
 import { state } from '../components/store/state';
 
@@ -38,7 +38,6 @@ export const loginFetch = async (url, email, password, infoBox) => {
       .then(response => response.json())
       .then(json => (res = json));
   } catch (err) {
-    ////////////////// TODO ////////////////// error handling no network
     console.log('❌', err);
     // AppError(err, infoBox);
     return;
@@ -48,7 +47,6 @@ export const loginFetch = async (url, email, password, infoBox) => {
 };
 
 export const logout = async url => {
-  ////////////////// TODO //////////////////
   state.loading = true;
   try {
     await fetch(url, {
@@ -68,7 +66,6 @@ export const logout = async url => {
 };
 
 export const passwordResetFetch = async (url, email) => {
-  console.log('✅✅✅ logic');
   state.loading = true;
   let res;
   try {

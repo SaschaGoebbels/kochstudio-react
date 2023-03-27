@@ -52,17 +52,15 @@ const Menu = props => {
       return;
     }
     if (btnId === 'get') {
-      fetchExampleList();
-      return;
       //==================================================================
-      // // props.onSettingsShowHandler({
-      // //   show: true,
-      // //   headerText: 'Importieren',
-      // //   content: importListContent,
-      // //   confirm: onConfirmImport,
-      // //   hideXBtn: false,
-      // // });
-      // // return;
+      props.onSettingsShowHandler({
+        show: true,
+        headerText: 'Importieren',
+        content: importListContent,
+        confirm: onConfirmImport,
+        hideXBtn: false,
+      });
+      return;
       //==================================================================
     }
     if (btnId === 'exp') {
@@ -167,7 +165,7 @@ const Menu = props => {
   //==================================================================
 
   // import
-  const onConfirmImport = () => {
+  const onConfirmImport = async () => {
     if (dataCtx.appData.recipeList.length > 0) {
       props.setMessage({
         title: `Error`,
@@ -176,16 +174,11 @@ const Menu = props => {
         showBtnX: false,
       });
       return;
-    } else importList(exampleList);
-  };
-  const importList = exampleList => {
-    const data = (dataCtx.appData.recipeList = exampleList);
-    localStorage.setItem('localData', JSON.stringify(data));
-    updateData('SETTINGS', { empty: 'skipToEndOfReducer' });
-    setTimeout(() => {
-      console.log('reload');
-      window.location.reload();
-    }, 100);
+    } else {
+      const res = await fetchExampleList();
+      updateData('FETCHEXAMPLELIST', { exampleList: res.data.recipes });
+      console.log('✅import', res.data);
+    }
   };
 
   const importListContent = (
@@ -450,5 +443,3 @@ const Menu = props => {
 };
 
 export default Menu;
-
-const exampleList = [];

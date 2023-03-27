@@ -5,6 +5,8 @@ import useFetch from '../../hooks/useFetch';
 import { state } from '../store/state';
 import { snapshot, useSnapshot } from 'valtio';
 
+import { fetchAppDataPost } from '../../utils/fetchData';
+
 export const UPDATERECIPE = 'UPDATERECIPE';
 
 export const DataContext = React.createContext(null);
@@ -36,8 +38,15 @@ const dataReducer = (stateReducer, action) => {
     stateReducer = dataInit;
     return stateReducer;
   }
-  // // input new recipe
+  if (action.type === 'FETCHEXAMPLELIST') {
+    //
+    stateReducer.appData.recipeList = action.dataUpdate.exampleList;
+    console.log('✅', stateReducer.appData);
+    fetchAppDataPost(stateReducer.appData);
+    return { ...stateReducer };
+  }
   if (action.type === 'INPUT') {
+    // // input new recipe
     stateReducer.recipeList = [
       ...stateReducer.recipeList,
       action.dataUpdate.recipeInput,
@@ -279,6 +288,7 @@ const DataProvider = props => {
       type === 'LOGIN' ||
       type === 'OPENLOGIN' ||
       type === 'LOGOUT' ||
+      type === 'FETCHEXAMPLELIST' ||
       type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
       type === 'DELETE' ||

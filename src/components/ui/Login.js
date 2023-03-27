@@ -92,7 +92,8 @@ const Login = props => {
         if (!res.status !== 'success') {
           props.message({
             title: `Fehler`,
-            message: 'Die Emailadresse wurde nicht gefunden !',
+            message: res.message,
+            // message: 'Die Emailadresse wurde nicht gefunden !',
             showBtnX: false,
           });
           return;
@@ -196,7 +197,8 @@ const Login = props => {
       if (res.status === 'success') return;
       props.message({
         title: `Error`,
-        message: 'Die Anmeldedaten sind nicht korrekt !',
+        message: res.message,
+        // message: 'Die Anmeldedaten sind nicht korrekt !',
         showBtnX: false,
       });
       props.toggleLoginHide(false);
