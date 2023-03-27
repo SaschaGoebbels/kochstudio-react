@@ -12,6 +12,7 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../utils/loginLogic';
 import { baseUrl } from '../../utils/env';
 import { fetchExampleList } from '../../utils/fetchData';
+import { updateSettings } from '../../utils/fetchData';
 
 const Menu = props => {
   const dataCtx = useContext(DataContext);
@@ -43,12 +44,17 @@ const Menu = props => {
       return props.menuClick(btnId);
     }
     if (btnId === 'quest') {
-      props.onSettingsShowHandler({
-        show: true,
-        headerText: 'About',
-        content: aboutContent,
-        hideXBtn: true,
+      //DELETE DEBUGGING
+      updateSettings({
+        settings: { shoppingListSettings: { test: 'XXX' } },
       });
+      //CHECK activate again
+      // // // props.onSettingsShowHandler({
+      // // //   show: true,
+      // // //   headerText: 'About',
+      // // //   content: aboutContent,
+      // // //   hideXBtn: true,
+      // // // });
       return;
     }
     if (btnId === 'get') {

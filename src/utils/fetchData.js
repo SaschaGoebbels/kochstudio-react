@@ -77,3 +77,28 @@ export const fetchAppDataPost = async appData => {
   state.loading = false;
   return res;
 };
+
+export const updateSettings = async settings => {
+  state.loading = true;
+  let res;
+  try {
+    await fetch(`${process.env.REACT_APP_URL}/api/v1/users/updateAppData`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ settings }),
+    })
+      .then(response => response.json())
+      .then(json => {
+        res = json;
+        console.log('✅', json);
+      });
+  } catch (err) {
+    console.log('❌', err);
+  }
+  state.loading = false;
+  return res;
+};
