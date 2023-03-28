@@ -46,7 +46,7 @@ const Menu = props => {
     if (btnId === 'quest') {
       //DELETE DEBUGGING
       updateSettings({
-        settings: { shoppingListSettings: { test: 'XXX' } },
+        shoppingListSettings: { avoidList: ['Salz', 'Pfeffer', 'Chili'] },
       });
       //CHECK activate again
       // // // props.onSettingsShowHandler({

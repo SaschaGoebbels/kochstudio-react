@@ -1,6 +1,7 @@
 # Todo
 
     create account login not working
+    undefined shopping avoidList
 
 # Getting Started with Create React App
 
