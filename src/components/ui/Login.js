@@ -132,6 +132,7 @@ const Login = props => {
           user,
           props.message
         );
+
         if (
           res === null ||
           res === {} ||
@@ -145,19 +146,18 @@ const Login = props => {
           });
           return;
         }
-        ////////////////// CHECK ////////////////// BUG ???
-        data.menuState.userData = user;
-        if (res.status === 'success') {
-          loginResUserUpdateCtx(res);
+        if (res) {
+          if (res.status === 'success') {
+            switchLoginBox(false, false, true);
+            props.message({
+              title: `Anmeldung erfolgreich`,
+              message: 'Viel Spaß mit der App und guten Appetit !',
+              showBtnX: false,
+            });
+            loginFunction(emailValue, passwordValue);
+            return;
+          }
         }
-        // props.onLoginHandler({ userData: user });
-        switchLoginBox(false, false, true);
-        props.message({
-          title: `Anmeldung erfolgreich`,
-          message: 'Viel Spaß und guten Appetit!',
-          showBtnX: false,
-        });
-        props.toggleLoginHide(true);
       }
     }
   };

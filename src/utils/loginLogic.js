@@ -15,8 +15,9 @@ export const createAcc = async (url, user, infoBox) => {
       .then(response => response.json())
       .then(json => (res = json));
   } catch (err) {
-    console.log('❌', err);
+    console.log('create❌', err);
   }
+  console.log('create❌', res);
   state.loading = false;
   return { ...res };
 };
@@ -42,6 +43,7 @@ export const loginFetch = async (url, email, password, infoBox) => {
     // AppError(err, infoBox);
     return;
   }
+  console.log('login❌', res);
   state.loading = false;
   return { ...res };
 };
