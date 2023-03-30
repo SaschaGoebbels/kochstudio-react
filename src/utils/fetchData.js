@@ -1,7 +1,8 @@
 //
 import { state } from '../components/store/state';
+import appError from './appError';
 
-export const fetchExampleList = async () => {
+export const fetchExampleList = async infobox => {
   let res;
   state.loading = true;
   try {
@@ -23,12 +24,13 @@ export const fetchExampleList = async () => {
       });
   } catch (err) {
     console.log('❌', err);
+    appError(infobox, err);
   }
   state.loading = false;
   return res;
 };
 
-export const fetchAppData = async () => {
+export const fetchAppData = async infobox => {
   state.loading = true;
   let res;
   try {
@@ -47,7 +49,7 @@ export const fetchAppData = async () => {
       });
   } catch (err) {
     console.log('❌', err);
-    ////////////////// TODO ////////////////// Error handling no network
+    appError(infobox, err);
   }
   state.loading = false;
   return res;
@@ -66,7 +68,7 @@ const defaultFetchBody = (method, body) => {
 };
 //==================================================================
 
-export const fetchAppDataPost = async appData => {
+export const fetchAppDataPost = async (appData, infobox) => {
   state.loading = true;
   let res;
   try {
@@ -86,12 +88,13 @@ export const fetchAppDataPost = async appData => {
       });
   } catch (err) {
     console.log('❌', err);
+    appError(infobox, err);
   }
   state.loading = false;
   return res;
 };
 
-export const updateSettings = async settings => {
+export const updateSettings = async (settings, infobox) => {
   state.loading = true;
   let res;
   // const fetchBody = defaultFetchBody('POST', settings);
@@ -117,12 +120,13 @@ export const updateSettings = async settings => {
       });
   } catch (err) {
     console.log('❌', err);
+    appError(infobox, err);
   }
   state.loading = false;
   return res;
 };
 
-export const updateRecipeList = async (action, obj) => {
+export const updateRecipeList = async (action, obj, infobox) => {
   state.loading = true;
   let res;
   try {

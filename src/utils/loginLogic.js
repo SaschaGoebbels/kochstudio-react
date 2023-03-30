@@ -1,7 +1,7 @@
-// import AppError from './appError';
+import appError from './appError';
 ////////////////// TODO ////////////////// error handling no network
-// import { useSnapshot } from 'valtio';
 import { state } from '../components/store/state';
+// import { useSnapshot } from 'valtio';
 
 export const createAcc = async (url, user, infoBox) => {
   let res;
@@ -15,7 +15,8 @@ export const createAcc = async (url, user, infoBox) => {
       .then(response => response.json())
       .then(json => (res = json));
   } catch (err) {
-    console.log('create❌', err);
+    console.log('create❌xxxx', err);
+    appError(err, infoBox);
   }
   console.log('create❌', res);
   state.loading = false;
@@ -39,16 +40,13 @@ export const loginFetch = async (url, email, password, infoBox) => {
       .then(response => response.json())
       .then(json => (res = json));
   } catch (err) {
-    console.log('❌', err);
-    // AppError(err, infoBox);
-    return;
+    appError(err, infoBox);
   }
-  console.log('login❌', res);
   state.loading = false;
   return { ...res };
 };
 
-export const logout = async url => {
+export const logout = async (url, infoBox) => {
   state.loading = true;
   try {
     await fetch(url, {
@@ -60,14 +58,13 @@ export const logout = async url => {
       .then(response => response.json())
       .then(json => json);
   } catch (err) {
-    console.log('❌', err);
-    // new AppError('Something went wrong', 404);
+    appError(err, infoBox);
   }
   state.loading = false;
   // window.location.reload();
 };
 
-export const passwordResetFetch = async (url, email) => {
+export const passwordResetFetch = async (url, email, infoBox) => {
   state.loading = true;
   let res;
   try {
@@ -79,7 +76,7 @@ export const passwordResetFetch = async (url, email) => {
       .then(response => response.json())
       .then(json => (res = json));
   } catch (err) {
-    console.log('❌', err);
+    appError(err, infoBox);
   }
   state.loading = false;
   return res;

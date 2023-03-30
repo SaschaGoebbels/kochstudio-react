@@ -1,14 +1,19 @@
-const AppError = (err, message) => {
-  console.log(Object.keys(err));
-  console.log(err.contains('Failed to fetch'));
-
-  // if (err.TypeError) {
-  //   message({
-  //     title: `Fehler`,
-  //     message: 'Bitte Netzwerkverbindung prüfen!',
-  //     showBtnX: false,
-  //   });
-  // }
+const appError = (err, message) => {
+  console.log('✅✅APP ERROR', err);
+  console.log('❌❌APP MESSAGE', err.message);
+  if (err.TypeError) {
+    message({
+      title: `Fehler`,
+      message: 'Bitte Netzwerkverbindung prüfen!',
+      showBtnX: false,
+    });
+  }
+  message({
+    title: `Error`,
+    message: 'Es ist etwas schief gelaufen !',
+    showBtnX: false,
+  });
+  console.log('✅APP ERROR');
 };
 
-export default AppError;
+export default appError;

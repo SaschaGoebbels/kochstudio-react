@@ -59,7 +59,7 @@ function App() {
   useEffect(() => {
     state.loading = true;
     const fetchDataOnStartUp = async () => {
-      const appData = await fetchAppData();
+      const appData = await fetchAppData(onSetMessage);
       if (appData.user && appData.status !== 'fail') {
         updateData('LOGIN', appData.user);
         setMenuState(pre => {

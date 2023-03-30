@@ -42,7 +42,7 @@ const dataReducer = (stateReducer, action) => {
     //
     stateReducer.appData.recipeList = action.dataUpdate.exampleList;
     console.log('✅', stateReducer.appData);
-    fetchAppDataPost(stateReducer.appData);
+    fetchAppDataPost(stateReducer.appData, action.dataUpdate.message);
     return { ...stateReducer };
   }
   if (action.type === 'INPUT') {

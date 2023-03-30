@@ -7,10 +7,10 @@ import { useDataUpdate } from '../store/DataProvider';
 import { loginFetch } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { passwordResetFetch } from '../../utils/loginLogic';
-import { fetchExampleList } from '../../utils/fetchData';
 import { baseUrl } from '../../utils/env';
-import { useEffect } from 'react';
-// import { state } from '../store/state';
+
+// import { fetchExampleList } from '../../utils/fetchData';
+// import { useEffect } from 'react';
 
 const Login = props => {
   const dataCtx = useContext(DataContext);
@@ -88,7 +88,7 @@ const Login = props => {
       }
       if (passwordForgotten === true && login === false) {
         const url = `${baseUrl()}/api/v1/users/forgotPassword`;
-        const res = await passwordResetFetch(url, emailValue);
+        const res = await passwordResetFetch(url, emailValue, props.message);
         if (!res.status !== 'success') {
           props.message({
             title: `Fehler`,
@@ -110,7 +110,7 @@ const Login = props => {
       }
       if (!passwordIsValid) {
         props.message({
-          title: `Error`,
+          title: `Passwort-Error`,
           message: 'Mindestens 4 Zeichen eingeben !',
           showBtnX: false,
         });
@@ -183,9 +183,6 @@ const Login = props => {
       props.message
     );
     if (res) {
-      if (res.status === 'success') {
-        loginResUserUpdateCtx(res);
-      }
       if (!res.status === 'fail') {
         props.message({
           title: `Login nicht möglich`,
@@ -194,13 +191,10 @@ const Login = props => {
         });
         setCreateAccount(true);
       }
-      if (res.status === 'success') return;
-      props.message({
-        title: `Error`,
-        message: res.message,
-        // message: 'Die Anmeldedaten sind nicht korrekt !',
-        showBtnX: false,
-      });
+      if (res.status === 'success') {
+        loginResUserUpdateCtx(res);
+        return;
+      }
       props.toggleLoginHide(false);
       return;
     }
@@ -215,9 +209,6 @@ const Login = props => {
   const onLoginHandler = async el => {
     el.preventDefault();
     loginFunction(emailValue, passwordValue);
-    // loginFunction('goebbels.sascha@gmail.com', '1234'); //debugging
-    ///////////////// BOOKMARK ///////////////// BChange
-    // loginFunction(emailValue, passwordValue);
   };
 
   const isValidClass = (isValid, hasError) => {
@@ -383,16 +374,3 @@ const Login = props => {
 };
 
 export default Login;
-
-// fetching recipeData
-// // // await fetch(
-// // //   'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes',
-// // //   {
-// // //     method: 'GET',
-// // //     headers: {
-// // //       accept: 'application/json',
-// // //     },
-// // //   }
-// // // )
-// // //   .then(response => response.json())
-// // //   .then(json => console.log('❌', json));

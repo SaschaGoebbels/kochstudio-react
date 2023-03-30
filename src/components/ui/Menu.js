@@ -44,10 +44,13 @@ const Menu = props => {
       return props.menuClick(btnId);
     }
     if (btnId === 'quest') {
-      //DELETE DEBUGGING
-      updateSettings({
-        shoppingListSettings: { avoidList: ['Salz', 'Pfeffer', 'Chili'] },
-      });
+      ///////////////// BOOKMARK ///////////////// Bupdate
+      updateSettings(
+        {
+          shoppingListSettings: { avoidList: ['Salz', 'Pfeffer', 'Chili'] },
+        },
+        props.setMessage
+      );
       //CHECK activate again
       // // // props.onSettingsShowHandler({
       // // //   show: true,
@@ -78,7 +81,7 @@ const Menu = props => {
 
   ////////////////// TODO //////////////////
   const onLogoutConfirmHandler = () => {
-    logout(`${baseUrl()}/api/v1/users/logout`);
+    logout(`${baseUrl()}/api/v1/users/logout`, props.message);
     updateData('LOGOUT');
     props.onLoginHandler({ userData: dataCtx.menuState.userData });
   };
@@ -181,8 +184,11 @@ const Menu = props => {
       });
       return;
     } else {
-      const res = await fetchExampleList();
-      updateData('FETCHEXAMPLELIST', { exampleList: res.data.recipes });
+      const res = await fetchExampleList(props.setMessage);
+      updateData('FETCHEXAMPLELIST', {
+        exampleList: res.data.recipes,
+        message: props.setMessage,
+      });
       console.log('✅import', res.data);
     }
   };
