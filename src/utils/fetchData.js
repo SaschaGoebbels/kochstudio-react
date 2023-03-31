@@ -2,6 +2,21 @@
 import { state } from '../components/store/state';
 import appError from './appError';
 
+//==================================================================
+const defaultFetchBody = (method, body) => {
+  if (!body) body = {};
+  return {
+    method: method,
+    mode: 'cors',
+    credentials: 'include',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({ ...body }),
+  };
+};
+//==================================================================
+
 export const fetchExampleList = async infobox => {
   let res;
   state.loading = true;
@@ -54,19 +69,6 @@ export const fetchAppData = async infobox => {
   state.loading = false;
   return res;
 };
-//==================================================================
-const defaultFetchBody = (method, body) => {
-  return {
-    method,
-    mode: 'cors',
-    credentials: 'include',
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify({ body }),
-  };
-};
-//==================================================================
 
 export const fetchAppDataPost = async (appData, infobox) => {
   state.loading = true;
@@ -97,26 +99,16 @@ export const fetchAppDataPost = async (appData, infobox) => {
 export const updateSettings = async (settings, infobox) => {
   state.loading = true;
   let res;
-  // const fetchBody = defaultFetchBody('POST', settings);
-  // console.log('✅', fetchBody);
+  console.log('❌ update läuft');
   try {
     await fetch(
       `${process.env.REACT_APP_URL}/api/v1/users/updateSettings`,
-      // fetchBody
-      {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({ settings }),
-      }
+      defaultFetchBody('POST', settings)
     )
       .then(response => response.json())
       .then(json => {
         res = json;
-        console.log('✅', json.user);
+        console.log('✅', json);
       });
   } catch (err) {
     console.log('❌', err);
@@ -133,6 +125,27 @@ export const updateRecipeList = async (action, obj, infobox) => {
     await fetch(
       `${process.env.REACT_APP_URL}/api/v1/users/updateRecipeList`,
       defaultFetchBody('POST', { action, obj })
+    )
+      .then(response => response.json())
+      .then(json => {
+        res = json;
+        console.log('✅', json.user);
+      });
+  } catch (err) {
+    console.log('❌', err);
+  }
+  state.loading = false;
+  return res;
+};
+
+////////////////// TODO //////////////////
+export const deleteRecipeList = async infobox => {
+  state.loading = true;
+  let res;
+  try {
+    await fetch(
+      `${process.env.REACT_APP_URL}/api/v1/users/deleteRecipeList`,
+      defaultFetchBody('POST')
     )
       .then(response => response.json())
       .then(json => {

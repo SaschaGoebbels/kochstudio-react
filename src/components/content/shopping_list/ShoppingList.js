@@ -270,7 +270,6 @@ const ShoppingList = props => {
   useEffect(() => {
     setAvoidListState(avoidInitialState);
   }, [avoidListState, avoidInitialState]);
-
   const avoidArray = avoidListState
     .toLowerCase()
     .split(',')

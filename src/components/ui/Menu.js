@@ -45,12 +45,7 @@ const Menu = props => {
     }
     if (btnId === 'quest') {
       ///////////////// BOOKMARK ///////////////// Bupdate
-      updateSettings(
-        {
-          shoppingListSettings: { avoidList: ['Salz', 'Pfeffer', 'Chili'] },
-        },
-        props.setMessage
-      );
+      deleteConfirmHandler('trashRecipeList');
       //CHECK activate again
       // // // props.onSettingsShowHandler({
       // // //   show: true,
@@ -150,7 +145,10 @@ const Menu = props => {
     });
   };
   const onConfirmAvoidList = () => {
-    updateData('SETTINGS', { avoidList: avoidListState.list });
+    updateData('SETTINGS', {
+      avoidList: avoidListState.list,
+      message: props.setMessage,
+    });
   };
 
   const settingsPageAvoidContent = (
@@ -216,6 +214,7 @@ const Menu = props => {
     </div>
   );
   //==================================================================
+  ////////////////// TODO //////////////////
   // Einstellungen delete
   const onDeleteHandler = () => {
     props.onSettingsShowHandler({

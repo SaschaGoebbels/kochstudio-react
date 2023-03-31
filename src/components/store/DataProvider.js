@@ -6,6 +6,8 @@ import { state } from '../store/state';
 import { snapshot, useSnapshot } from 'valtio';
 
 import { fetchAppDataPost } from '../../utils/fetchData';
+import { updateSettings } from '../../utils/fetchData';
+import { deleteRecipeList } from '../../utils/fetchData';
 
 export const UPDATERECIPE = 'UPDATERECIPE';
 
@@ -16,7 +18,14 @@ export function useDataUpdate() {
 }
 
 //==================================================================
-
+// const message = {
+//   title: `Test`,
+//   message: 'Hello World !',
+//   showBtnX: false,
+//   hideInfoBox: false,
+//   dismiss: '',
+//   confirm: '',
+// };
 //==================================================================
 const dataReducer = (stateReducer, action) => {
   // // Login
@@ -190,17 +199,27 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'SETTINGS') {
     if (action.dataUpdate.avoidList) {
-      stateReducer.menuState.shoppingListSettings.avoidList =
+      stateReducer.appData.settings.shoppingListSettings.avoidList =
         action.dataUpdate.avoidList;
+      updateSettings(
+        {
+          ...stateReducer.appData.settings,
+        },
+        action.dataUpdate.message
+      );
     }
     return stateReducer;
   }
   if (action.type === 'DELETEALL') {
+    ////////////////// TODO //////////////////
+    ///////////////// BOOKMARK ///////////////// Bdelete
     let deleteAll = false;
     if (action.dataUpdate.btnId === 'trashAll') {
       deleteAll = true;
     }
     if (action.dataUpdate.btnId === 'trashRecipeList' || deleteAll) {
+      console.log('✅✅✅');
+      deleteRecipeList(action.dataUpdate.message);
       stateReducer.recipeList = [];
       stateReducer.shoppingList = [];
       stateReducer.weeklyPlan = [];

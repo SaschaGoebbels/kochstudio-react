@@ -78,6 +78,14 @@ const Login = props => {
       resetAllInputValues();
     }
     if (el === 'check') {
+      ///////////////// BOOKMARK ///////////////// B
+      // DELETE login for debugging
+      nameChangeHandler({ target: { value: 'aaa' } });
+      emailChangeHandler({ target: { value: 'a@a.com' } });
+      passwordChangeHandler({ target: { value: '1234' } });
+      passwordConfirmChangeHandler({ target: { value: '1234' } });
+      console.log(emailValue, passwordConfirmValue);
+      ///////////////// BOOKMARK ///////////////// B
       if (!emailIsValid) {
         props.message({
           title: `Error`,

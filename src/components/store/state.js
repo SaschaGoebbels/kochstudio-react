@@ -13,6 +13,7 @@ const state = proxy({
   weeklyPlan: { editMode: false },
   listEditHide: true,
   shoppingList: { editMode: true, updateList: '' },
+  message: {},
 });
 
 export { state };
