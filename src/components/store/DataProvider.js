@@ -45,10 +45,7 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'FETCHEXAMPLELIST') {
-    //
     stateReducer.appData.recipeList = action.dataUpdate.exampleList;
-    console.log('✅', stateReducer.appData);
-    fetchAppDataPost(stateReducer.appData, action.dataUpdate.message);
     return { ...stateReducer };
   }
   if (action.type === 'INPUT') {
@@ -208,33 +205,13 @@ const dataReducer = (stateReducer, action) => {
     return stateReducer;
   }
   if (action.type === 'DELETEALL') {
-    ////////////////// TODO //////////////////
-    ///////////////// BOOKMARK ///////////////// Bdelete
-    let deleteAll = false;
-    if (action.dataUpdate.btnId === 'trashAll') {
-      deleteAll = true;
-    }
-    if (action.dataUpdate.btnId === 'trashRecipeList' || deleteAll) {
-      console.log('✅✅✅');
-      deleteRecipeList(action.dataUpdate.message);
+    if (action.dataUpdate.btnId === 'trashRecipeList') {
       stateReducer.recipeList = [];
       stateReducer.shoppingList = [];
       stateReducer.weeklyPlan = [];
+      console.log('✅', action);
     }
-    if (action.dataUpdate.btnId === 'trashUser' || deleteAll) {
-      stateReducer.menuState = {
-        userData: {
-          loggedIn: false,
-          userName: '',
-          email: '',
-          password: '',
-        },
-        hide: false,
-        shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
-      };
-      window.location.reload();
-    }
-    return stateReducer;
+    return { ...stateReducer };
   }
   return stateReducer;
 };
@@ -268,78 +245,51 @@ const onRecipeDelete = (recipe, array) => {
 //==================================================================
 //==================================================================
 const DataProvider = props => {
-  ////////////////// TODO //////////////////
-
-  // // const fetchData = async () => {
-  // //   console.log('✅');
-  // //   console.log();
-  // //   let res;
-  // //   try {
-  // //     await fetch(
-  // //       'https://cyan-pleasant-chicken.cyclic.app/api/v1/recipe/getExampleRecipes'
-  // //     )
-  // //       .then(response => response.json())
-  // //       .then(data => console.log(data));
-  // //     // const res =
-  // //     // await fetch(
-  // //     //   'https://cyan-pleasant-chicken.cyclic.app/api/v1/users/appData',
-  // //     //   {
-  // //     //     method: 'GET',
-  // //     //     headers: { 'Content-type': 'application/json; charset=UTF-8' },
-  // //     //   }
-  // //     // )
-  // //     //   .then(response => response.json())
-  // //     //   .then(json => (res = json));
-  // //   } catch (err) {
-  // //     console.log('❌', err);
-  // //   }
-  // // };
   //==================================================================
-
-  //==================================================================
-  ////////////////// FIXME ////////////////// DATA
+  ////////////////// TODO //////////////////DATA
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   const dataUpdateFunction = async (type, dataUpdate) => {
     if (type === 'SETTINGS') {
       dataState.appData.settings.shoppingListSettings.avoidList =
         dataUpdate.avoidList;
-      console.log('✅', dataState.appData.settings.shoppingListSettings);
       const res = await updateSettings(
         {
           ...dataState.appData.settings,
         },
         dataUpdate.message
       );
-      console.log('✅', res);
       if (res.status === 'success')
         dispatchData({ type: 'RESPONSEUPDATE', dataUpdate: dataState });
+    }
+    if (type === 'FETCHEXAMPLELIST') {
+      dataState.appData.recipeList = dataUpdate.exampleList;
+      const res = await fetchAppDataPost(dataState.appData, dataUpdate.message);
+      if (res.status !== 'success') return;
+    }
+    if (type === 'DELETEALL') {
+      const res = await deleteRecipeList(dataUpdate.message);
+      if (res.status === 'success') {
+        dispatchData({ type, dataUpdate });
+        window.location.reload();
+      }
+    }
+    if (type === 'INPUT') {
+      //
+      console.log('✅✅✅ Type:', type, dataUpdate);
+      console.log('🚩❌🚩 dataUpdate:', dataUpdate);
     }
     if (
       type === 'LOGIN' ||
       type === 'OPENLOGIN' ||
       type === 'LOGOUT' ||
-      type === 'FETCHEXAMPLELIST' ||
-      type === 'INPUT' ||
       type === 'UPDATERECIPE' ||
       type === 'DELETE' ||
       type === 'PLAN' ||
       type === 'SHOP' ||
-      type === 'SHOPSUM' ||
-      type === 'DELETEALL'
+      type === 'SHOPSUM'
     ) {
-      dispatchData({ type, dataUpdate });
     }
-    if (type === 'postFetch') {
-      // sendData(dataUpdate);
-    }
-    if (type === 'getFetch') {
-      // sendRequest();
-      // getDataHandler();
-      console.log('provider');
-    }
-    // if (type === 'header') {
-    //   setHeaderText(dataUpdate);
-    // }
+    dispatchData({ type, dataUpdate });
   };
   //==================================================================
   //==================================================================

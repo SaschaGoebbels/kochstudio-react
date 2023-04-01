@@ -138,7 +138,6 @@ export const updateRecipeList = async (action, obj, infobox) => {
   return res;
 };
 
-////////////////// TODO //////////////////
 export const deleteRecipeList = async infobox => {
   state.loading = true;
   let res;
@@ -151,6 +150,25 @@ export const deleteRecipeList = async infobox => {
       .then(json => (res = json));
   } catch (err) {
     console.log('❌ deleteRecipeList Err:', err);
+  }
+  state.loading = false;
+  return res;
+};
+
+////////////////// TODO //////////////////
+export const fetchRecipe = async (method, recipe, id, list, infobox) => {
+  state.loading = true;
+  let res;
+  // const list = `${list}`;
+  try {
+    await fetch(
+      `${process.env.REACT_APP_URL}/api/v1/users/recipe/${id}/`,
+      defaultFetchBody('POST', { recipe })
+    )
+      .then(response => response.json())
+      .then(json => (res = json));
+  } catch (err) {
+    console.log('❌ postRecipe Err:', err);
   }
   state.loading = false;
   return res;
