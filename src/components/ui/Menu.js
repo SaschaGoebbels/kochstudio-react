@@ -126,7 +126,6 @@ const Menu = props => {
     list: dataCtx.appData.settings.shoppingListSettings.avoidList,
   });
   const avoidListUpdate = el => {
-    console.log('✅', el.target.value);
     setAvoidListState({ show: true, list: el.target.value });
   };
   // update avoidInput field

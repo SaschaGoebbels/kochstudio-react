@@ -21,8 +21,12 @@ export function useDataUpdate() {
 
 //==================================================================
 const dataReducer = (stateReducer, action) => {
-  // // Login
+  if (action.type === 'RESPONSEUPDATE') {
+    stateReducer = { ...action.dataUpdate };
+    return stateReducer;
+  }
   if (action.type === 'LOGIN') {
+    // // Login
     stateReducer.appData = { ...action.dataUpdate.appData };
     stateReducer.menuState.userData.email = action.dataUpdate.email;
     stateReducer.menuState.userData.name = action.dataUpdate.name;
@@ -307,7 +311,8 @@ const DataProvider = props => {
         dataUpdate.message
       );
       console.log('✅', res);
-      if (res.status === 'success') dispatchData({ type, dataUpdate });
+      if (res.status === 'success')
+        dispatchData({ type: 'RESPONSEUPDATE', dataUpdate: dataState });
     }
     if (
       type === 'LOGIN' ||
