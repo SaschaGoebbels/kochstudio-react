@@ -34,7 +34,6 @@ const messageInitialState = {
 const messageReducer = (state, action) => {
   if (action.type === 'SHOWINFOBOX') {
     //show x btn if not set to false
-    console.log('✅');
     const xBtn =
       action.message.showBtnX === undefined || action.message.showBtnX === true
         ? true
@@ -62,7 +61,6 @@ function App() {
     state.loading = true;
     const fetchDataOnStartUp = async () => {
       const appData = await fetchAppData(onSetMessage);
-      console.log('✅', appData);
       if (appData.user && appData.status !== 'fail') {
         updateData('LOGIN', appData.user);
         setMenuState(pre => {
@@ -127,7 +125,7 @@ function App() {
     setSettingsState({ ...settings });
   };
   const onSettingsButtonHandler = btnId => {
-    if (settingsState.confirm) {
+    if (settingsState.confirm && btnId === 'check') {
       settingsState.confirm();
     }
     setSettingsState(settingsInitialValue);

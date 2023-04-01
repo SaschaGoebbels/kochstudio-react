@@ -99,7 +99,7 @@ export const fetchAppDataPost = async (appData, infobox) => {
 export const updateSettings = async (settings, infobox) => {
   state.loading = true;
   let res;
-  console.log('❌ update läuft');
+  console.log('❌ updateSettings Fetch');
   try {
     await fetch(
       `${process.env.REACT_APP_URL}/api/v1/users/updateSettings`,
@@ -132,7 +132,7 @@ export const updateRecipeList = async (action, obj, infobox) => {
         console.log('✅', json.user);
       });
   } catch (err) {
-    console.log('❌', err);
+    console.log('❌ updateRecipeList Err:', err);
   }
   state.loading = false;
   return res;
@@ -148,12 +148,9 @@ export const deleteRecipeList = async infobox => {
       defaultFetchBody('POST')
     )
       .then(response => response.json())
-      .then(json => {
-        res = json;
-        console.log('✅', json.user);
-      });
+      .then(json => (res = json));
   } catch (err) {
-    console.log('❌', err);
+    console.log('❌ deleteRecipeList Err:', err);
   }
   state.loading = false;
   return res;

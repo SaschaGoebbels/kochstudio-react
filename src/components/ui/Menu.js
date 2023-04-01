@@ -12,7 +12,6 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../utils/loginLogic';
 import { baseUrl } from '../../utils/env';
 import { fetchExampleList } from '../../utils/fetchData';
-import { updateSettings } from '../../utils/fetchData';
 
 const Menu = props => {
   const dataCtx = useContext(DataContext);
@@ -43,9 +42,8 @@ const Menu = props => {
       settingsPageCallAvoidList(true, avoidListState.list);
       return props.menuClick(btnId);
     }
+    ///////////////// BOOKMARK ///////////////// B about //////////////
     if (btnId === 'quest') {
-      ///////////////// BOOKMARK ///////////////// Bupdate
-      deleteConfirmHandler('trashRecipeList');
       //CHECK activate again
       // // // props.onSettingsShowHandler({
       // // //   show: true,
@@ -128,11 +126,13 @@ const Menu = props => {
     list: dataCtx.appData.settings.shoppingListSettings.avoidList,
   });
   const avoidListUpdate = el => {
+    console.log('✅', el.target.value);
     setAvoidListState({ show: true, list: el.target.value });
   };
+  // update avoidInput field
   useEffect(() => {
     settingsPageCallAvoidList(avoidListState.show, avoidListState.list);
-  }, [avoidListState, dataCtx.menuState]);
+  }, [avoidListState]);
   //==================================================================
 
   const settingsPageCallAvoidList = (show, currentState) => {
@@ -253,7 +253,7 @@ const Menu = props => {
           iconColor={'#f54242'}
           onBtnClick={onDeleteData}
         ></MenuItem>
-        <MenuItem
+        {/* <MenuItem
           text={'User-Daten löschen'}
           icon={'trash'}
           id={'trashUser'}
@@ -266,7 +266,7 @@ const Menu = props => {
           id={'trashAll'}
           iconColor={'#f54242'}
           onBtnClick={onDeleteData}
-        ></MenuItem>
+        ></MenuItem> */}
       </div>
     </div>
   );

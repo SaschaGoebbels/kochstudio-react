@@ -18,14 +18,7 @@ export function useDataUpdate() {
 }
 
 //==================================================================
-// const message = {
-//   title: `Test`,
-//   message: 'Hello World !',
-//   showBtnX: false,
-//   hideInfoBox: false,
-//   dismiss: '',
-//   confirm: '',
-// };
+
 //==================================================================
 const dataReducer = (stateReducer, action) => {
   // // Login
@@ -302,7 +295,20 @@ const DataProvider = props => {
   //==================================================================
   ////////////////// FIXME ////////////////// DATA
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
-  const dataUpdateFunction = (type, dataUpdate) => {
+  const dataUpdateFunction = async (type, dataUpdate) => {
+    if (type === 'SETTINGS') {
+      dataState.appData.settings.shoppingListSettings.avoidList =
+        dataUpdate.avoidList;
+      console.log('✅', dataState.appData.settings.shoppingListSettings);
+      const res = await updateSettings(
+        {
+          ...dataState.appData.settings,
+        },
+        dataUpdate.message
+      );
+      console.log('✅', res);
+      if (res.status === 'success') dispatchData({ type, dataUpdate });
+    }
     if (
       type === 'LOGIN' ||
       type === 'OPENLOGIN' ||
@@ -314,7 +320,6 @@ const DataProvider = props => {
       type === 'PLAN' ||
       type === 'SHOP' ||
       type === 'SHOPSUM' ||
-      type === 'SETTINGS' ||
       type === 'DELETEALL'
     ) {
       dispatchData({ type, dataUpdate });
