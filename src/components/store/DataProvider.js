@@ -8,6 +8,7 @@ import { snapshot, useSnapshot } from 'valtio';
 import { fetchAppDataPost } from '../../utils/fetchData';
 import { updateSettings } from '../../utils/fetchData';
 import { deleteRecipeList } from '../../utils/fetchData';
+import { fetchRecipe } from '../../utils/fetchData';
 
 export const UPDATERECIPE = 'UPDATERECIPE';
 
@@ -42,7 +43,7 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'LOGOUT') {
     stateReducer = dataInit;
-    return stateReducer;
+    return { ...stateReducer };
   }
   if (action.type === 'FETCHEXAMPLELIST') {
     stateReducer.appData.recipeList = action.dataUpdate.exampleList;
@@ -50,12 +51,12 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'INPUT') {
     // // input new recipe
-    stateReducer.recipeList = [
-      ...stateReducer.recipeList,
+    stateReducer.appData.recipeList = [
+      ...stateReducer.appData.recipeList,
       action.dataUpdate.recipeInput,
     ];
-    sortArray(stateReducer.recipeList);
-    return stateReducer;
+    sortArray(stateReducer.appData.recipeList);
+    return { ...stateReducer };
   }
   //==================================================================
   // // on change recipe - update existing by replacing recipe
@@ -64,132 +65,140 @@ const dataReducer = (stateReducer, action) => {
     if (action.dataUpdate.updateExisting) {
       onRecipeListChangeUpdatePlanAndList(
         action.dataUpdate.recipeUpdate,
-        stateReducer.weeklyPlan
+        stateReducer.appData.weeklyPlan
       );
       onRecipeListChangeUpdatePlanAndList(
         action.dataUpdate.recipeUpdate,
-        stateReducer.shoppingList
+        stateReducer.appData.shoppingList
       );
-      const index = stateReducer.recipeList
+      const index = stateReducer.appData.recipeList
         .map(e => e.id)
         .indexOf(action.dataUpdate.recipeUpdate.id);
-      stateReducer.recipeList.splice(index, 1, action.dataUpdate.recipeUpdate);
-      sortArray(stateReducer.recipeList);
-      return stateReducer;
+      stateReducer.appData.recipeList.splice(
+        index,
+        1,
+        action.dataUpdate.recipeUpdate
+      );
+      sortArray(stateReducer.appData.recipeList);
+      return { ...stateReducer };
     }
     //++++++++++++++++++++++++++++++++++++++++
     // // update recipe fav state and update recipePage
     if (action.dataUpdate.favUpdate) {
       let currentFavState;
-      stateReducer.recipeList = stateReducer.recipeList.map(el => {
-        if (el.id === action.dataUpdate.recipeUpdate.id) {
-          el.fav = !el.fav;
-          currentFavState = el.fav;
+      stateReducer.appData.recipeList = stateReducer.appData.recipeList.map(
+        el => {
+          if (el.id === action.dataUpdate.recipeUpdate.id) {
+            el.fav = !el.fav;
+            currentFavState = el.fav;
+          }
+          return el;
         }
-        return el;
-      });
+      );
       action.dataUpdate.favUpdate('fav', currentFavState);
-      return stateReducer;
+      return { ...stateReducer };
     }
     //++++++++++++++++++++++++++++++++++++++++
     // // update plan onClick recipePage
     if (action.dataUpdate.planUpdate) {
       // // remove from plan
       if (action.dataUpdate.currentPlanState) {
-        stateReducer.weeklyPlan = removeFromList(
-          stateReducer.weeklyPlan,
+        stateReducer.appData.weeklyPlan = removeFromList(
+          stateReducer.appData.weeklyPlan,
           action.dataUpdate.recipeUpdate.id
         );
         action.dataUpdate.planUpdate('plan', false);
-        return stateReducer;
+        return { ...stateReducer };
       }
       // // // add to plan
       if (action.dataUpdate.currentPlanState === false) {
-        stateReducer.weeklyPlan = addToList(
-          stateReducer.weeklyPlan,
+        stateReducer.appData.weeklyPlan = addToList(
+          stateReducer.appData.weeklyPlan,
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.planUpdate('plan', true);
-        return stateReducer;
+        return { ...stateReducer };
       }
     }
     //++++++++++++++++++++++++++++++++++++++++
     if (action.dataUpdate.listUpdate) {
       if (action.dataUpdate.currentListState) {
-        stateReducer.shoppingList = removeFromList(
-          stateReducer.shoppingList,
+        stateReducer.appData.shoppingList = removeFromList(
+          stateReducer.appData.shoppingList,
           action.dataUpdate.recipeUpdate.id
         );
         action.dataUpdate.listUpdate('list', false);
-        return stateReducer;
+        return { ...stateReducer };
       }
       // // // add to plan
       if (action.dataUpdate.currentListState === false) {
-        stateReducer.shoppingList = addToList(
-          stateReducer.shoppingList,
+        stateReducer.appData.shoppingList = addToList(
+          stateReducer.appData.shoppingList,
           action.dataUpdate.recipeUpdate
         );
         action.dataUpdate.listUpdate('list', true);
-        return stateReducer;
+        return { ...stateReducer };
       }
     }
   }
   //==================================================================
   if (action.type === 'DELETE') {
-    stateReducer.weeklyPlan = onRecipeDelete(
+    stateReducer.appData.weeklyPlan = onRecipeDelete(
       action.dataUpdate,
-      stateReducer.weeklyPlan
+      stateReducer.appData.weeklyPlan
     );
-    stateReducer.shoppingList = onRecipeDelete(
+    stateReducer.appData.shoppingList = onRecipeDelete(
       action.dataUpdate,
-      stateReducer.shoppingList
+      stateReducer.appData.shoppingList
     );
-    stateReducer.recipeList = onRecipeDelete(
+    stateReducer.appData.recipeList = onRecipeDelete(
       action.dataUpdate,
-      stateReducer.recipeList
+      stateReducer.appData.recipeList
     );
     state.currentRecipe = { ...state.initialState };
-    return stateReducer;
+    return { ...stateReducer };
   }
   if (action.type === 'PLAN') {
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
-      stateReducer.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
-      return stateReducer;
+      stateReducer.appData.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
+      return { ...stateReducer };
     }
     // // remove from plan
     if (action.dataUpdate.itemId) {
-      stateReducer.weeklyPlan = removeFromList(
-        stateReducer.weeklyPlan,
+      stateReducer.appData.weeklyPlan = removeFromList(
+        stateReducer.appData.weeklyPlan,
         action.dataUpdate.itemId
       );
       action.dataUpdate.setPlanStateFromOutSide();
-      return stateReducer;
+      return { ...stateReducer };
     }
   }
   if (action.type === 'SHOP') {
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.shoppingListState) {
-      stateReducer.shoppingList = [...action.dataUpdate.shoppingListState];
-      return stateReducer;
+      stateReducer.appData.shoppingList = [
+        ...action.dataUpdate.shoppingListState,
+      ];
+      return { ...stateReducer };
     }
     // // remove from plan
     if (action.dataUpdate.itemId) {
       console.log(action.dataUpdate.itemId);
-      stateReducer.shoppingList = removeFromList(
-        stateReducer.shoppingList,
+      stateReducer.appData.shoppingList = removeFromList(
+        stateReducer.appData.shoppingList,
         action.dataUpdate.itemId
       );
       action.dataUpdate.setPlanStateFromOutSide();
-      return stateReducer;
+      return { ...stateReducer };
     }
   }
   if (action.type === 'SHOPSUM') {
     // console.log('data', action.dataUpdate);
-    stateReducer.ingredientsSumListState = [
+    stateReducer.appData.ingredientsSumListState = [
       ...action.dataUpdate.ingredientsSumListState,
     ];
-    return stateReducer;
+    return { ...stateReducer };
   }
   if (action.type === 'SETTINGS') {
     if (action.dataUpdate.avoidList) {
@@ -202,13 +211,13 @@ const dataReducer = (stateReducer, action) => {
         action.dataUpdate.message
       );
     }
-    return stateReducer;
+    return { ...stateReducer };
   }
   if (action.type === 'DELETEALL') {
     if (action.dataUpdate.btnId === 'trashRecipeList') {
-      stateReducer.recipeList = [];
-      stateReducer.shoppingList = [];
-      stateReducer.weeklyPlan = [];
+      stateReducer.appData.recipeList = [];
+      stateReducer.appData.shoppingList = [];
+      stateReducer.appData.weeklyPlan = [];
       console.log('✅', action);
     }
     return { ...stateReducer };
@@ -246,13 +255,49 @@ const onRecipeDelete = (recipe, array) => {
 //==================================================================
 const DataProvider = props => {
   //==================================================================
-  ////////////////// TODO //////////////////DATA
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   const dataUpdateFunction = async (type, dataUpdate) => {
+    ////////////////// TODO //////////////////DATA
+    //recipe handling
+    let res;
+    if (type === 'INPUT') {
+      res = await fetchRecipe(
+        'POST',
+        dataUpdate.recipeInput,
+        dataUpdate.recipeInput.id,
+        'recipeList',
+        'recipe'
+        // 'shoppingList'
+      );
+      if (res.status !== 'success') return;
+    }
+    if (type === 'UPDATERECIPE') {
+      console.log('✅', dataUpdate.recipeUpdate);
+      res = await fetchRecipe(
+        'POST',
+        dataUpdate.recipeUpdate,
+        dataUpdate.recipeUpdate.id,
+        'recipeList',
+        'recipeUpdate'
+      );
+      if (res.status !== 'success') return;
+    }
+    if (type === 'DELETE') {
+      console.log('✅', dataUpdate);
+      res = await fetchRecipe(
+        'POST',
+        dataUpdate,
+        dataUpdate.id,
+        'recipeList',
+        'recipeDelete'
+      );
+      if (res.status !== 'success') return;
+    }
+    // settings
     if (type === 'SETTINGS') {
       dataState.appData.settings.shoppingListSettings.avoidList =
         dataUpdate.avoidList;
-      const res = await updateSettings(
+      res = await updateSettings(
         {
           ...dataState.appData.settings,
         },
@@ -263,27 +308,22 @@ const DataProvider = props => {
     }
     if (type === 'FETCHEXAMPLELIST') {
       dataState.appData.recipeList = dataUpdate.exampleList;
-      const res = await fetchAppDataPost(dataState.appData, dataUpdate.message);
+      res = await fetchAppDataPost(dataState.appData, dataUpdate.message);
       if (res.status !== 'success') return;
     }
     if (type === 'DELETEALL') {
-      const res = await deleteRecipeList(dataUpdate.message);
+      res = await deleteRecipeList(dataUpdate.message);
       if (res.status === 'success') {
         dispatchData({ type, dataUpdate });
         window.location.reload();
       }
     }
-    if (type === 'INPUT') {
-      //
-      console.log('✅✅✅ Type:', type, dataUpdate);
-      console.log('🚩❌🚩 dataUpdate:', dataUpdate);
-    }
+    // console.log('✅✅✅ Type:', dataUpdate.recipeInput.id);
+    // console.log('🚩❌🚩 dataUpdate:', dataUpdate.recipeInput);
     if (
       type === 'LOGIN' ||
       type === 'OPENLOGIN' ||
       type === 'LOGOUT' ||
-      type === 'UPDATERECIPE' ||
-      type === 'DELETE' ||
       type === 'PLAN' ||
       type === 'SHOP' ||
       type === 'SHOPSUM'

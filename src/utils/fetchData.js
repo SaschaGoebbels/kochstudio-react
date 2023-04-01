@@ -156,17 +156,20 @@ export const deleteRecipeList = async infobox => {
 };
 
 ////////////////// TODO //////////////////
-export const fetchRecipe = async (method, recipe, id, list, infobox) => {
+export const fetchRecipe = async (method, recipe, id, list, url) => {
   state.loading = true;
   let res;
-  // const list = `${list}`;
+  console.log('✅', recipe, id, list);
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/users/recipe/${id}/`,
-      defaultFetchBody('POST', { recipe })
+      `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,
+      defaultFetchBody(method, { recipe })
     )
       .then(response => response.json())
-      .then(json => (res = json));
+      .then(json => {
+        res = json;
+        console.log('✅', json);
+      });
   } catch (err) {
     console.log('❌ postRecipe Err:', err);
   }

@@ -40,33 +40,40 @@ const RecipePage = props => {
   // //   rightOut: false,
   // // });
   //==================================================================
-  const useEffectStartUpdate = (state, action) => {
-    // console.log(state, action);
-    setTimeout(() => {
-      if (state === 'fav') setFavState(action);
-      if (state === 'plan') setPlanState(action);
-      if (state === 'list') setListState(action);
-    }, 50);
-  };
+
+  // useEffect(() => {
+  //   setFavState(props.recipeObject.fav);
+  // }, [dataCtx]);
+
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
-      dataUpdate(UPDATERECIPE, {
-        favUpdate: useEffectStartUpdate,
-        recipeUpdate: props.recipeObject,
+      setFavState(pre => {
+        let recipe = { ...props.recipeObject };
+        recipe.fav = !pre;
+        dataUpdate(UPDATERECIPE, {
+          recipeUpdate: recipe,
+        });
+        return !pre;
       });
     }
     if (btnId === 'plan') {
-      dataUpdate(UPDATERECIPE, {
-        planUpdate: useEffectStartUpdate,
-        currentPlanState: planState,
-        recipeUpdate: props.recipeObject,
+      setPlanState(pre => {
+        let recipe = { ...props.recipeObject };
+        recipe.plan = !pre;
+        dataUpdate(UPDATERECIPE, {
+          recipeUpdate: recipe,
+        });
+        return !pre;
       });
     }
     if (btnId === 'list') {
-      dataUpdate(UPDATERECIPE, {
-        listUpdate: useEffectStartUpdate,
-        currentListState: listState,
-        recipeUpdate: props.recipeObject,
+      setListState(pre => {
+        let recipe = { ...props.recipeObject };
+        recipe.list = !pre;
+        dataUpdate(UPDATERECIPE, {
+          recipeUpdate: recipe,
+        });
+        return !pre;
       });
     }
     if (btnId === 'pen') {

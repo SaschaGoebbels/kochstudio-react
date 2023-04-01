@@ -47,11 +47,9 @@ const RecipeListBox = props => {
               props.recipeEditList.some(el => el.id === item.id)
             ) {
               return (
-                ////////////////// FIXME //////////////////
-                //change to props to listEdit to change button style !
                 <li
                   style={props.listItemCheckedStyle}
-                  key={item._id}
+                  key={item.id}
                   className={`${classes.contentListBox__item} ${classes['contentListBox__item--effect']}`}
                   onClick={() => listClickHandler(item)}
                 >
@@ -62,7 +60,7 @@ const RecipeListBox = props => {
               return (
                 <li
                   style={props.listItemDefaultStyle}
-                  key={item._id}
+                  key={item.id}
                   className={`${classes.contentListBox__item}`}
                   onClick={() => listClickHandler(item)}
                 >
