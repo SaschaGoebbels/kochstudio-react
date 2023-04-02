@@ -174,7 +174,7 @@ const Menu = props => {
   const onConfirmImport = async () => {
     if (dataCtx.appData.recipeList.length > 0) {
       props.setMessage({
-        title: `Error`,
+        title: `Achtung`,
         message:
           'Überschreiben der Liste nicht möglich ! Es ist schon eine Rezeptliste vorhanden !',
         showBtnX: false,

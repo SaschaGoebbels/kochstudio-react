@@ -41,10 +41,6 @@ const RecipePage = props => {
   // // });
   //==================================================================
 
-  // useEffect(() => {
-  //   setFavState(props.recipeObject.fav);
-  // }, [dataCtx]);
-
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
       setFavState(pre => {

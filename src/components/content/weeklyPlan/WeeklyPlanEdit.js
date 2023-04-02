@@ -15,15 +15,28 @@ const WeeklyPlanEdit = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
-
+  //==================================================================
   const [weeklyPlanState, setWeeklyPlanState] = useState(
     dataCtx.appData.weeklyPlan
   );
   useEffect(() => {
     setWeeklyPlanState(dataCtx.appData.weeklyPlan);
   }, [snap.weeklyPlan.editMode]);
+  //==================================================================
+  // // // //==================================================================
+  // // // const [weeklyPlanState, setWeeklyPlanState] = useState(
+  // // //   dataCtx.appData.weeklyPlan
+  // // // );
+  // // // useEffect(() => {
+  // // //   setWeeklyPlanState(dataCtx.appData.weeklyPlan);
+  // // // }, [snap.weeklyPlan.editMode]);
+  // // // //==================================================================
 
   const listClickHandler = item => {
+    ////////////////// TODO //////////////////
+    // fetch update plan
+    //==================================================================
+    console.log('✅', item);
     setWeeklyPlanState(prev => {
       if (prev.some(el => el.id === item.id)) {
         return [
@@ -39,6 +52,25 @@ const WeeklyPlanEdit = props => {
         }),
       ];
     });
+    //==================================================================
+    // // // //==================================================================
+    // // // console.log('✅', item);
+    // // // setWeeklyPlanState(prev => {
+    // // //   if (prev.some(el => el.id === item.id)) {
+    // // //     return [
+    // // //       ...prev.filter(el => {
+    // // //         if (el.id !== item.id) return el;
+    // // //       }),
+    // // //     ];
+    // // //   }
+    // // //   return [
+    // // //     ...prev,
+    // // //     ...dataCtx.appData.recipeList.filter(el => {
+    // // //       if (el.id === item.id) return el;
+    // // //     }),
+    // // //   ];
+    // // // });
+    // // // //==================================================================
   };
   const onButtonBoxHandler = btnId => {
     if (btnId === 'check') updateData('PLAN', { weeklyPlanState });

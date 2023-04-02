@@ -31,7 +31,9 @@ const ListEdit = props => {
     });
   }, [snap.listEditHide]);
   // // // receive listClick from recipeListBox handle state to update list
+  // console.log('✅', listState);
   const listClickHandler = item => {
+    console.log('✅', item);
     setListState(prev => {
       if (prev.recipeEditList.some(el => el.id === item.id)) {
         prev.recipeEditList = [
@@ -52,6 +54,7 @@ const ListEdit = props => {
   };
 
   const onButtonBoxHandler = btnId => {
+    console.log('❌');
     if (btnId === 'check') props.onUpdateList(listState.recipeEditList);
     setListState(initialState);
     state.listEditHide = true;
