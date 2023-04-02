@@ -22,15 +22,8 @@ const RecipePage = props => {
   const [listState, setListState] = useState();
   useEffect(() => {
     setFavState(props.recipeObject.fav || false);
-    setPlanState(
-      dataCtx.appData.weeklyPlan.some(el => el.id === props.recipeObject.id) ||
-        false
-    );
-    setListState(
-      dataCtx.appData.shoppingList.some(
-        el => el.id === props.recipeObject.id
-      ) || false
-    );
+    setPlanState(props.recipeObject.weeklyPlan || false);
+    setListState(props.recipeObject.shoppingList || false);
   }, [props.recipeObject]);
   //==================================================================
   // // const [swipeRecipePage, setSwipeRecipePage] = useState({
@@ -55,7 +48,7 @@ const RecipePage = props => {
     if (btnId === 'plan') {
       setPlanState(pre => {
         let recipe = { ...props.recipeObject };
-        recipe.plan = !pre;
+        recipe.weeklyPlan = !pre;
         dataUpdate(UPDATERECIPE, {
           recipeUpdate: recipe,
         });
@@ -65,7 +58,7 @@ const RecipePage = props => {
     if (btnId === 'list') {
       setListState(pre => {
         let recipe = { ...props.recipeObject };
-        recipe.list = !pre;
+        recipe.shoppingList = !pre;
         dataUpdate(UPDATERECIPE, {
           recipeUpdate: recipe,
         });

@@ -62,15 +62,7 @@ const dataReducer = (stateReducer, action) => {
   // // on change recipe - update existing by replacing recipe
   if (action.type === UPDATERECIPE) {
     // replace existing recipe with updated version
-    if (action.dataUpdate.updateExisting) {
-      onRecipeListChangeUpdatePlanAndList(
-        action.dataUpdate.recipeUpdate,
-        stateReducer.appData.weeklyPlan
-      );
-      onRecipeListChangeUpdatePlanAndList(
-        action.dataUpdate.recipeUpdate,
-        stateReducer.appData.shoppingList
-      );
+    if (action.dataUpdate.recipeUpdate) {
       const index = stateReducer.appData.recipeList
         .map(e => e.id)
         .indexOf(action.dataUpdate.recipeUpdate.id);
@@ -80,65 +72,8 @@ const dataReducer = (stateReducer, action) => {
         action.dataUpdate.recipeUpdate
       );
       sortArray(stateReducer.appData.recipeList);
+      console.log('✅', new Date().toUTCString());
       return { ...stateReducer };
-    }
-    //++++++++++++++++++++++++++++++++++++++++
-    // // update recipe fav state and update recipePage
-    if (action.dataUpdate.favUpdate) {
-      let currentFavState;
-      stateReducer.appData.recipeList = stateReducer.appData.recipeList.map(
-        el => {
-          if (el.id === action.dataUpdate.recipeUpdate.id) {
-            el.fav = !el.fav;
-            currentFavState = el.fav;
-          }
-          return el;
-        }
-      );
-      action.dataUpdate.favUpdate('fav', currentFavState);
-      return { ...stateReducer };
-    }
-    //++++++++++++++++++++++++++++++++++++++++
-    // // update plan onClick recipePage
-    if (action.dataUpdate.planUpdate) {
-      // // remove from plan
-      if (action.dataUpdate.currentPlanState) {
-        stateReducer.appData.weeklyPlan = removeFromList(
-          stateReducer.appData.weeklyPlan,
-          action.dataUpdate.recipeUpdate.id
-        );
-        action.dataUpdate.planUpdate('plan', false);
-        return { ...stateReducer };
-      }
-      // // // add to plan
-      if (action.dataUpdate.currentPlanState === false) {
-        stateReducer.appData.weeklyPlan = addToList(
-          stateReducer.appData.weeklyPlan,
-          action.dataUpdate.recipeUpdate
-        );
-        action.dataUpdate.planUpdate('plan', true);
-        return { ...stateReducer };
-      }
-    }
-    //++++++++++++++++++++++++++++++++++++++++
-    if (action.dataUpdate.listUpdate) {
-      if (action.dataUpdate.currentListState) {
-        stateReducer.appData.shoppingList = removeFromList(
-          stateReducer.appData.shoppingList,
-          action.dataUpdate.recipeUpdate.id
-        );
-        action.dataUpdate.listUpdate('list', false);
-        return { ...stateReducer };
-      }
-      // // // add to plan
-      if (action.dataUpdate.currentListState === false) {
-        stateReducer.appData.shoppingList = addToList(
-          stateReducer.appData.shoppingList,
-          action.dataUpdate.recipeUpdate
-        );
-        action.dataUpdate.listUpdate('list', true);
-        return { ...stateReducer };
-      }
     }
   }
   //==================================================================
@@ -242,10 +177,10 @@ const sortArray = array => {
   });
 };
 //==================================================================
-const onRecipeListChangeUpdatePlanAndList = (recipeUpdate, array) => {
-  const index = array.findIndex(recipe => recipe.id === recipeUpdate.id);
-  return [...array.splice(index, 1, recipeUpdate)];
-};
+// const onRecipeListChangeUpdatePlanAndList = (recipeUpdate, array) => {
+//   const index = array.findIndex(recipe => recipe.id === recipeUpdate.id);
+//   return [...array.splice(index, 1, recipeUpdate)];
+// };
 const onRecipeDelete = (recipe, array) => {
   return array.filter(el => {
     if (el.id !== recipe.id) return el;

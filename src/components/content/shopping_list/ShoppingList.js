@@ -86,9 +86,12 @@ const ShoppingList = props => {
     setSearchInput(value.target.value);
   };
   //==================================================================
-  const [shoppingListState, setShoppingListState] = useState(
-    dataCtx.appData.shoppingList
-  );
+  ////////////////// TODO //////////////////
+  const shoppingListInitial = dataCtx.appData.recipeList.filter(el => {
+    if (el.shoppingList === true) return el;
+  });
+  const [shoppingListState, setShoppingListState] =
+    useState(shoppingListInitial);
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
   //==================================================================
@@ -244,13 +247,13 @@ const ShoppingList = props => {
 
   //==================================================================
   useEffect(() => {
-    setShoppingListState(dataCtx.appData.shoppingList);
+    setShoppingListState(shoppingListInitial);
     createSumList(shoppingListState);
   }, [
-    snap.headerText === 'Einkaufsliste',
-    snap.listEditHide,
-    dataCtx.appData.shoppingList,
-    shoppingListState,
+    // snap.headerText === 'Einkaufsliste',
+    // snap.listEditHide,
+    dataCtx,
+    // shoppingListState,
   ]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
@@ -328,7 +331,7 @@ const ShoppingList = props => {
   };
   const deleteShoppingList = () => {
     updateShoppingList([]);
-    setShoppingListState([]);
+    // setShoppingListState([]);
   };
   //==================================================================
   //==================================================================

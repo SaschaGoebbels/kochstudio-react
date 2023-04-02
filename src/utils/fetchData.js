@@ -159,7 +159,6 @@ export const deleteRecipeList = async infobox => {
 export const fetchRecipe = async (method, recipe, id, list, url) => {
   state.loading = true;
   let res;
-  console.log('✅', recipe, id, list);
   try {
     await fetch(
       `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,

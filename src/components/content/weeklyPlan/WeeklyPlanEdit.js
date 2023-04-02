@@ -16,11 +16,13 @@ const WeeklyPlanEdit = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const [weeklyPlanState, setWeeklyPlanState] = useState(
-    dataCtx.appData.weeklyPlan
-  );
+  const weeklyPlanInitial = dataCtx.appData.recipeList.filter(el => {
+    if (el.weeklyPlan === true) return el;
+  });
+  const [weeklyPlanState, setWeeklyPlanState] = useState(weeklyPlanInitial);
+
   useEffect(() => {
-    setWeeklyPlanState(dataCtx.appData.weeklyPlan);
+    setWeeklyPlanState(weeklyPlanInitial);
   }, [snap.weeklyPlan.editMode]);
   //==================================================================
   // // // //==================================================================
