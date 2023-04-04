@@ -12,15 +12,46 @@ import classes from './WeeklyPlan.module.css';
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 //==================================================================
+// // all move or replace current
+// on save fetch post weeklyplan id name date
+// icon if some weeklyplan
+// listbox temporar array fetch on save or dismiss
+
+export const weeklyPlanDate = (id, dateInput) => {
+  if (dateInput) {
+    console.log('✅ use this date', dateInput);
+  }
+  console.log('✅ weekly');
+  const dateNow = new Date();
+
+  // const date1 = { id: '1', date: dateNow };
+  // const date2 = { id: '2', date: datePlusOne(dateNow, 1) };
+  // const date3 = { id: '3', date: datePlusOne(dateNow, 1) };
+  // const date4 = { id: '4', date: datePlusOne(dateNow, 1) };
+  // const array = [date2, date4, date1, date3];
+};
+
+// const datePlusOne = (date, count) => {
+//   return new Date(date.setDate(date.getDate() + count));
+// };
+
 //==================================================================
 const WeeklyPlan = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const weeklyPlanInitial = dataCtx.appData.recipeList.filter(el => {
+  // filter recipeList sort by date get back initial array
+  const sortArrayByDate = array => {
+    return array.sort(function (a, b) {
+      return a.weeklyPlan.date - b.weeklyPlan.date;
+    });
+  };
+  const filteredRecipeList = dataCtx.appData.recipeList.filter(el => {
     if (el.weeklyPlan === true) return el;
   });
+  const weeklyPlanInitial = sortArrayByDate(filteredRecipeList);
+
   const [planState, setPlanState] = useState(weeklyPlanInitial);
   const setPlanStateFromOutSide = () => {
     setTimeout(() => {
@@ -29,7 +60,9 @@ const WeeklyPlan = props => {
   };
   useEffect(() => {
     setPlanState(weeklyPlanInitial);
-  }, [dataCtx]);
+    console.log('✅ Effect');
+  }, [dataCtx.appData]);
+  // }, [dataCtx.appData]);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');

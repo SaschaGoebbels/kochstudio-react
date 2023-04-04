@@ -73,6 +73,7 @@ const dataReducer = (stateReducer, action) => {
       );
       sortArray(stateReducer.appData.recipeList);
       console.log('✅', new Date().toUTCString());
+
       return { ...stateReducer };
     }
   }
@@ -207,7 +208,7 @@ const DataProvider = props => {
       if (res.status !== 'success') return;
     }
     if (type === 'UPDATERECIPE') {
-      console.log('✅', dataUpdate.recipeUpdate);
+      // console.log('✅', dataUpdate.recipeUpdate);
       res = await fetchRecipe(
         'POST',
         dataUpdate.recipeUpdate,
