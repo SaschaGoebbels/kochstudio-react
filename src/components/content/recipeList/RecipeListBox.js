@@ -10,7 +10,8 @@ const RecipeListBox = props => {
   //   props.onRoundButtonHandler('add');
   //   console.log('add');
   // };
-
+  // console.log('✅', props.recipeList);
+  // console.log('✅', props.recipeEditList);
   return (
     <div className={classes.contentListBox}>
       <ul className={classes.contentListBox__ul}>

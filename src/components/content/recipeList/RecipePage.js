@@ -4,7 +4,7 @@ import classes from './RecipePage.module.css';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
-import { weeklyPlanDate } from '../weeklyPlan/WeeklyPlan';
+import { weeklyPlanAddDateObject } from '../weeklyPlan/WeeklyPlanEdit';
 
 import Content from '../../ui/Content';
 import ButtonRound from '../../ui/ButtonRound';
@@ -47,7 +47,7 @@ const RecipePage = props => {
       });
     }
     if (btnId === 'plan') {
-      weeklyPlanDate('TEST-ID 123');
+      weeklyPlanAddDateObject('TEST-ID 123');
       setPlanState(pre => {
         let recipe = { ...props.recipeObject };
         recipe.weeklyPlan = !pre;

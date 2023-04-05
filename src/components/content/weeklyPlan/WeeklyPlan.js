@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
+import { weeklyPlanFilterIfRecipeDeletedOrUpdated } from './WeeklyPlanEdit';
 
 import WeeklyPlanEdit from './WeeklyPlanEdit';
 import WeeklyPlanItem from './WeeklyPlanItem';
@@ -11,32 +12,16 @@ import classes from './WeeklyPlan.module.css';
 
 import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
-//==================================================================
-// // all move or replace current
-// on save fetch post weeklyplan id name date
-// icon if some weeklyplan
-// listbox temporar array fetch on save or dismiss
-
-export const weeklyPlanDate = (id, dateInput) => {
-  if (dateInput) {
-    console.log('✅ use this date', dateInput);
-  }
-  console.log('✅ weekly');
-  const dateNow = new Date();
-
-  // const date1 = { id: '1', date: dateNow };
-  // const date2 = { id: '2', date: datePlusOne(dateNow, 1) };
-  // const date3 = { id: '3', date: datePlusOne(dateNow, 1) };
-  // const date4 = { id: '4', date: datePlusOne(dateNow, 1) };
-  // const array = [date2, date4, date1, date3];
-};
-
-// const datePlusOne = (date, count) => {
-//   return new Date(date.setDate(date.getDate() + count));
-// };
 
 //==================================================================
 const WeeklyPlan = props => {
+  let weekP = [
+    {
+      date: new Date(),
+      name: 'Arme',
+      id: '759e69c2-9ab5-231b-0d59-e15339b60270',
+    },
+  ];
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
@@ -58,7 +43,13 @@ const WeeklyPlan = props => {
       setPlanState(dataCtx.appData.weeklyPlan);
     }, 50);
   };
+  const test = weeklyPlanFilterIfRecipeDeletedOrUpdated(
+    dataCtx.appData.recipeList,
+    weekP
+  );
+  console.log('✅', test);
   useEffect(() => {
+    console.log('✅', weekP);
     setPlanState(weeklyPlanInitial);
     console.log('✅ Effect');
   }, [dataCtx.appData]);
