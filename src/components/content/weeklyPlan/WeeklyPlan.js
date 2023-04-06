@@ -43,17 +43,14 @@ const WeeklyPlan = props => {
       setPlanState(dataCtx.appData.weeklyPlan);
     }, 50);
   };
+  // CHECK get actual list and update name !
   const test = weeklyPlanFilterIfRecipeDeletedOrUpdated(
     dataCtx.appData.recipeList,
     weekP
   );
-  console.log('✅', test);
   useEffect(() => {
-    console.log('✅', weekP);
     setPlanState(weeklyPlanInitial);
-    console.log('✅ Effect');
   }, [dataCtx.appData]);
-  // }, [dataCtx.appData]);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');

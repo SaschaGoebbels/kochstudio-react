@@ -39,22 +39,53 @@ export const weeklyPlanFilterIfRecipeDeletedOrUpdated = (
   return sortArrayByDate(weeklyPlanState);
 };
 
-export const weeklyPlanAddDateObject = (item, dateInput, array) => {
-  if (dateInput) {
-    console.log('✅ use this date', dateInput);
+class WeeklyPlanItem {
+  constructor(name, id, date) {
+    this.name = name;
+    this.id = id;
+    this.date = date;
+  }
+}
+
+export const weeklyPlanAddDateObject = ({ item, date, weeklyPlanState }) => {
+  const removedState = checkIfAlreadyExistsThenDeleteItem(
+    item,
+    weeklyPlanState
+  );
+  if (removedState) {
+    return removedState;
   }
   const dateNow = new Date();
-  console.log('✅ weekly', item);
-  return { date: dateNow, id: item.id, name: item.name };
+  let newItem = new WeeklyPlanItem(item.name, item.id, dateNow);
+  if (date) {
+    newItem.date = date;
+    console.log('✅ use this date', date);
+  }
+  // get last date and add + 1
+  if (weeklyPlanState.length > 0 && date === '') {
+    const [lastItem] = getLastDate(weeklyPlanState);
+    newItem.date = datePlusOne(lastItem.date);
+  }
+  // push to array
+  const newWeeklyPlanState = [...weeklyPlanState, newItem];
+  return sortArrayByDate(newWeeklyPlanState);
 };
 
-const datePlusOne = (date, count) => {
-  return new Date(date.setDate(date.getDate() + count));
+const datePlusOne = date => {
+  let newDate = new Date(date.getTime());
+  newDate = new Date(newDate.setDate(newDate.getDate() + 1));
+  return newDate;
 };
-
 const getLastDate = array => {
-  //
-  return;
+  const lastDate = array.slice(-1);
+  return lastDate;
+};
+const checkIfAlreadyExistsThenDeleteItem = (item, array) => {
+  if (array.some(el => el.id === item.id)) {
+    const index = array.findIndex(el => el.id === item.id);
+    array.splice(index, 1);
+    return array;
+  }
 };
 
 const WeeklyPlanEdit = props => {
@@ -71,63 +102,24 @@ const WeeklyPlanEdit = props => {
     setWeeklyPlanState(weeklyPlanInitial);
   }, [snap.weeklyPlan.editMode]);
   //==================================================================
-  // // // //==================================================================
-  // // // const [weeklyPlanState, setWeeklyPlanState] = useState(
-  // // //   dataCtx.appData.weeklyPlan
-  // // // );
-  // // // useEffect(() => {
-  // // //   setWeeklyPlanState(dataCtx.appData.weeklyPlan);
-  // // // }, [snap.weeklyPlan.editMode]);
-  // // // //==================================================================
-  const weeklyPlanStateAddItem = newWeeklyPlanItem => {
-    setWeeklyPlanState(prev => {
-      prev = sortArrayByDate([...prev, newWeeklyPlanItem]);
-      console.log('✅', prev);
-      return [...prev];
-    });
-  };
+
   const listClickHandler = item => {
-    ////////////////// TODO //////////////////
     ////////////////// CHECK //////////////////
-    console.log('✅', item);
-
-    // check array
-    // get last date
-    // add + 1 CHECK
-    // push to array
-    let newWeeklyPlanItem;
-    newWeeklyPlanItem = weeklyPlanAddDateObject(item);
-    weeklyPlanStateAddItem(newWeeklyPlanItem);
-    if (weeklyPlanState.length > 0) {
-      newWeeklyPlanItem = weeklyPlanAddDateObject(item);
-      weeklyPlanStateAddItem(newWeeklyPlanItem);
-    }
-
-    //==================================================================
-    // console.log('✅', item);
-    // setWeeklyPlanState(prev => {
-    //   if (prev.some(el => el.id === item.id)) {
-    //     return [
-    //       ...prev.filter(el => {
-    //         if (el.id !== item.id) return el;
-    //       }),
-    //     ];
-    //   }
-    //   return [
-    //     ...prev,
-    //     ...dataCtx.appData.recipeList.filter(el => {
-    //       if (el.id === item.id) return el;
-    //     }),
-    //   ];
-    // });
-    //==================================================================
+    const newWeeklyPlan = weeklyPlanAddDateObject({
+      item,
+      date: '',
+      weeklyPlanState,
+    });
+    setWeeklyPlanState([...newWeeklyPlan]);
   };
+
   const onButtonBoxHandler = btnId => {
     if (btnId === 'check') updateData('PLAN', { weeklyPlanState });
     state.weeklyPlan.editMode = false;
     state.headerText = 'Wochenplan';
     state.searchBarHide = true;
   };
+  // console.log('✅', weeklyPlanState);
   return (
     <div
       className={`${classes.planEdit} ${
