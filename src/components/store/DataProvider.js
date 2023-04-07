@@ -267,11 +267,11 @@ const DataProvider = props => {
     console.log('😁😁', type, dataUpdate);
     if (type === 'SHOPSUM') {
       console.log('❌ fetch shopSum:', dataUpdate);
-      // res = await fetchWeeklyPlanOrShoppingList(
-      //   'POST',
-      //   dataUpdate.shopSum,
-      //   'shopSum'
-      // );
+      res = await fetchWeeklyPlanOrShoppingList(
+        'POST',
+        dataUpdate.ingredientsSumListState,
+        'shopSum'
+      );
     }
     if (type === 'LOGIN' || type === 'OPENLOGIN' || type === 'LOGOUT') {
       // DELETE this routes

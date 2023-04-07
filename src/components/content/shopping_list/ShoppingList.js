@@ -87,59 +87,35 @@ const ShoppingList = props => {
   };
   //==================================================================
   ////////////////// TODO //////////////////
-  const shoppingListInitial = dataCtx.appData.shoppingList || [];
-  const [shoppingListState, setShoppingListState] =
-    useState(shoppingListInitial);
+  const [shoppingListState, setShoppingListState] = useState(
+    dataCtx.appData.shoppingList || []
+  );
+  useEffect(() => {
+    setShoppingListState(dataCtx.appData.shoppingList);
+  }, [dataCtx.appData.shoppingList]);
+  //==================================================================
+  const [ingredientsSumListState, setIngredientsSumListState] = useState(
+    dataCtx.appData.ingredientsSumListState || []
+  );
 
   useEffect(() => {
-    setShoppingListState(shoppingListInitial);
-  }, [dataCtx.appData.shoppingList]);
-  //==================================================================
-  const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
-  //==================================================================
-  let currentLocalSumList = dataCtx.appData.ingredientsSumListState;
-  // // // save check state
-  const currentLocalNameKeyList = ingredientsSumListState => {
-    return ingredientsSumListState
-      .filter(el => el.checked === true)
-      .map(el => {
-        return { id: el.id, name: el.name, nameKey: el.nameKey };
-      });
-  };
-  //==================================================================
-  // // // on sumList change save checked to local to remember on reload
-  // // CHECK ////////////////// FIXME //////////////////
-  useEffect(() => {
-    setTimeout(() => {
-      console.log('✅ Effect');
-      if (ingredientsSumListState.length === 0) return;
-      const temp = currentLocalNameKeyList(ingredientsSumListState);
-      console.log('✅temp:', temp);
-      ////////////////// FIXME //////////////////
-      // updateData('SHOPSUM', { ingredientsSumListState: temp });
-    }, 1500);
-  }, [dataCtx.appData.shoppingList]);
-  // }, []);
-  //==================================================================
-  //==================================================================
-  //==================================================================
-  // // // on start up update check state by local file
-  useEffect(() => {
-    console.log('✅ Effect Start');
-    setIngredientsSumListState(currentLocalSumList);
-    // // // setIngredientsSumListState(prev => {
-    // // //   return prev.map(mapEl => {
-    // // //     const [recipeLocal] = currentLocalSumList.filter(
-    // // //       el => mapEl.nameKey == el.nameKey
-    // // //     );
-    // // //     if (recipeLocal) {
-    // // //       mapEl.checked = true;
-    // // //     }
-    // // //     return mapEl;
-    // // //   });
-    // // // });
-  }, [dataCtx, dataCtx.appData.shoppingList]);
-  //==================================================================
+    // set checked true, otherwise sum cant calculate => reason ctx has no method and
+    // setIngredientsSumListState(prev => {
+    //   prev.map(el => {
+    //     if (
+    //       dataCtx.appData.ingredientsSumListState.some(
+    //         item => item.nameKey === el.nameKey && item.checked === true
+    //       )
+    //     ) {
+    //       el.checked = true;
+    //       return el;
+    //     }
+    //     return el;
+    //   });
+    // });
+  }, [dataCtx.appData.ingredientsSumListState]);
+  // //==================================================================
+
   let tempSumState = [];
   const sortAlphabetically = array => {
     return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
@@ -255,15 +231,10 @@ const ShoppingList = props => {
   };
 
   //==================================================================
+  ////////////////// BUG //////////////////
   useEffect(() => {
-    setShoppingListState(shoppingListInitial);
     createSumList(shoppingListState);
-  }, [
-    // snap.headerText === 'Einkaufsliste',
-    // snap.listEditHide,
-    dataCtx,
-    // shoppingListState,
-  ]);
+  }, [shoppingListState]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
     if (btnId === 'add') {
@@ -290,7 +261,6 @@ const ShoppingList = props => {
   const onCheckButtonHandler = nameKey => {
     toggleIngredientCheck(nameKey);
   };
-  console.log('❌', ingredientsSumListState);
   const toggleIngredientCheck = nameKey => {
     setIngredientsSumListState(prev => {
       const temp = [
