@@ -86,7 +86,6 @@ const ShoppingList = props => {
     setSearchInput(value.target.value);
   };
   //==================================================================
-  ////////////////// TODO //////////////////
   const [shoppingListState, setShoppingListState] = useState(
     dataCtx.appData.shoppingList || []
   );
@@ -94,26 +93,26 @@ const ShoppingList = props => {
     setShoppingListState(dataCtx.appData.shoppingList);
   }, [dataCtx.appData.shoppingList]);
   //==================================================================
-  const [ingredientsSumListState, setIngredientsSumListState] = useState(
-    dataCtx.appData.ingredientsSumListState || []
-  );
+  const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
 
+  // dataCtx.appData.ingredientsSumListState || []
+  const ingredientsChecked = ingredientsSumListState => {
+    setIngredientsSumListState(prev => {
+      return prev.map(mapEl => {
+        const [itemChecked] = ingredientsSumListState.filter(
+          el => mapEl.nameKey === el.nameKey
+        );
+        if (itemChecked) {
+          mapEl.checked = true;
+        }
+        return mapEl;
+      });
+    });
+  };
   useEffect(() => {
     // set checked true, otherwise sum cant calculate => reason ctx has no method and
-    // setIngredientsSumListState(prev => {
-    //   prev.map(el => {
-    //     if (
-    //       dataCtx.appData.ingredientsSumListState.some(
-    //         item => item.nameKey === el.nameKey && item.checked === true
-    //       )
-    //     ) {
-    //       el.checked = true;
-    //       return el;
-    //     }
-    //     return el;
-    //   });
-    // });
-  }, [dataCtx.appData.ingredientsSumListState]);
+    ingredientsChecked(dataCtx.appData.ingredientsSumListState);
+  }, [dataCtx]);
   // //==================================================================
 
   let tempSumState = [];
@@ -229,11 +228,11 @@ const ShoppingList = props => {
       return ['--', quantity];
     }
   };
-
   //==================================================================
-  ////////////////// BUG //////////////////
   useEffect(() => {
     createSumList(shoppingListState);
+    // call to get already checked ingredients
+    ingredientsChecked(dataCtx.appData.ingredientsSumListState);
   }, [shoppingListState]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
@@ -273,7 +272,12 @@ const ShoppingList = props => {
       ];
       return temp;
     });
-    updateData('SHOPSUM', { ingredientsSumListState: ingredientsSumListState });
+    const ingredientsSumListStateChecked = ingredientsSumListState.filter(
+      el => el.checked === true
+    );
+    updateData('SHOPSUM', {
+      ingredientsSumListState: ingredientsSumListStateChecked,
+    });
   };
   const updateShoppingList = listState => {
     state.headerText = 'Einkaufsliste';
