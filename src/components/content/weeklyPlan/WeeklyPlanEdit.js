@@ -52,7 +52,8 @@ export const weeklyPlanAddDateObject = ({ item, date, weeklyPlanState }) => {
     return removedState;
   }
   const dateNow = new Date();
-  let newItem = new WeeklyPlanItem(item.name, item.id, dateNow);
+  const dateNowString = dateNow.toISOString();
+  let newItem = new WeeklyPlanItem(item.name, item.id, dateNowString);
   if (date) {
     newItem.date = date;
     console.log('✅ use this date', date);
@@ -68,8 +69,9 @@ export const weeklyPlanAddDateObject = ({ item, date, weeklyPlanState }) => {
 };
 
 const datePlusOne = date => {
+  const dateInput = new Date(date);
   let newDate = new Date();
-  newDate = new Date(newDate.setDate(date.getDate() + 1));
+  newDate = new Date(newDate.setDate(dateInput.getDate() + 1));
   return newDate;
 };
 
