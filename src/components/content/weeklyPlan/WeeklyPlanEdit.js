@@ -93,9 +93,7 @@ const WeeklyPlanEdit = props => {
   const updateData = useDataUpdate();
   //==================================================================
   const weeklyPlanInitial = dataCtx.appData.weeklyPlan;
-  // const weeklyPlanInitial = dataCtx.appData.recipeList.filter(el => {
-  //   if (el.weeklyPlan === true) return el;
-  // });
+
   const [weeklyPlanState, setWeeklyPlanState] = useState(weeklyPlanInitial);
 
   useEffect(() => {

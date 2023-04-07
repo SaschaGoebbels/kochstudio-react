@@ -99,7 +99,6 @@ const dataReducer = (stateReducer, action) => {
   }
   //########################################################
   if (action.type === 'PLAN') {
-    // //
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.appData.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
@@ -189,7 +188,6 @@ const DataProvider = props => {
   //==================================================================
   const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
   const dataUpdateFunction = async (type, dataUpdate) => {
-    ////////////////// TODO //////////////////DATA
     //recipe handling
     let res;
     if (type === 'INPUT') {
@@ -250,21 +248,33 @@ const DataProvider = props => {
         window.location.reload();
       }
     }
-    if (type === 'PLAN' || type === 'SHOP') {
+    if (type === 'PLAN') {
       res = await fetchWeeklyPlanOrShoppingList(
         'POST',
         dataUpdate.weeklyPlanState,
         'weeklyPlan'
       );
     }
-    // console.log('✅✅✅ Type:', dataUpdate.recipeInput.id);
-    // console.log('🚩❌🚩 dataUpdate:', dataUpdate.recipeInput);
-    if (
-      type === 'LOGIN' ||
-      type === 'OPENLOGIN' ||
-      type === 'LOGOUT' ||
-      type === 'SHOPSUM'
-    ) {
+    ////////////////// TODO //////////////////DATA
+    if (type === 'SHOP') {
+      console.log('❌ fetch shopList:', dataUpdate);
+      res = await fetchWeeklyPlanOrShoppingList(
+        'POST',
+        dataUpdate.shoppingListState,
+        'shoppingList'
+      );
+    }
+    console.log('😁😁', type, dataUpdate);
+    if (type === 'SHOPSUM') {
+      console.log('❌ fetch shopSum:', dataUpdate);
+      // res = await fetchWeeklyPlanOrShoppingList(
+      //   'POST',
+      //   dataUpdate.shopSum,
+      //   'shopSum'
+      // );
+    }
+    if (type === 'LOGIN' || type === 'OPENLOGIN' || type === 'LOGOUT') {
+      // DELETE this routes
     }
     if (res && res.status !== 'success') {
       console.log('❌ Error fetching:', res);

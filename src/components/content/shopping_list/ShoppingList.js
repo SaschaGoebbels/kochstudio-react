@@ -87,15 +87,17 @@ const ShoppingList = props => {
   };
   //==================================================================
   ////////////////// TODO //////////////////
-  const shoppingListInitial = dataCtx.appData.recipeList.filter(el => {
-    if (el.shoppingList === true) return el;
-  });
+  const shoppingListInitial = dataCtx.appData.shoppingList || [];
   const [shoppingListState, setShoppingListState] =
     useState(shoppingListInitial);
+
+  useEffect(() => {
+    setShoppingListState(shoppingListInitial);
+  }, [dataCtx.appData.shoppingList]);
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
   //==================================================================
-  const currentLocalSumList = dataCtx.ingredientsSumListState;
+  let currentLocalSumList = dataCtx.appData.ingredientsSumListState;
   // // // save check state
   const currentLocalNameKeyList = ingredientsSumListState => {
     return ingredientsSumListState
@@ -104,37 +106,44 @@ const ShoppingList = props => {
         return { id: el.id, name: el.name, nameKey: el.nameKey };
       });
   };
+  //==================================================================
   // // // on sumList change save checked to local to remember on reload
+  // // CHECK ////////////////// FIXME //////////////////
   useEffect(() => {
-    if (ingredientsSumListState.length === 0) return;
     setTimeout(() => {
+      console.log('✅ Effect');
+      if (ingredientsSumListState.length === 0) return;
       const temp = currentLocalNameKeyList(ingredientsSumListState);
-      updateData('SHOPSUM', { ingredientsSumListState: temp });
-    }, 50);
-  }, [ingredientsSumListState]);
+      console.log('✅temp:', temp);
+      ////////////////// FIXME //////////////////
+      // updateData('SHOPSUM', { ingredientsSumListState: temp });
+    }, 1500);
+  }, [dataCtx.appData.shoppingList]);
+  // }, []);
+  //==================================================================
+  //==================================================================
+  //==================================================================
   // // // on start up update check state by local file
   useEffect(() => {
-    // // // timeout because localStorage loading
-    setTimeout(() => {
-      setIngredientsSumListState(prev => {
-        return prev.map(mapEl => {
-          const [recipeLocal] = currentLocalSumList.filter(
-            el => mapEl.nameKey == el.nameKey
-          );
-          if (recipeLocal) {
-            mapEl.checked = true;
-          }
-          return mapEl;
-        });
-      });
-    }, 50);
-  }, []);
+    console.log('✅ Effect Start');
+    setIngredientsSumListState(currentLocalSumList);
+    // // // setIngredientsSumListState(prev => {
+    // // //   return prev.map(mapEl => {
+    // // //     const [recipeLocal] = currentLocalSumList.filter(
+    // // //       el => mapEl.nameKey == el.nameKey
+    // // //     );
+    // // //     if (recipeLocal) {
+    // // //       mapEl.checked = true;
+    // // //     }
+    // // //     return mapEl;
+    // // //   });
+    // // // });
+  }, [dataCtx, dataCtx.appData.shoppingList]);
   //==================================================================
   let tempSumState = [];
   const sortAlphabetically = array => {
     return array.sort((a, b) => a.nameKey.localeCompare(b.nameKey));
   };
-
   //==================================================================
   const createSumList = recipeList => {
     for (const i in recipeList) {
@@ -281,6 +290,7 @@ const ShoppingList = props => {
   const onCheckButtonHandler = nameKey => {
     toggleIngredientCheck(nameKey);
   };
+  console.log('❌', ingredientsSumListState);
   const toggleIngredientCheck = nameKey => {
     setIngredientsSumListState(prev => {
       const temp = [
@@ -293,11 +303,15 @@ const ShoppingList = props => {
       ];
       return temp;
     });
+    updateData('SHOPSUM', { ingredientsSumListState: ingredientsSumListState });
   };
   const updateShoppingList = listState => {
     state.headerText = 'Einkaufsliste';
     state.searchBarHide = true;
-    if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
+
+    ////////////////// FIXME //////////////////
+    ////////////////// BUG //////////////////
+    // if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
   };
   //==================================================================
   const liItemChecked = checkState => {

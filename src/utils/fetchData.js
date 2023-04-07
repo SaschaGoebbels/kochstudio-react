@@ -181,6 +181,7 @@ export const fetchWeeklyPlanOrShoppingList = async (
   updatePlanList,
   url
 ) => {
+  console.log('✅', updatePlanList);
   state.loading = true;
   let res;
   try {
