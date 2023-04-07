@@ -12,10 +12,6 @@ import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 
 //==================================================================
-// // all move or replace current
-// on save fetch post weeklyplan id name date
-// icon if some weeklyplan
-// listbox temporar array fetch on save or dismiss
 const sortArrayByDate = array => {
   return array.sort(function (a, b) {
     return a.date - b.date;
@@ -72,10 +68,11 @@ export const weeklyPlanAddDateObject = ({ item, date, weeklyPlanState }) => {
 };
 
 const datePlusOne = date => {
-  let newDate = new Date(date.getTime());
-  newDate = new Date(newDate.setDate(newDate.getDate() + 1));
+  let newDate = new Date();
+  newDate = new Date(newDate.setDate(date.getDate() + 1));
   return newDate;
 };
+
 const getLastDate = array => {
   const lastDate = array.slice(-1);
   return lastDate;
@@ -93,9 +90,10 @@ const WeeklyPlanEdit = props => {
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const weeklyPlanInitial = dataCtx.appData.recipeList.filter(el => {
-    if (el.weeklyPlan === true) return el;
-  });
+  const weeklyPlanInitial = dataCtx.appData.weeklyPlan;
+  // const weeklyPlanInitial = dataCtx.appData.recipeList.filter(el => {
+  //   if (el.weeklyPlan === true) return el;
+  // });
   const [weeklyPlanState, setWeeklyPlanState] = useState(weeklyPlanInitial);
 
   useEffect(() => {

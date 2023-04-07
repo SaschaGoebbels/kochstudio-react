@@ -3,6 +3,7 @@ import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
 import { weeklyPlanFilterIfRecipeDeletedOrUpdated } from './WeeklyPlanEdit';
+import { weeklyPlanAddDateObject } from './WeeklyPlanEdit';
 
 import WeeklyPlanEdit from './WeeklyPlanEdit';
 import WeeklyPlanItem from './WeeklyPlanItem';
@@ -22,11 +23,7 @@ const WeeklyPlan = props => {
   const weeklyPlanInitial = dataCtx.appData.weeklyPlan || [];
 
   const [planState, setPlanState] = useState(weeklyPlanInitial);
-  const setPlanStateFromOutSide = () => {
-    setTimeout(() => {
-      setPlanState(dataCtx.appData.weeklyPlan);
-    }, 50);
-  };
+
   useEffect(() => {
     setPlanState(
       weeklyPlanFilterIfRecipeDeletedOrUpdated(
@@ -34,7 +31,7 @@ const WeeklyPlan = props => {
         weeklyPlanInitial
       )
     );
-  }, [dataCtx.appData]);
+  }, [dataCtx.appData.weeklyPlan]);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');
@@ -74,10 +71,13 @@ const WeeklyPlan = props => {
     }
   };
   const onCheckButtonHandler = itemId => {
-    // updateData('PLAN', { itemId, setPlanStateFromOutSide });
-    const [recipe] = dataCtx.appData.recipeList.filter(el => el.id === itemId);
-    recipe.weeklyPlan = false;
-    updateData(UPDATERECIPE, { recipeUpdate: recipe });
+    const item = { id: itemId };
+    const newWeeklyPlan = weeklyPlanAddDateObject({
+      item: item,
+      date: '',
+      weeklyPlanState: dataCtx.appData.weeklyPlan,
+    });
+    updateData('PLAN', { weeklyPlanState: newWeeklyPlan });
   };
   return (
     <div className={`${classes.contentListBox} `}>

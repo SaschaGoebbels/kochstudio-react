@@ -105,15 +105,6 @@ const dataReducer = (stateReducer, action) => {
       stateReducer.appData.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
       return { ...stateReducer };
     }
-    // // remove from plan
-    if (action.dataUpdate.itemId) {
-      stateReducer.appData.weeklyPlan = removeFromList(
-        stateReducer.appData.weeklyPlan,
-        action.dataUpdate.itemId
-      );
-      action.dataUpdate.setPlanStateFromOutSide();
-      return { ...stateReducer };
-    }
   }
   if (action.type === 'SHOP') {
     // // add to plan => replace the plan with updated version

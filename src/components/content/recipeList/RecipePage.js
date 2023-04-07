@@ -18,14 +18,19 @@ const RecipePage = props => {
   const dataCtx = useContext(DataContext);
   const snap = useSnapshot(state);
   const dataUpdate = useDataUpdate();
+  const stateInit = list => {
+    return list.some(el => el.id === props.recipeObject.id);
+  };
+
   const [favState, setFavState] = useState();
   const [planState, setPlanState] = useState();
   const [listState, setListState] = useState();
+
   useEffect(() => {
     setFavState(props.recipeObject.fav || false);
-    setPlanState(props.recipeObject.weeklyPlan || false);
-    setListState(props.recipeObject.shoppingList || false);
-  }, [props.recipeObject]);
+    setPlanState(stateInit(dataCtx.appData.weeklyPlan) || false);
+    setListState(stateInit(dataCtx.appData.shoppingList) || false);
+  }, [props.recipeObject, dataCtx]);
   //==================================================================
   // // const [swipeRecipePage, setSwipeRecipePage] = useState({
   // //   leftOut: false,
@@ -47,25 +52,23 @@ const RecipePage = props => {
       });
     }
     if (btnId === 'plan') {
-      weeklyPlanAddDateObject('TEST-ID 123');
-      setPlanState(pre => {
-        let recipe = { ...props.recipeObject };
-        recipe.weeklyPlan = !pre;
-        dataUpdate(UPDATERECIPE, {
-          recipeUpdate: recipe,
-        });
-        return !pre;
+      const newWeeklyPlan = weeklyPlanAddDateObject({
+        item: props.recipeObject,
+        date: '',
+        weeklyPlanState: dataCtx.appData.weeklyPlan,
       });
+      dataUpdate('PLAN', { weeklyPlanState: newWeeklyPlan });
     }
     if (btnId === 'list') {
-      setListState(pre => {
-        let recipe = { ...props.recipeObject };
-        recipe.shoppingList = !pre;
-        dataUpdate(UPDATERECIPE, {
-          recipeUpdate: recipe,
-        });
-        return !pre;
-      });
+      console.log('❌ List');
+      // // setListState(pre => {
+      // //   let recipe = { ...props.recipeObject };
+      // //   recipe.shoppingList = !pre;
+      // //   dataUpdate(UPDATERECIPE, {
+      // //     recipeUpdate: recipe,
+      // //   });
+      // //   return !pre;
+      // // });
     }
     if (btnId === 'pen') {
       props.setHideInput(false);
