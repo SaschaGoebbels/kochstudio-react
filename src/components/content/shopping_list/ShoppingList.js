@@ -112,7 +112,7 @@ const ShoppingList = props => {
   useEffect(() => {
     // set checked true, otherwise sum cant calculate => reason ctx has no method and
     ingredientsChecked(dataCtx.appData.ingredientsSumListState);
-  }, [dataCtx]);
+  }, []);
   // //==================================================================
 
   let tempSumState = [];
@@ -270,11 +270,12 @@ const ShoppingList = props => {
           return el;
         }),
       ];
-      return temp;
+      return [...temp];
     });
     const ingredientsSumListStateChecked = ingredientsSumListState.filter(
       el => el.checked === true
     );
+    console.log('✅', ingredientsSumListStateChecked);
     updateData('SHOPSUM', {
       ingredientsSumListState: ingredientsSumListStateChecked,
     });
@@ -282,10 +283,7 @@ const ShoppingList = props => {
   const updateShoppingList = listState => {
     state.headerText = 'Einkaufsliste';
     state.searchBarHide = true;
-
-    ////////////////// FIXME //////////////////
-    ////////////////// BUG //////////////////
-    // if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
+    if (listState !== 'x') updateData('SHOP', { shoppingListState: listState });
   };
   //==================================================================
   const liItemChecked = checkState => {
@@ -318,8 +316,7 @@ const ShoppingList = props => {
     });
   };
   const deleteShoppingList = () => {
-    updateShoppingList([]);
-    // setShoppingListState([]);
+    updateData('SHOP', { shoppingListState: [] });
   };
   //==================================================================
   //==================================================================

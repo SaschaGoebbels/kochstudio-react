@@ -257,16 +257,14 @@ const DataProvider = props => {
     }
     ////////////////// TODO //////////////////DATA
     if (type === 'SHOP') {
-      console.log('❌ fetch shopList:', dataUpdate);
       res = await fetchWeeklyPlanOrShoppingList(
         'POST',
         dataUpdate.shoppingListState,
         'shoppingList'
       );
     }
-    console.log('😁😁', type, dataUpdate);
     if (type === 'SHOPSUM') {
-      console.log('❌ fetch shopSum:', dataUpdate);
+      // console.log('❌ fetch shopSum:', dataUpdate);
       res = await fetchWeeklyPlanOrShoppingList(
         'POST',
         dataUpdate.ingredientsSumListState,

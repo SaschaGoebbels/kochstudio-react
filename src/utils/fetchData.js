@@ -175,13 +175,11 @@ export const fetchRecipe = async (method, recipe, id, list, url) => {
   return res;
 };
 
-////////////////// TODO //////////////////
 export const fetchWeeklyPlanOrShoppingList = async (
   method,
   updatePlanList,
   url
 ) => {
-  console.log('✅', updatePlanList);
   state.loading = true;
   let res;
   try {
@@ -193,7 +191,7 @@ export const fetchWeeklyPlanOrShoppingList = async (
       .then(response => response.json())
       .then(json => {
         res = json;
-        console.log('✅', json);
+        // console.log('✅', json);
       });
   } catch (err) {
     console.log('❌ updatePlanList Err:', err);
