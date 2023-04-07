@@ -9,6 +9,7 @@ import { fetchAppDataPost } from '../../utils/fetchData';
 import { updateSettings } from '../../utils/fetchData';
 import { deleteRecipeList } from '../../utils/fetchData';
 import { fetchRecipe } from '../../utils/fetchData';
+import { fetchWeeklyPlanOrShoppingList } from '../../utils/fetchData';
 
 export const UPDATERECIPE = 'UPDATERECIPE';
 
@@ -78,6 +79,8 @@ const dataReducer = (stateReducer, action) => {
     }
   }
   //==================================================================
+  ////////////////// TODO //////////////////
+  //########################################################
   if (action.type === 'DELETE') {
     stateReducer.appData.weeklyPlan = onRecipeDelete(
       action.dataUpdate,
@@ -94,7 +97,9 @@ const dataReducer = (stateReducer, action) => {
     state.currentRecipe = { ...state.initialState };
     return { ...stateReducer };
   }
+  //########################################################
   if (action.type === 'PLAN') {
+    // //
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.appData.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
@@ -245,7 +250,7 @@ const DataProvider = props => {
     if (type === 'FETCHEXAMPLELIST') {
       dataState.appData.recipeList = dataUpdate.exampleList;
       res = await fetchAppDataPost(dataState.appData, dataUpdate.message);
-      if (res.status !== 'success') return;
+      // if (res.status !== 'success') return;
     }
     if (type === 'DELETEALL') {
       res = await deleteRecipeList(dataUpdate.message);
@@ -254,16 +259,27 @@ const DataProvider = props => {
         window.location.reload();
       }
     }
+    if (type === 'PLAN' || type === 'SHOP') {
+      res = await fetchWeeklyPlanOrShoppingList(
+        'POST',
+        dataUpdate.weeklyPlanState,
+        'weeklyPlan'
+      );
+    }
     // console.log('✅✅✅ Type:', dataUpdate.recipeInput.id);
     // console.log('🚩❌🚩 dataUpdate:', dataUpdate.recipeInput);
     if (
       type === 'LOGIN' ||
       type === 'OPENLOGIN' ||
       type === 'LOGOUT' ||
-      type === 'PLAN' ||
-      type === 'SHOP' ||
       type === 'SHOPSUM'
     ) {
+    }
+    if (res && res.status !== 'success') {
+      console.log('❌ Error fetching:', res);
+      ////////////////// TODO //////////////////
+      // catch errors if !success, display infobox error
+      return;
     }
     dispatchData({ type, dataUpdate });
   };

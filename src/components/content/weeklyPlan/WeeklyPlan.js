@@ -15,27 +15,11 @@ import { useSnapshot } from 'valtio';
 
 //==================================================================
 const WeeklyPlan = props => {
-  let weekP = [
-    {
-      date: new Date(),
-      name: 'Arme',
-      id: '759e69c2-9ab5-231b-0d59-e15339b60270',
-    },
-  ];
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  // filter recipeList sort by date get back initial array
-  const sortArrayByDate = array => {
-    return array.sort(function (a, b) {
-      return a.weeklyPlan.date - b.weeklyPlan.date;
-    });
-  };
-  const filteredRecipeList = dataCtx.appData.recipeList.filter(el => {
-    if (el.weeklyPlan === true) return el;
-  });
-  const weeklyPlanInitial = sortArrayByDate(filteredRecipeList);
+  const weeklyPlanInitial = dataCtx.appData.weeklyPlan || [];
 
   const [planState, setPlanState] = useState(weeklyPlanInitial);
   const setPlanStateFromOutSide = () => {
@@ -43,13 +27,13 @@ const WeeklyPlan = props => {
       setPlanState(dataCtx.appData.weeklyPlan);
     }, 50);
   };
-  // CHECK get actual list and update name !
-  const test = weeklyPlanFilterIfRecipeDeletedOrUpdated(
-    dataCtx.appData.recipeList,
-    weekP
-  );
   useEffect(() => {
-    setPlanState(weeklyPlanInitial);
+    setPlanState(
+      weeklyPlanFilterIfRecipeDeletedOrUpdated(
+        dataCtx.appData.recipeList,
+        weeklyPlanInitial
+      )
+    );
   }, [dataCtx.appData]);
   //==================================================================
   // SearchBar

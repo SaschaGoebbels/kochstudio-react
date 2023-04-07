@@ -155,7 +155,6 @@ export const deleteRecipeList = async infobox => {
   return res;
 };
 
-////////////////// TODO //////////////////
 export const fetchRecipe = async (method, recipe, id, list, url) => {
   state.loading = true;
   let res;
@@ -171,6 +170,32 @@ export const fetchRecipe = async (method, recipe, id, list, url) => {
       });
   } catch (err) {
     console.log('❌ postRecipe Err:', err);
+  }
+  state.loading = false;
+  return res;
+};
+
+////////////////// TODO //////////////////
+export const fetchWeeklyPlanOrShoppingList = async (
+  method,
+  updatePlanList,
+  url
+) => {
+  state.loading = true;
+  let res;
+  try {
+    await fetch(
+      // `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,
+      `${process.env.REACT_APP_URL}/api/v1/users/${url}`,
+      defaultFetchBody(method, { updatePlanList })
+    )
+      .then(response => response.json())
+      .then(json => {
+        res = json;
+        console.log('✅', json);
+      });
+  } catch (err) {
+    console.log('❌ updatePlanList Err:', err);
   }
   state.loading = false;
   return res;

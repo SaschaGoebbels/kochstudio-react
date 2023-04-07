@@ -104,7 +104,6 @@ const WeeklyPlanEdit = props => {
   //==================================================================
 
   const listClickHandler = item => {
-    ////////////////// CHECK //////////////////
     const newWeeklyPlan = weeklyPlanAddDateObject({
       item,
       date: '',
@@ -119,7 +118,7 @@ const WeeklyPlanEdit = props => {
     state.headerText = 'Wochenplan';
     state.searchBarHide = true;
   };
-  // console.log('✅', weeklyPlanState);
+  // ######################################################################
   return (
     <div
       className={`${classes.planEdit} ${
