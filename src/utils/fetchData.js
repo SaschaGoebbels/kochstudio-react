@@ -1,6 +1,7 @@
 //
 import { state } from '../components/store/state';
 import appError from './appError';
+import { baseUrl } from './env';
 
 //==================================================================
 const defaultFetchBody = (method, body) => {
@@ -22,7 +23,8 @@ export const fetchExampleList = async infobox => {
   state.loading = true;
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
+      `${baseUrl()}/api/v1/recipe/getExampleRecipes`,
+      // `${process.env.REACT_APP_URL}/api/v1/recipe/getExampleRecipes`,
       {
         method: 'GET',
         mode: 'cors',
@@ -50,7 +52,8 @@ export const fetchAppData = async infobox => {
   state.loading = true;
   let res;
   try {
-    await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
+    await fetch(`${baseUrl()}/api/v1/users/appData`, {
+      // await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
       method: 'GET',
       mode: 'cors',
       credentials: 'include',
@@ -76,7 +79,8 @@ export const fetchAppDataPost = async (appData, infobox) => {
   state.loading = true;
   let res;
   try {
-    await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
+    await fetch(`${baseUrl()}/api/v1/users/appData`, {
+      // await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -104,7 +108,8 @@ export const updateSettings = async (settings, infobox) => {
   console.log('❌ updateSettings Fetch');
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/users/updateSettings`,
+      `${baseUrl()}/api/v1/users/updateSettings`,
+      // `${process.env.REACT_APP_URL}/api/v1/users/updateSettings`,
       defaultFetchBody('POST', settings)
     )
       .then(response => response.json())
@@ -125,7 +130,8 @@ export const updateRecipeList = async (action, obj, infobox) => {
   let res;
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/users/updateRecipeList`,
+      `${baseUrl()}/api/v1/users/updateRecipeList`,
+      // `${process.env.REACT_APP_URL}/api/v1/users/updateRecipeList`,
       defaultFetchBody('POST', { action, obj })
     )
       .then(response => response.json())
@@ -145,7 +151,8 @@ export const deleteRecipeList = async infobox => {
   let res;
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/users/deleteRecipeList`,
+      `${baseUrl()}/api/v1/users/deleteRecipeList`,
+      // `${process.env.REACT_APP_URL}/api/v1/users/deleteRecipeList`,
       defaultFetchBody('POST')
     )
       .then(response => response.json())
@@ -162,7 +169,8 @@ export const fetchRecipe = async (method, recipe, id, list, url) => {
   let res;
   try {
     await fetch(
-      `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,
+      `${baseUrl()}/api/v1/users/${url}/${id}/${list}`,
+      // `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,
       defaultFetchBody(method, { recipe })
     )
       .then(response => response.json())
@@ -187,7 +195,8 @@ export const fetchWeeklyPlanOrShoppingList = async (
   try {
     await fetch(
       // `${process.env.REACT_APP_URL}/api/v1/users/${url}/${id}/${list}`,
-      `${process.env.REACT_APP_URL}/api/v1/users/${url}`,
+      `${baseUrl()}/api/v1/users/${url}`,
+      // `${process.env.REACT_APP_URL}/api/v1/users/${url}`,
       defaultFetchBody(method, { updatePlanList })
     )
       .then(response => response.json())
