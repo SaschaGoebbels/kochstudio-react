@@ -1,6 +1,9 @@
+import { state } from '../components/store/state';
+
 const appError = (err, message) => {
   console.log('✅✅APP ERROR', err);
   console.log('❌❌APP MESSAGE', err.message);
+  state.loading = false;
   if (err.TypeError) {
     message({
       title: `Fehler`,

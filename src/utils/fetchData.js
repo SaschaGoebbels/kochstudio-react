@@ -29,6 +29,7 @@ export const fetchExampleList = async infobox => {
         credentials: 'include',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
         },
       }
     )
@@ -55,6 +56,7 @@ export const fetchAppData = async infobox => {
       credentials: 'include',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
       },
     })
       .then(response => response.json())
