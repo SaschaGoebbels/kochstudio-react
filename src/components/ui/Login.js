@@ -8,6 +8,7 @@ import { loginFetch } from '../../utils/loginLogic';
 import { createAcc } from '../../utils/loginLogic';
 import { passwordResetFetch } from '../../utils/loginLogic';
 import { baseUrl } from '../../utils/env';
+import { state } from '../store/state';
 
 // import { fetchExampleList } from '../../utils/fetchData';
 // import { useEffect } from 'react';
@@ -172,8 +173,11 @@ const Login = props => {
   };
 
   const loginResUserUpdateCtx = res => {
-    console.log(res);
     resetAllInputValues();
+    state.navigation = 'btn1';
+    state.loading = false;
+    state.searchBarHide = true;
+    state.recipePageHide = true;
     updateData('LOGIN', res.data.user);
   };
 

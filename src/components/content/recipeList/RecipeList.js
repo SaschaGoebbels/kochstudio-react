@@ -32,6 +32,10 @@ const RecipeList = props => {
   useEffect(() => {
     setRecipePageState({ hide: false, recipe: snap.currentRecipe });
   }, [snap.currentRecipe, dataCtx.appData.recipeList]);
+  ///////////////// BOOKMARK ///////////////// B CHECK
+  useEffect(() => {
+    setRecipePageState({ hide: true, recipe: snap.currentRecipe });
+  }, [snap.navigation]);
   //==================================================================
 
   const onRoundButtonHandler = btnId => {

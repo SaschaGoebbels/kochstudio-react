@@ -23,7 +23,6 @@ export function useDataUpdate() {
 
 //==================================================================
 const dataReducer = (stateReducer, action) => {
-  console.log('✅', dataInit.menuState.userData);
   if (action.type === 'RESPONSEUPDATE') {
     stateReducer = { ...action.dataUpdate };
     return stateReducer;
@@ -44,11 +43,7 @@ const dataReducer = (stateReducer, action) => {
     return { ...stateReducer };
   }
   if (action.type === 'LOGOUT') {
-    stateReducer = { ...dataInit };
-    stateReducer.menuState.userData.email = '';
-    stateReducer.menuState.userData.name = '';
-    console.log('❌', dataInit);
-    console.log('✅', stateReducer.menuState.userData);
+    stateReducer = deepCopy(dataDefault);
     return { ...stateReducer };
   }
   if (action.type === 'FETCHEXAMPLELIST') {
@@ -320,20 +315,8 @@ const dataInit = {
     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
   },
 };
-// const dataDefault = {
-//   menuState: {
-//     userData: {
-//       name: '',
-//       email: '',
-//     },
-//     loggedIn: false,
-//     hide: true,
-//     hideLogin: true,
-//   },
-//   appData: {
-//     weeklyPlan: [],
-//     recipeList: [],
-//     shoppingList: [],
-//     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
-//   },
-// };
+const deepCopy = input => {
+  return JSON.parse(JSON.stringify(dataInit));
+  //
+};
+const dataDefault = deepCopy(dataInit);
