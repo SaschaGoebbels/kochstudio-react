@@ -61,7 +61,9 @@ export const logout = async (url, infoBox) => {
     appError(err, infoBox);
   }
   state.loading = false;
-  // window.location.reload();
+  // setTimeout(() => {
+  //   window.location.reload();
+  // }, 200);
 };
 
 export const passwordResetFetch = async (url, email, infoBox) => {

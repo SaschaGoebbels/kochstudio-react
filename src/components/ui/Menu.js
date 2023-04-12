@@ -72,11 +72,10 @@ const Menu = props => {
     isNotYetReady();
   };
 
-  ////////////////// TODO //////////////////
   const onLogoutConfirmHandler = () => {
     logout(`${baseUrl()}/api/v1/users/logout`, props.message);
     updateData('LOGOUT');
-    props.onLoginHandler({ userData: dataCtx.menuState.userData });
+    props.changeMenuState({ hide: true });
   };
 
   const onLogoutHandler = () => {

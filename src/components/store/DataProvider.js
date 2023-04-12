@@ -23,6 +23,7 @@ export function useDataUpdate() {
 
 //==================================================================
 const dataReducer = (stateReducer, action) => {
+  console.log('✅', dataInit.menuState.userData);
   if (action.type === 'RESPONSEUPDATE') {
     stateReducer = { ...action.dataUpdate };
     return stateReducer;
@@ -43,7 +44,11 @@ const dataReducer = (stateReducer, action) => {
     return { ...stateReducer };
   }
   if (action.type === 'LOGOUT') {
-    stateReducer = dataInit;
+    stateReducer = { ...dataInit };
+    stateReducer.menuState.userData.email = '';
+    stateReducer.menuState.userData.name = '';
+    console.log('❌', dataInit);
+    console.log('✅', stateReducer.menuState.userData);
     return { ...stateReducer };
   }
   if (action.type === 'FETCHEXAMPLELIST') {
@@ -186,7 +191,7 @@ const onRecipeDelete = (recipe, array) => {
 //==================================================================
 const DataProvider = props => {
   //==================================================================
-  const [dataState, dispatchData] = useReducer(dataReducer, dataInit);
+  const [dataState, dispatchData] = useReducer(dataReducer, { ...dataInit });
   const dataUpdateFunction = async (type, dataUpdate) => {
     //recipe handling
     let res;
@@ -315,3 +320,20 @@ const dataInit = {
     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
   },
 };
+// const dataDefault = {
+//   menuState: {
+//     userData: {
+//       name: '',
+//       email: '',
+//     },
+//     loggedIn: false,
+//     hide: true,
+//     hideLogin: true,
+//   },
+//   appData: {
+//     weeklyPlan: [],
+//     recipeList: [],
+//     shoppingList: [],
+//     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
+//   },
+// };
