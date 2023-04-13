@@ -25,7 +25,7 @@ export function useDataUpdate() {
 const dataReducer = (stateReducer, action) => {
   if (action.type === 'RESPONSEUPDATE') {
     stateReducer = { ...action.dataUpdate };
-    return stateReducer;
+    return { ...stateReducer };
   }
   if (action.type === 'LOGIN') {
     // // Login
@@ -316,7 +316,7 @@ const dataInit = {
     hideLogin: true,
   },
   appData: {
-    weeklyPlan: [1],
+    weeklyPlan: [],
     recipeList: [],
     shoppingList: [],
     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },

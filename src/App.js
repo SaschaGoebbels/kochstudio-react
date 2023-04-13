@@ -76,7 +76,9 @@ function App() {
     };
     fetchDataOnStartUp().catch(console.error);
   }, []);
-
+  useEffect(() => {
+    console.log('💥 APP', dataCtx);
+  }, [dataCtx]);
   useEffect(() => {
     toggleLoginHide(dataCtx.menuState.hideLogin);
   }, [dataCtx.menuState.hideLogin]);

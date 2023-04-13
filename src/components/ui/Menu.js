@@ -15,8 +15,11 @@ import { fetchExampleList } from '../../utils/fetchData';
 
 const Menu = props => {
   const dataCtx = useContext(DataContext);
-  console.log('😁😁😁😁 Menu DATA CTX', dataCtx.appData);
-  useEffect(() => {}, [dataCtx]);
+  // console.log('😁😁😁😁 Menu DATA CTX', dataCtx.appData);
+
+  useEffect(() => {
+    console.log('💥 Menu', dataCtx);
+  }, [dataCtx]);
   const updateData = useDataUpdate();
 
   const isNotYetReady = () => {
