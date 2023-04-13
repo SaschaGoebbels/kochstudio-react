@@ -27,6 +27,8 @@ const RecipePage = props => {
   const [listState, setListState] = useState();
 
   useEffect(() => {
+    // setTimeout(() => {
+    // }, 500);
     setFavState(props.recipeObject.fav || false);
     setPlanState(stateInit(dataCtx.appData.weeklyPlan) || false);
     setListState(stateInit(dataCtx.appData.shoppingList) || false);
@@ -39,7 +41,6 @@ const RecipePage = props => {
   // //   rightOut: false,
   // // });
   //==================================================================
-
   const onRoundButtonHandler = btnId => {
     if (btnId === 'heart') {
       setFavState(pre => {

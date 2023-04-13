@@ -51,6 +51,7 @@ export const fetchExampleList = async infobox => {
 export const fetchAppData = async infobox => {
   state.loading = true;
   let res;
+  console.log('✅ fetch get');
   try {
     await fetch(`${baseUrl()}/api/v1/users/appData`, {
       // await fetch(`${process.env.REACT_APP_URL}/api/v1/users/appData`, {
@@ -64,7 +65,7 @@ export const fetchAppData = async infobox => {
     })
       .then(response => response.json())
       .then(json => {
-        // console.log('✅', json); //DELETE
+        // console.log('✅ Fetch AppData Get', json); //DELETE
         res = json;
       });
   } catch (err) {
@@ -76,6 +77,7 @@ export const fetchAppData = async infobox => {
 };
 
 export const fetchAppDataPost = async (appData, infobox) => {
+  console.log('✅ fetch post');
   state.loading = true;
   let res;
   try {

@@ -16,7 +16,13 @@ import { useEffect } from 'react';
 const RecipeList = props => {
   const snap = useSnapshot(state);
   const dataCtx = useContext(DataContext);
+
   const [searchInput, setSearchInput] = useState('');
+  const [recipeList, setRecipeList] = useState(dataCtx.appData.recipeList);
+  useEffect(() => {
+    console.log('🚩🚩🚩🚩🚩 RecipeList useEffect', dataCtx.appData);
+    setRecipeList(dataCtx.appData.recipeList);
+  }, [dataCtx]);
 
   const listClickHandler = recipe => {
     state.headerText = recipe.name;
@@ -32,7 +38,7 @@ const RecipeList = props => {
   useEffect(() => {
     setRecipePageState({ hide: false, recipe: snap.currentRecipe });
   }, [snap.currentRecipe, dataCtx.appData.recipeList]);
-  ///////////////// BOOKMARK ///////////////// B CHECK
+  ///////////////// BOOKMARK ///////////////// B CHECK close recipePage when logout
   useEffect(() => {
     setRecipePageState({ hide: true, recipe: snap.currentRecipe });
   }, [snap.navigation]);
@@ -68,7 +74,7 @@ const RecipeList = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={dataCtx.appData.recipeList}
+              recipeList={recipeList}
               weeklyPlan={false}
               showFavList={props.showFavList}
               listClickHandler={listClickHandler}

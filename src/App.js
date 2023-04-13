@@ -55,6 +55,7 @@ const messageReducer = (state, action) => {
 function App() {
   //==================================================================
   const dataCtx = useContext(DataContext);
+  console.log('✅✅✅✅✅✅ APP CTX', dataCtx.appData);
   //==================================================================
   const updateData = useDataUpdate();
   useEffect(() => {

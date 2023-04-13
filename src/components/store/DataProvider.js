@@ -29,13 +29,17 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'LOGIN') {
     // // Login
+    ///////////////// BOOKMARK ///////////////// B doesnt update after reload ?!?
     stateReducer.appData = { ...action.dataUpdate.appData };
+    stateReducer.appData.recipeList = [...action.dataUpdate.appData.recipeList];
+    console.log('✅', stateReducer.appData.recipeList);
     stateReducer.menuState.userData.email = action.dataUpdate.email;
     stateReducer.menuState.userData.name = action.dataUpdate.name;
     stateReducer.menuState.loggedIn = true;
     stateReducer.menuState.hide = true;
     stateReducer.menuState.hideLogin = true;
     sortArray(stateReducer.appData.recipeList);
+    console.log('✅ LOGIN');
     return { ...stateReducer };
   }
   if (action.type === 'OPENLOGIN') {
@@ -44,6 +48,7 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'LOGOUT') {
     stateReducer = deepCopy(dataDefault);
+    console.log('✅', stateReducer);
     return { ...stateReducer };
   }
   if (action.type === 'FETCHEXAMPLELIST') {
@@ -210,6 +215,7 @@ const DataProvider = props => {
         'recipeList',
         'recipeUpdate'
       );
+      console.log('✅', res);
       if (res.status !== 'success') return;
     }
     if (type === 'DELETE') {
@@ -239,6 +245,7 @@ const DataProvider = props => {
     if (type === 'FETCHEXAMPLELIST') {
       dataState.appData.recipeList = dataUpdate.exampleList;
       res = await fetchAppDataPost(dataState.appData, dataUpdate.message);
+      console.log('✅ fetchData Post', res);
       // if (res.status !== 'success') return;
     }
     if (type === 'DELETEALL') {
@@ -309,7 +316,7 @@ const dataInit = {
     hideLogin: true,
   },
   appData: {
-    weeklyPlan: [],
+    weeklyPlan: [1],
     recipeList: [],
     shoppingList: [],
     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
