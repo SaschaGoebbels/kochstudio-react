@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
-import Header from '../../header/Header';
+// import Header from '../../header/Header';
 import Content from '../../ui/Content';
 import RecipeListBox from '../recipeList/RecipeListBox';
 import Footer from '../../ui/Footer';
@@ -89,10 +88,9 @@ const checkIfAlreadyExistsThenDeleteItem = (item, array) => {
 
 const WeeklyPlanEdit = props => {
   const snap = useSnapshot(state);
-  const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const weeklyPlanInitial = dataCtx.appData.weeklyPlan;
+  const weeklyPlanInitial = snap.stateReducer.appData.weeklyPlan;
 
   const [weeklyPlanState, setWeeklyPlanState] = useState(weeklyPlanInitial);
 
@@ -127,7 +125,7 @@ const WeeklyPlanEdit = props => {
         content={
           <div>
             <RecipeListBox
-              recipeList={dataCtx.appData.recipeList}
+              recipeList={snap.stateReducer.appData.recipeList}
               recipeEditList={weeklyPlanState}
               listClickHandler={listClickHandler}
               showFavList={false}

@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
-import DataProvider, { DataContext } from '../../store/DataProvider';
+import React, { useState, useEffect } from 'react';
 import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
 import { weeklyPlanFilterIfRecipeDeletedOrUpdated } from './WeeklyPlanEdit';
@@ -17,21 +16,20 @@ import { useSnapshot } from 'valtio';
 //==================================================================
 const WeeklyPlan = props => {
   const snap = useSnapshot(state);
-  const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
-  const weeklyPlanInitial = dataCtx.appData.weeklyPlan || [];
+  const weeklyPlanInitial = snap.stateReducer.appData.weeklyPlan || [];
 
   const [planState, setPlanState] = useState(weeklyPlanInitial);
 
   useEffect(() => {
     setPlanState(
       weeklyPlanFilterIfRecipeDeletedOrUpdated(
-        dataCtx.appData.recipeList,
+        snap.stateReducer.appData.recipeList,
         weeklyPlanInitial
       )
     );
-  }, [dataCtx.appData.weeklyPlan]);
+  }, [snap.stateReducer.appData.weeklyPlan]);
   //==================================================================
   // SearchBar
   const [searchInput, setSearchInput] = useState('');
@@ -75,7 +73,7 @@ const WeeklyPlan = props => {
     const newWeeklyPlan = weeklyPlanAddDateObject({
       item: item,
       date: '',
-      weeklyPlanState: dataCtx.appData.weeklyPlan,
+      weeklyPlanState: snap.stateReducer.appData.weeklyPlan,
     });
     updateData('PLAN', { weeklyPlanState: newWeeklyPlan });
   };
@@ -87,29 +85,31 @@ const WeeklyPlan = props => {
       ></SearchBar>
       <WeeklyPlanEdit searchInput={searchInput}></WeeklyPlanEdit>
       {/* //fallback for empty List */}
-      {planState.length === 0 && dataCtx.appData.recipeList.length === 0 && (
-        <div className={classes.contentListBox__emptyList}>
-          <WeeklyPlanItem
-            day={'Die Rezeptliste ist leer !'}
-            recipe={'Bitte erst Rezepte hinzufügen'}
-            checkButtonHide={true}
-          ></WeeklyPlanItem>
-        </div>
-      )}
-      {planState.length === 0 && dataCtx.appData.recipeList.length !== 0 && (
-        <div
-          className={classes.contentListBox__emptyList}
-          onClick={() => {
-            onRoundButtonHandler('add');
-          }}
-        >
-          <WeeklyPlanItem
-            day={'Der Wochenplan ist aktuell leer !'}
-            recipe={'jetzt hinzufügen ?'}
-            checkButtonHide={true}
-          ></WeeklyPlanItem>
-        </div>
-      )}
+      {planState.length === 0 &&
+        snap.stateReducer.appData.recipeList.length === 0 && (
+          <div className={classes.contentListBox__emptyList}>
+            <WeeklyPlanItem
+              day={'Die Rezeptliste ist leer !'}
+              recipe={'Bitte erst Rezepte hinzufügen'}
+              checkButtonHide={true}
+            ></WeeklyPlanItem>
+          </div>
+        )}
+      {planState.length === 0 &&
+        snap.stateReducer.appData.recipeList.length !== 0 && (
+          <div
+            className={classes.contentListBox__emptyList}
+            onClick={() => {
+              onRoundButtonHandler('add');
+            }}
+          >
+            <WeeklyPlanItem
+              day={'Der Wochenplan ist aktuell leer !'}
+              recipe={'jetzt hinzufügen ?'}
+              checkButtonHide={true}
+            ></WeeklyPlanItem>
+          </div>
+        )}
       <ul className={classes.contentListBox__ul}>
         {planState.map((item, i) => {
           let day = dayOutput(dayNumb);
