@@ -22,6 +22,11 @@ const RecipeList = props => {
 
   useEffect(() => {
     setRecipeList(snap.stateReducer.appData.recipeList);
+    console.log('✅✅✅', snap.stateReducer.appData.recipeList);
+    // // console.log(
+    // //   '✅✅✅',
+    // //   snap.stateReducer.appData.recipeList.some(el => el.name === 'Arme Ritter')
+    // // );
   }, [snap.stateReducer.appData.recipeList]);
 
   const listClickHandler = recipe => {

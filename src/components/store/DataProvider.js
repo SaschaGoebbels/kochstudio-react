@@ -23,6 +23,7 @@ export function useDataUpdate() {
 const dataReducer = (stateReducer, action) => {
   if (action.type === 'RESPONSEUPDATE') {
     stateReducer = { ...action.dataUpdate };
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   if (action.type === 'LOGIN') {
@@ -35,19 +36,22 @@ const dataReducer = (stateReducer, action) => {
     stateReducer.menuState.hide = true;
     stateReducer.menuState.hideLogin = true;
     sortArray(stateReducer.appData.recipeList);
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   if (action.type === 'OPENLOGIN') {
     stateReducer.menuState.hideLogin = false;
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   if (action.type === 'LOGOUT') {
     stateReducer = deepCopy(dataDefault);
-    console.log('✅', stateReducer);
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   if (action.type === 'FETCHEXAMPLELIST') {
     stateReducer.appData.recipeList = action.dataUpdate.exampleList;
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   if (action.type === 'INPUT') {
@@ -57,6 +61,7 @@ const dataReducer = (stateReducer, action) => {
       action.dataUpdate.recipeInput,
     ];
     sortArray(stateReducer.appData.recipeList);
+    state.stateReducer = { ...stateReducer };
     return { ...stateReducer };
   }
   //==================================================================
@@ -102,6 +107,7 @@ const dataReducer = (stateReducer, action) => {
     // // add to plan => replace the plan with updated version
     if (action.dataUpdate.weeklyPlanState) {
       stateReducer.appData.weeklyPlan = [...action.dataUpdate.weeklyPlanState];
+      console.log('❌', stateReducer.appData.weeklyPlan);
       return { ...stateReducer };
     }
   }
@@ -314,6 +320,7 @@ const dataInit = {
     weeklyPlan: [],
     recipeList: [],
     shoppingList: [],
+    ingredientsSumListState: [],
     settings: { shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' } },
   },
 };

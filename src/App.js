@@ -55,6 +55,7 @@ const messageReducer = (state, action) => {
 function App() {
   //==================================================================
   const dataCtx = useContext(DataContext);
+  const snap = useSnapshot(state);
   //==================================================================
   const updateData = useDataUpdate();
   useEffect(() => {
@@ -75,10 +76,10 @@ function App() {
     };
     fetchDataOnStartUp().catch(console.error);
   }, []);
-  useEffect(() => {
-    console.log('💥 Update Snap in APP', dataCtx);
-    state.stateReducer = dataCtx;
-  }, [dataCtx]);
+  // // // useEffect(() => {
+  // // //   console.log('💥 Update Snap in APP', dataCtx);
+  // // //   state.stateReducer = dataCtx;
+  // // // }, [dataCtx, snap.stateReducer]);
   useEffect(() => {
     toggleLoginHide(dataCtx.menuState.hideLogin);
   }, [dataCtx.menuState.hideLogin]);
@@ -160,7 +161,7 @@ function App() {
     }
   };
   //==================================================================
-  const snap = useSnapshot(state);
+
   //==================================================================
 
   const recipeListButtonHandler = btnId => {

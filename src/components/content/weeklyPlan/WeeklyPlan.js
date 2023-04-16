@@ -23,12 +23,7 @@ const WeeklyPlan = props => {
   const [planState, setPlanState] = useState(weeklyPlanInitial);
 
   useEffect(() => {
-    setPlanState(
-      weeklyPlanFilterIfRecipeDeletedOrUpdated(
-        snap.stateReducer.appData.recipeList,
-        weeklyPlanInitial
-      )
-    );
+    setPlanState(weeklyPlanInitial);
   }, [snap.stateReducer.appData.weeklyPlan]);
   //==================================================================
   // SearchBar

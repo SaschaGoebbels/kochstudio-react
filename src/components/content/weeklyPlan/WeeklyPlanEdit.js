@@ -17,22 +17,29 @@ const sortArrayByDate = array => {
   });
 };
 
-export const weeklyPlanFilterIfRecipeDeletedOrUpdated = (
-  recipeList,
-  weeklyPlan
-) => {
-  const weeklyPlanState = weeklyPlan.filter(el => {
-    if (recipeList.some(item => item.id === el.id)) {
-      // update name
-      const [recipe] = recipeList.filter(current => {
-        if (el.id === current.id) return current;
-      });
-      el.name = recipe.name;
-      return el;
-    }
-  });
-  return sortArrayByDate(weeklyPlanState);
-};
+///////////////// BOOKMARK ///////////////// B update on change, inside dataprovider
+// weeklyPlanFilterIfRecipeDeletedOrUpdated(
+//   snap.stateReducer.appData.recipeList,
+//   weeklyPlanInitial
+// );
+// export const weeklyPlanFilterIfRecipeDeletedOrUpdated = (
+//   recipeList,
+//   weeklyPlan
+// ) => {
+//   console.log('✅', recipeList, weeklyPlan);
+//   const weeklyPlanState = weeklyPlan.filter(el => {
+//     if (recipeList.some(item => item.id === el.id)) {
+//       // update name
+//       console.log('✅', el);
+//       const [recipe] = recipeList.filter(current => {
+//         if (el.id === current.id) return current;
+//       });
+//       el.name = recipe.name;
+//       return el;
+//     }
+//   });
+//   return sortArrayByDate(weeklyPlanState);
+// };
 
 class WeeklyPlanItem {
   constructor(name, id, date) {
@@ -41,12 +48,12 @@ class WeeklyPlanItem {
     this.date = date;
   }
 }
-
+///////////////// BOOKMARK ///////////////// B proxy object doesnt work
 export const weeklyPlanAddDateObject = ({ item, date, weeklyPlanState }) => {
-  const removedState = checkIfAlreadyExistsThenDeleteItem(
-    item,
-    weeklyPlanState
-  );
+  console.log('❌', weeklyPlanState);
+  const removedState = checkIfAlreadyExistsThenDeleteItem(item, {
+    ...weeklyPlanState,
+  });
   if (removedState) {
     return removedState;
   }
@@ -79,10 +86,14 @@ const getLastDate = array => {
   return lastDate;
 };
 const checkIfAlreadyExistsThenDeleteItem = (item, array) => {
-  if (array.some(el => el.id === item.id)) {
-    const index = array.findIndex(el => el.id === item.id);
-    array.splice(index, 1);
-    return array;
+  let newArray = { ...array };
+  // let newArray = JSON.parse(JSON.stringify(array));
+  console.log('✅', newArray);
+  if (newArray.some(el => el.id === item.id)) {
+    console.log('✅', item.id);
+    const index = newArray.findIndex(el => el.id === item.id);
+    newArray.splice(index, 1);
+    return newArray;
   }
 };
 

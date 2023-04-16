@@ -28,6 +28,7 @@ const state = proxy({
       weeklyPlan: [],
       recipeList: [],
       shoppingList: [],
+      ingredientsSumListState: [],
       settings: {
         shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
       },
