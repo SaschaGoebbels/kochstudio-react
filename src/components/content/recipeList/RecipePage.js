@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import classes from './RecipePage.module.css';
 
-import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
 import { weeklyPlanAddDateObject } from '../weeklyPlan/WeeklyPlanEdit';
 
-// import Content from '../../ui/Content';
-// import Footer from '../../ui/Footer';
 import ButtonRound from '../../ui/ButtonRound';
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
@@ -15,7 +12,6 @@ import { state } from '../../store/state';
 import { useEffect } from 'react';
 
 const RecipePage = props => {
-  const dataCtx = useContext(DataContext);
   const snap = useSnapshot(state);
   const dataUpdate = useDataUpdate();
   const stateInit = list => {
@@ -27,12 +23,10 @@ const RecipePage = props => {
   const [listState, setListState] = useState();
 
   useEffect(() => {
-    // setTimeout(() => {
-    // }, 500);
     setFavState(props.recipeObject.fav || false);
-    setPlanState(stateInit(dataCtx.appData.weeklyPlan) || false);
-    setListState(stateInit(dataCtx.appData.shoppingList) || false);
-  }, [props.recipeObject, dataCtx]);
+    setPlanState(stateInit(snap.stateReducer.appData.weeklyPlan) || false);
+    setListState(stateInit(snap.stateReducer.appData.shoppingList) || false);
+  }, [props.recipeObject, snap.stateReducer.appData.recipelist]);
   //==================================================================
   // // const [swipeRecipePage, setSwipeRecipePage] = useState({
   // //   leftOut: false,
@@ -56,7 +50,7 @@ const RecipePage = props => {
       const newWeeklyPlan = weeklyPlanAddDateObject({
         item: props.recipeObject,
         date: '',
-        weeklyPlanState: dataCtx.appData.weeklyPlan,
+        weeklyPlanState: snap.stateReducer.appData.weeklyPlan,
       });
       dataUpdate('PLAN', { weeklyPlanState: newWeeklyPlan });
     }

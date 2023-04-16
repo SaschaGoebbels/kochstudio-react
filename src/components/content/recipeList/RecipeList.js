@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import DataProvider, { DataContext } from '../../store/DataProvider';
+import React, { useState } from 'react';
 import uuid from 'react-uuid';
 import ButtonBoxContent from '../../ui/ButtonBoxContent';
 import classes from './RecipeList.module.css';
@@ -9,17 +8,17 @@ import RecipeListBox from './RecipeListBox';
 import SearchBar from '../../ui/SearchBar';
 
 import { state } from '../../store/state';
-// import { useSnapshot } from 'valtio';
 import { useSnapshot } from 'valtio';
 import { useEffect } from 'react';
 
 //==================================================================
 const RecipeList = props => {
   const snap = useSnapshot(state);
-  const dataCtx = useContext(DataContext);
 
   const [searchInput, setSearchInput] = useState('');
-  const [recipeList, setRecipeList] = useState(dataCtx.appData.recipeList);
+  const [recipeList, setRecipeList] = useState(
+    snap.stateReducer.appData.recipeList
+  );
 
   useEffect(() => {
     setRecipeList(snap.stateReducer.appData.recipeList);

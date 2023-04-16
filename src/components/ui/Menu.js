@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import classes from './Menu.module.css';
 import ButtonRound from './ButtonRound';
 import MenuItem from './MenuItem';
-import DataProvider, { DataContext } from '../store/DataProvider';
 import { snapshot, useSnapshot } from 'valtio';
 import { useDataUpdate } from '../store/DataProvider';
 import settingsBox from './SettingsBox.module.css';
@@ -16,7 +15,6 @@ import { fetchExampleList } from '../../utils/fetchData';
 import { state } from '../store/state';
 
 const Menu = props => {
-  // const dataCtx = useContext(DataContext);
   const snap = useSnapshot(state);
 
   const updateData = useDataUpdate();

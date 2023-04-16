@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React from 'react';
 import classes from './RecipeListBox.module.css';
 import WeeklyPlanItem from '../weeklyPlan/WeeklyPlanItem';
 
@@ -6,12 +6,6 @@ const RecipeListBox = props => {
   const listClickHandler = itemId => {
     props.listClickHandler(itemId);
   };
-  // const add = () => {
-  //   props.onRoundButtonHandler('add');
-  //   console.log('add');
-  // };
-  // console.log('✅', props.recipeList);
-  // console.log('✅', props.recipeEditList);
   return (
     <div className={classes.contentListBox}>
       <ul className={classes.contentListBox__ul}>
