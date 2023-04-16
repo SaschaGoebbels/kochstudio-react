@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import DataProvider, { DataContext } from '../../store/DataProvider';
 import { useDataUpdate } from '../../store/DataProvider';
 import uuid from 'react-uuid';
 
@@ -15,6 +14,7 @@ import { state } from '../../store/state';
 import { useSnapshot } from 'valtio';
 //==================================================================
 
+// CHECK if needed
 const setUnitMulti = inputUnit => {
   let multiplication = 1;
   if (inputUnit === 'g') {
@@ -74,7 +74,6 @@ class ingredientSumItem {
 //==================================================================
 const ShoppingList = props => {
   const snap = useSnapshot(state);
-  const dataCtx = useContext(DataContext);
   const updateData = useDataUpdate();
   //==================================================================
   // // // SearchBar
@@ -87,15 +86,15 @@ const ShoppingList = props => {
   };
   //==================================================================
   const [shoppingListState, setShoppingListState] = useState(
-    dataCtx.appData.shoppingList || []
+    snap.stateReducer.appData.shoppingList || []
   );
   useEffect(() => {
-    setShoppingListState(dataCtx.appData.shoppingList);
-  }, [dataCtx.appData.shoppingList]);
+    setShoppingListState(snap.stateReducer.appData.shoppingList);
+  }, [snap.stateReducer.appData.shoppingList]);
   //==================================================================
   const [ingredientsSumListState, setIngredientsSumListState] = useState([]);
 
-  // dataCtx.appData.ingredientsSumListState || []
+  // snap.stateReducer.appData.ingredientsSumListState || []
   const ingredientsChecked = ingredientsSumListState => {
     setIngredientsSumListState(prev => {
       return prev.map(mapEl => {
@@ -111,7 +110,7 @@ const ShoppingList = props => {
   };
   useEffect(() => {
     // set checked true, otherwise sum cant calculate => reason ctx has no method and
-    ingredientsChecked(dataCtx.appData.ingredientsSumListState);
+    ingredientsChecked(snap.stateReducer.appData.ingredientsSumListState);
   }, []);
   // //==================================================================
 
@@ -232,7 +231,7 @@ const ShoppingList = props => {
   useEffect(() => {
     createSumList(shoppingListState);
     // call to get already checked ingredients
-    ingredientsChecked(dataCtx.appData.ingredientsSumListState);
+    ingredientsChecked(snap.stateReducer.appData.ingredientsSumListState);
   }, [shoppingListState]);
   //==================================================================
   const onRoundButtonHandler = btnId => {
@@ -247,7 +246,7 @@ const ShoppingList = props => {
   // // // //==================================================================
   // // // // // // avoidList
   const avoidInitialState =
-    dataCtx.appData.settings.shoppingListSettings.avoidList;
+    snap.stateReducer.appData.settings.shoppingListSettings.avoidList;
   const [avoidListState, setAvoidListState] = useState(avoidInitialState);
   useEffect(() => {
     setAvoidListState(avoidInitialState);
@@ -329,14 +328,14 @@ const ShoppingList = props => {
       <ListEdit
         searchInput={searchInput}
         list={{
-          recipeList: dataCtx.appData.recipeList,
+          recipeList: snap.stateReducer.appData.recipeList,
           recipeEditList: shoppingListState,
         }}
         onUpdateList={updateShoppingList}
       ></ListEdit>
       {/* //fallback for empty List */}
       {shoppingListState.length === 0 &&
-        dataCtx.appData.recipeList.length === 0 && (
+        snap.stateReducer.appData.recipeList.length === 0 && (
           <div className={classes.contentListBox__emptyList}>
             <WeeklyPlanItem
               day={'Die Rezeptliste ist leer !'}
@@ -346,7 +345,7 @@ const ShoppingList = props => {
           </div>
         )}
       {shoppingListState.length === 0 &&
-        dataCtx.appData.recipeList.length !== 0 && (
+        snap.stateReducer.appData.recipeList.length !== 0 && (
           <div
             className={classes.contentListBox__emptyList}
             onClick={() => {

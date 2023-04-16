@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import classes from './ShoppingListItem.module.css';
 import ButtonRound from '../../ui/ButtonRound';
 
