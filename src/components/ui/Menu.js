@@ -3,6 +3,7 @@ import classes from './Menu.module.css';
 import ButtonRound from './ButtonRound';
 import MenuItem from './MenuItem';
 import DataProvider, { DataContext } from '../store/DataProvider';
+import { snapshot, useSnapshot } from 'valtio';
 import { useDataUpdate } from '../store/DataProvider';
 import settingsBox from './SettingsBox.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,14 +13,12 @@ import { faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 import { logout } from '../../utils/loginLogic';
 import { baseUrl } from '../../utils/env';
 import { fetchExampleList } from '../../utils/fetchData';
+import { state } from '../store/state';
 
 const Menu = props => {
-  const dataCtx = useContext(DataContext);
-  // console.log('😁😁😁😁 Menu DATA CTX', dataCtx.appData);
+  // const dataCtx = useContext(DataContext);
+  const snap = useSnapshot(state);
 
-  useEffect(() => {
-    console.log('💥 Menu', dataCtx);
-  }, [dataCtx]);
   const updateData = useDataUpdate();
 
   const isNotYetReady = () => {
@@ -71,7 +70,10 @@ const Menu = props => {
       //==================================================================
     }
     if (btnId === 'exp') {
-      exportTxtFileToDownloads(dataCtx, 'Kochstudio');
+      exportTxtFileToDownloads(
+        snap.stateReducer.appData.recipeList,
+        'Kochstudio'
+      );
       return;
     }
     isNotYetReady();
@@ -84,7 +86,7 @@ const Menu = props => {
   };
 
   const onLogoutHandler = () => {
-    if (dataCtx.menuState.loggedIn) {
+    if (snap.stateReducer.menuState.loggedIn) {
       props.setMessage({
         title: 'Logout',
         message: 'Wollen Sie sich ausloggen ?',
@@ -127,7 +129,7 @@ const Menu = props => {
   // // // settingsPage avoidList
   const [avoidListState, setAvoidListState] = useState({
     show: false,
-    list: dataCtx.appData.settings.shoppingListSettings.avoidList,
+    list: snap.stateReducer.appData.settings.shoppingListSettings.avoidList,
   });
   const avoidListUpdate = el => {
     setAvoidListState({ show: true, list: el.target.value });
@@ -176,7 +178,7 @@ const Menu = props => {
 
   // import
   const onConfirmImport = async () => {
-    if (dataCtx.appData.recipeList.length > 0) {
+    if (snap.stateReducer.appData.recipeList.length > 0) {
       props.setMessage({
         title: `Achtung`,
         message:

@@ -9,6 +9,7 @@ import RecipeListBox from './RecipeListBox';
 import SearchBar from '../../ui/SearchBar';
 
 import { state } from '../../store/state';
+// import { useSnapshot } from 'valtio';
 import { useSnapshot } from 'valtio';
 import { useEffect } from 'react';
 
@@ -19,10 +20,10 @@ const RecipeList = props => {
 
   const [searchInput, setSearchInput] = useState('');
   const [recipeList, setRecipeList] = useState(dataCtx.appData.recipeList);
+
   useEffect(() => {
-    console.log('🚩🚩🚩🚩🚩 RecipeList useEffect', dataCtx.appData);
-    setRecipeList(dataCtx.appData.recipeList);
-  }, [dataCtx]);
+    setRecipeList(snap.stateReducer.appData.recipeList);
+  }, [snap.stateReducer.appData.recipeList]);
 
   const listClickHandler = recipe => {
     state.headerText = recipe.name;
@@ -37,7 +38,7 @@ const RecipeList = props => {
   });
   useEffect(() => {
     setRecipePageState({ hide: false, recipe: snap.currentRecipe });
-  }, [snap.currentRecipe, dataCtx.appData.recipeList]);
+  }, [snap.currentRecipe, snap.stateReducer.appData.recipeList]);
   ///////////////// BOOKMARK ///////////////// B CHECK close recipePage when logout
   useEffect(() => {
     setRecipePageState({ hide: true, recipe: snap.currentRecipe });

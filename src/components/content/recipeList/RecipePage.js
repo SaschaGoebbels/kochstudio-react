@@ -6,9 +6,9 @@ import { useDataUpdate } from '../../store/DataProvider';
 import { UPDATERECIPE } from '../../store/DataProvider';
 import { weeklyPlanAddDateObject } from '../weeklyPlan/WeeklyPlanEdit';
 
-import Content from '../../ui/Content';
+// import Content from '../../ui/Content';
+// import Footer from '../../ui/Footer';
 import ButtonRound from '../../ui/ButtonRound';
-import Footer from '../../ui/Footer';
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { state } from '../../store/state';

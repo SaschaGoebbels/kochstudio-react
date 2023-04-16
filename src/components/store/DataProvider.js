@@ -1,7 +1,7 @@
 import React, { useState, useReducer, useContext } from 'react';
-import { useCallback } from 'react';
+// // import { useCallback } from 'react';
+// // import useFetch from '../../hooks/useFetch';
 import { useEffect } from 'react';
-import useFetch from '../../hooks/useFetch';
 import { state } from '../store/state';
 import { snapshot, useSnapshot } from 'valtio';
 
@@ -20,8 +20,6 @@ export function useDataUpdate() {
 }
 
 //==================================================================
-
-//==================================================================
 const dataReducer = (stateReducer, action) => {
   if (action.type === 'RESPONSEUPDATE') {
     stateReducer = { ...action.dataUpdate };
@@ -29,17 +27,14 @@ const dataReducer = (stateReducer, action) => {
   }
   if (action.type === 'LOGIN') {
     // // Login
-    ///////////////// BOOKMARK ///////////////// B doesnt update after reload ?!?
     stateReducer.appData = { ...action.dataUpdate.appData };
     stateReducer.appData.recipeList = [...action.dataUpdate.appData.recipeList];
-    console.log('✅', stateReducer.appData.recipeList);
     stateReducer.menuState.userData.email = action.dataUpdate.email;
     stateReducer.menuState.userData.name = action.dataUpdate.name;
     stateReducer.menuState.loggedIn = true;
     stateReducer.menuState.hide = true;
     stateReducer.menuState.hideLogin = true;
     sortArray(stateReducer.appData.recipeList);
-    console.log('✅ LOGIN');
     return { ...stateReducer };
   }
   if (action.type === 'OPENLOGIN') {
@@ -188,9 +183,9 @@ const onRecipeDelete = (recipe, array) => {
   });
 };
 //==================================================================
+
 //==================================================================
 const DataProvider = props => {
-  //==================================================================
   const [dataState, dispatchData] = useReducer(dataReducer, { ...dataInit });
   const dataUpdateFunction = async (type, dataUpdate) => {
     //recipe handling

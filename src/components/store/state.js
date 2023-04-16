@@ -14,6 +14,25 @@ const state = proxy({
   listEditHide: true,
   shoppingList: { editMode: true, updateList: '' },
   message: {},
+  stateReducer: {
+    menuState: {
+      userData: {
+        name: '',
+        email: '',
+      },
+      loggedIn: false,
+      hide: true,
+      hideLogin: true,
+    },
+    appData: {
+      weeklyPlan: [],
+      recipeList: [],
+      shoppingList: [],
+      settings: {
+        shoppingListSettings: { avoidList: 'Salz ,Pfeffer ,Chili ' },
+      },
+    },
+  },
 });
 
 export { state };
